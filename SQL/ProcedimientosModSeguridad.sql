@@ -18,9 +18,6 @@ BEGIN
 END 
 $$;
 
----------------------------------------------------llamado 
-
-CALL smaseguridad.AddRol('rol1','administrador','encargado de todo',TRUE,1)
 
 ------------------------------------------- ver roles 
 
@@ -42,8 +39,7 @@ BEGIN
 END; 
 $$ LANGUAGE plpgsql;
 
-/*---------------------------LLAMADO---------------------*/
-select * from smaseguridad.getRol()
+
 
 
 /*-------------------------------BUSCAR ID---------------------*/
@@ -65,9 +61,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-/*-------------------------------LLAMADO -------------------------------------*/
 
-SELECT * FROM smaseguridad.buscarROL(1);
 
 /*------------------------------- MODIFICAR DATOS --------------------------------*/
 
@@ -92,9 +86,7 @@ BEGIN
 END 
 $$;
 
-/*-----------------------------------llamado-----------------------------*/
 
-CALL smaseguridad.modROL(1,'rol1','admin','todo un god',FALSE,1)
 
 
 /*-----------------------------Eliminar DATOS-------------------*/
@@ -114,9 +106,7 @@ BEGIN
 END 
 $$;
 
-/*-----------------------------------llamado-----------------------------*/ 
 
-CALL smaseguridad.elrol(1);
 
 
 /*----------------------------TABLA PERFIL -----------------------------*/
@@ -144,9 +134,7 @@ BEGIN
 END 
 $$;
 
-/*---------------------------LLAMADO -----------------------------*/
 
-CALL smaseguridad.addPerfil(1001,4,TRUE,10001,100001,1000001,10000001,'TEMA 2',FALSE)
 
 /*----------------------VER PERFILES-----------------------------*/
 
@@ -172,9 +160,7 @@ BEGIN
 END; 
 $$ LANGUAGE plpgsql;
 
-/***********************************LLAMADO:*********************************/
 
-SELECT * FROM smaseguridad.getPerfil()
 
 
 /*--------------------------------BUSCAR ID PERFIL:--------------------------------*/
@@ -200,10 +186,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-/*------------------------------LLAMADO -------------------------------*/
 
-
-SELECT * FROM smaseguridad.buscarPerfil(3)
 
 /*------------------------------MODIFICAR PERFIL -------------------------------*/
 
@@ -234,10 +217,7 @@ BEGIN
 END 
 $$;
 
-/*-----------------------------------------LLAMADO MODIFICAR ----------------------------*/
 
-
-CALL smaseguridad.modPerfil(2,1003,2,FALSE,10003,100003,1000003,10000003,'TEMA x',TRUE)
 
 /*------------------------------------------ELIMINAR PERFIL --------------------------------*/
 
@@ -255,9 +235,7 @@ BEGIN
 	WHERE intid= c_intid; 
 END 
 $$;
-/*-------------------------------------LLAMADO ----------------------------------------*/
 
-CALL smaseguridad.elPerfil()
 
 /*--------------------------------------------------------------------------------------*/
 /*----------------------------TABLA ACCION----------------------------------------------*/
@@ -284,9 +262,7 @@ BEGIN
 END 
 $$;
 
-/*---------------------------LLAMADO -------------------------------------------*/
 
-CALL smaseguridad.addAccion('ver','ver datos','www.verdatos.com',TRUE,'get')
 
 
 /*---------------------------VER ACCION-- --------------------------------*/
@@ -310,9 +286,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 
-/*-----------------------LLAMADO --------------------------------*/
 
-select * from smaseguridad.getAccion()
 
 
 /*-----------------------------BUSCAR Accion ------------------------------*/
@@ -334,17 +308,31 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-/*-----------------------------LLAMADO------------------------------------------*/
 
-SELECT * FROM smaseguridad.buscarAccion()
 
 /*-----------------------------MODIFICAR ACCION--------------------------------*/
 
- 
+ CREATE OR REPLACE PROCEDURE smaseguridad.modAccion 
+(
+	
+		c_intid INTEGER,
+		c_strtitulo VARCHAR,
+    	c_strdescripcion VARCHAR,
+    	c_strurl VARCHAR,
+    	c_blnactivo BOOLEAN,
+    	c_strseudonimo VARCHAR 
+			
+)
+LANGUAGE plpgsql AS
+$$
+BEGIN 
+	UPDATE smaseguridad.accion
+	SET strtitulo= c_strtitulo, strdescripcion= c_strdescripcion, strurl= c_strurl, blnactivo= c_blnactivo , strseudonimo= c_strseudonimo  
+	WHERE intid= c_intid;
+	
+END 
+$$;
 
-/*---------------------------------------------------------------- llamados-----------------------------*/
-
-CALL smaseguridad.modAccion(1,'Insertar','Agregar Datos','./api/post',FALSE,'POSt')
 
 
 /* -------------------------------------Eliminar Accion--------------------------------*/
@@ -366,9 +354,7 @@ END
 $$;
 
 
-/* -----------------------llamado ----------------------------------*/
 
-CALL smaseguridad.elAccion()
 
 
 /********************************************************************/
@@ -396,10 +382,7 @@ BEGIN
 END 
 $$;
 
-/*-----------------------------llamado--------------------------------*/
 
-
-CALL smaseguridad.addGrupo('grupo1', 'Descripcion grupo1','001','0001',TRUE)
 
 
 /*---------------------------------- VER datos ------------------------*/
@@ -422,9 +405,7 @@ BEGIN
 END; 
 $$ LANGUAGE plpgsql;
 
-/*------------------------------llamado ---------------------------------------*/
 
-select * from smaseguridad.getGrupo()
 
 
 /*------------------Buscar grupo------------------------------------*/
@@ -447,8 +428,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-/*------------------------------llamado ---------------------------------------*/
-select * from smaseguridad.buscarGrupo(2)
+
 
 
 /*-----------------modificar grupo -----------------------------------------------*/ 
@@ -477,9 +457,6 @@ END
 $$;
 
 
-/*------------------------- llamado------------------------------*/
-
-Call smaseguridad.modGrupo(2,'grupo numero 2','va la descripcion del grupo 2',2,2,false)
 
 
 /* ELiminar grupo */
@@ -500,9 +477,7 @@ BEGIN
 END 
 $$;
 
-/*------------------------llamado ----------------------------------*/
 
-CALL smaseguridad.elGrupo(1)
 
 
 /**********************************************************************/
@@ -533,9 +508,7 @@ BEGIN
 END 
 $$;
 
-/*------------------------------llamado-------------------------------*/
 
-CALL smaseguridad.addFuncion(2,2,2, 1,TRUE,TRUE,TRUE,TRUE )
 
 
 /*----------------------------Ver FUNCION ----------------------------*/ 
@@ -560,9 +533,7 @@ BEGIN
 END; 
 $$ LANGUAGE plpgsql;
 
-/*------------------------------llamado-------------------------------*/
 
-select * from smaseguridad.getFuncion()
 
 /*------------------Buscar funcion-----------------------------------*/
 
@@ -587,9 +558,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-/*------------------------------llamado-------------------------------*/
 
-select * from smaseguridad.buscarFuncion(2)
 
 /*------------------Modificar funcion-----------------------------------*/
 
@@ -618,9 +587,7 @@ BEGIN
 END 
 $$;
 
-/*------------------------------llamado-------------------------------*/
 
-Call smaseguridad.modFuncion(1,2,2,2,1,FALSE,FALSE,FALSE,FALSE)
 
 /* -------------------------------------Eliminar FUNCION--------------------------------*/
 
@@ -639,7 +606,5 @@ BEGIN
 END 
 $$;
 
-/*------------------------------llamado-------------------------------*/
 
-CALL smaseguridad.elFuncion()
 
