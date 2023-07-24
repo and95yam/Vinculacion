@@ -1,0 +1,645 @@
+--esquema seguridad 
+------------------------------------------------tabla rol 
+
+CREATE PROCEDURE smaseguridad.addRol
+(
+	c_strcodigo  VARCHAR(4),
+	c_strnombre  VARCHAR(32),
+	c_strdescripcion VARCHAR(1024),
+	c_blnactivo BOOLEAN,
+	c_intorden INTEGER 
+	
+)
+LANGUAGE plpgsql AS 
+$$
+BEGIN 
+	INSERT INTO smaseguridad.rol (strcodigo,strnombre,strdescripcion,blnactivo,intorden)VALUES
+	(c_strcodigo,c_strnombre,c_strdescripcion,c_blnactivo,c_intorden);
+END 
+$$;
+
+---------------------------------------------------llamado 
+
+CALL smaseguridad.AddRol('rol1','administrador','encargado de todo',TRUE,1)
+
+------------------------------------------- ver roles 
+
+
+CREATE OR REPLACE FUNCTION smaseguridad.getROl()
+RETURNS TABLE (
+	
+		intid INT,
+		strcodigo VARCHAR(4),
+		strnombre VARCHAR(32),
+		strdescripcion VARCHAR(1024),
+		blnactivo BOOLEAN,
+		intorden INTEGER 
+			
+)
+AS $$
+BEGIN 
+	RETURN QUERY SELECT * FROM smaseguridad.rol;
+END; 
+$$ LANGUAGE plpgsql;
+
+/*---------------------------LLAMADO---------------------*/
+select * from smaseguridad.getRol()
+
+
+/*-------------------------------BUSCAR ID---------------------*/
+
+-- Crear el procedimiento almacenado
+CREATE OR REPLACE FUNCTION smaseguridad.buscarROl(codigo INTEGER)
+RETURNS TABLE (
+   		c_intid INTEGER,
+		c_strcodigo VARCHAR(4),
+		c_strnombre VARCHAR(32),
+		c_strdescripcion VARCHAR(1024),
+		c_blnactivo BOOLEAN,
+		c_intorden INTEGER 
+)
+AS $$
+BEGIN
+    -- Realizar la consulta SELECT con la condición WHERE
+    RETURN QUERY SELECT * FROM smaseguridad.rol WHERE codigo = intid;
+END;
+$$ LANGUAGE plpgsql;
+
+/*-------------------------------LLAMADO -------------------------------------*/
+
+SELECT * FROM smaseguridad.buscarROL(1);
+
+/*------------------------------- MODIFICAR DATOS --------------------------------*/
+
+
+CREATE OR REPLACE PROCEDURE smaseguridad.modROl
+(
+	
+		c_intid INTEGER,
+		c_strcodigo VARCHAR(4),
+		c_strnombre VARCHAR(32),
+		c_strdescripcion VARCHAR(1024),
+		c_blnactivo BOOLEAN,
+		c_intorden INTEGER 
+			
+)
+LANGUAGE plpgsql AS
+$$
+BEGIN 
+	UPDATE smaseguridad.rol 
+	SET strcodigo = c_intid, strnombre = c_strnombre, strdescripcion = c_strdescripcion, blnactivo = c_blnactivo, intorden = c_intorden
+	WHERE intid= c_intid; 
+END 
+$$;
+
+/*-----------------------------------llamado-----------------------------*/
+
+CALL smaseguridad.modROL(1,'rol1','admin','todo un god',FALSE,1)
+
+
+/*-----------------------------Eliminar DATOS-------------------*/
+
+CREATE OR REPLACE PROCEDURE smaseguridad.elRol
+(
+	
+		c_intid INTEGER
+		
+			
+)
+LANGUAGE plpgsql AS
+$$
+BEGIN 
+	DELETE FROM smaseguridad.rol 
+	WHERE intid= c_intid; 
+END 
+$$;
+
+/*-----------------------------------llamado-----------------------------*/ 
+
+CALL smaseguridad.elrol(1);
+
+
+/*----------------------------TABLA PERFIL -----------------------------*/
+
+/*-----------------------------------AGREGAR PERFIL-----------------------------*/
+
+CREATE PROCEDURE smaseguridad.addPerfil 
+(
+	c_lngusr_id BIGINT,
+    c_introl_id INTEGER,
+    c_blnactivo BOOLEAN,
+    c_lngasignadopor BIGINT,
+    c_lngfechaasignacion BIGINT,
+    c_lngmodificadopor BIGINT,
+    c_lngfechamodificacion BIGINT,
+    c_strnombretema CHARACTER,
+    c_blndefault BOOLEAN
+	
+)
+LANGUAGE plpgsql AS 
+$$
+BEGIN 
+	INSERT INTO smaseguridad.perfil (lngusr_id,introl_id,blnactivo,lngasignadopor,lngfechaasignacion,lngmodificadopor,lngfechamodificacion,strnombretema,blndefault)VALUES
+	(c_lngusr_id,c_introl_id,c_blnactivo,c_lngasignadopor,c_lngfechaasignacion,c_lngmodificadopor,c_lngfechamodificacion,c_strnombretema,c_blndefault);
+END 
+$$;
+
+/*---------------------------LLAMADO -----------------------------*/
+
+CALL smaseguridad.addPerfil(1001,4,TRUE,10001,100001,1000001,10000001,'TEMA 2',FALSE)
+
+/*----------------------VER PERFILES-----------------------------*/
+
+
+CREATE OR REPLACE FUNCTION smaseguridad.getPerfil()
+RETURNS TABLE (
+	
+		intid INTEGER,
+		lngusr_id BIGINT,
+		introl_id INTEGER,
+		blnactivo BOOLEAN,
+		lngasignadopor BIGINT,
+		lngfechaasignacion BIGINT,
+		lngmodificadopor BIGINT,
+		lngfechamodificacion BIGINT,
+		strnombretema VARCHAR,
+		blndefault BOOLEAN 
+			
+)
+AS $$
+BEGIN 
+	RETURN QUERY SELECT * FROM smaseguridad.perfil;
+END; 
+$$ LANGUAGE plpgsql;
+
+/***********************************LLAMADO:*********************************/
+
+SELECT * FROM smaseguridad.getPerfil()
+
+
+/*--------------------------------BUSCAR ID PERFIL:--------------------------------*/
+
+CREATE OR REPLACE FUNCTION smaseguridad.buscarPerfil(codigo INTEGER)
+RETURNS TABLE (
+	
+	c_intid INTEGER,
+	c_lngusr_id BIGINT,
+    c_introl_id INTEGER,
+    c_blnactivo BOOLEAN,
+    c_lngasignadopor BIGINT,
+    c_lngfechaasignacion BIGINT,
+    c_lngmodificadopor BIGINT,
+    c_lngfechamodificacion BIGINT,
+    c_strnombretema VARCHAR,
+    c_blndefault BOOLEAN 
+)
+AS $$
+BEGIN
+    -- Realizar la consulta SELECT con la condición WHERE
+    RETURN QUERY SELECT * FROM smaseguridad.perfil WHERE codigo = intid;
+END;
+$$ LANGUAGE plpgsql;
+
+/*------------------------------LLAMADO -------------------------------*/
+
+
+SELECT * FROM smaseguridad.buscarPerfil(3)
+
+/*------------------------------MODIFICAR PERFIL -------------------------------*/
+
+
+CREATE OR REPLACE PROCEDURE smaseguridad.modPerfil
+(
+	
+		c_intid INTEGER,
+		c_lngusr_id BIGINT,
+		c_introl_id INTEGER,
+		c_blnactivo BOOLEAN,
+		c_lngasignadopor BIGINT,
+		c_lngfechaasignacion BIGINT,
+		c_lngmodificadopor BIGINT,
+		c_lngfechamodificacion BIGINT,
+		c_strnombretema VARCHAR,
+		c_blndefault BOOLEAN 
+			
+)
+LANGUAGE plpgsql AS
+$$
+BEGIN 
+	UPDATE smaseguridad.perfil 
+	SET lngusr_id= c_lngusr_id, introl_id = c_introl_id, blnactivo=c_blnactivo, lngasignadopor=c_lngasignadopor,lngfechaasignacion= c_lngfechaasignacion, lngmodificadopor = c_lngmodificadopor, lngfechamodificacion=c_lngfechamodificacion, strnombretema= c_strnombretema, blndefault=c_blndefault     
+	WHERE intid= c_intid;
+	
+	
+END 
+$$;
+
+/*-----------------------------------------LLAMADO MODIFICAR ----------------------------*/
+
+
+CALL smaseguridad.modPerfil(2,1003,2,FALSE,10003,100003,1000003,10000003,'TEMA x',TRUE)
+
+/*------------------------------------------ELIMINAR PERFIL --------------------------------*/
+
+CREATE OR REPLACE PROCEDURE smaseguridad.elPerfil
+(
+	
+		c_intid INTEGER
+		
+			
+)
+LANGUAGE plpgsql AS
+$$
+BEGIN 
+	DELETE FROM smaseguridad.perfil 
+	WHERE intid= c_intid; 
+END 
+$$;
+/*-------------------------------------LLAMADO ----------------------------------------*/
+
+CALL smaseguridad.elPerfil()
+
+/*--------------------------------------------------------------------------------------*/
+/*----------------------------TABLA ACCION----------------------------------------------*/
+/*--------------------------------------------------------------------------------------*/
+
+/*-----------------------------------INSERTAR--------------------------------------------*/
+
+
+CREATE PROCEDURE smaseguridad.addAccion 
+(
+	
+    c_strtitulo VARCHAR,
+    c_strdescripcion VARCHAR,
+    c_strurl VARCHAR,
+    c_blnactivo BOOLEAN,
+    c_strseudonimo VARCHAR 
+	
+)
+LANGUAGE plpgsql AS 
+$$
+BEGIN 
+	INSERT INTO smaseguridad.accion (strtitulo,strdescripcion,strurl,blnactivo,strseudonimo)VALUES
+	( c_strtitulo,c_strdescripcion, c_strurl,c_blnactivo,c_strseudonimo);
+END 
+$$;
+
+/*---------------------------LLAMADO -------------------------------------------*/
+
+CALL smaseguridad.addAccion('ver','ver datos','www.verdatos.com',TRUE,'get')
+
+
+/*---------------------------VER ACCION-- --------------------------------*/
+
+
+CREATE OR REPLACE FUNCTION smaseguridad.getAccion()
+RETURNS TABLE (
+	
+		intid INTEGER,
+		strtitulo VARCHAR,
+		strdescripcion VARCHAR,
+		strurl VARCHAR,
+		blnactivo BOOLEAN,
+		strseudonimo VARCHAR  
+
+)
+AS $$
+BEGIN 
+	RETURN QUERY SELECT * FROM smaseguridad.accion;
+END; 
+$$ LANGUAGE plpgsql;
+
+
+/*-----------------------LLAMADO --------------------------------*/
+
+select * from smaseguridad.getAccion()
+
+
+/*-----------------------------BUSCAR Accion ------------------------------*/
+
+CREATE OR REPLACE FUNCTION smaseguridad.buscarAccion(codigo INTEGER)
+RETURNS TABLE (
+	
+	c_intid INTEGER,
+	c_strtitulo VARCHAR,
+    c_strdescripcion VARCHAR,
+    c_strurl VARCHAR,
+    c_blnactivo BOOLEAN,
+    c_strseudonimo VARCHAR 
+)
+AS $$
+BEGIN
+    
+    RETURN QUERY SELECT * FROM smaseguridad.accion WHERE codigo = intid;
+END;
+$$ LANGUAGE plpgsql;
+
+/*-----------------------------LLAMADO------------------------------------------*/
+
+SELECT * FROM smaseguridad.buscarAccion()
+
+/*-----------------------------MODIFICAR ACCION--------------------------------*/
+
+ 
+
+/*---------------------------------------------------------------- llamados-----------------------------*/
+
+CALL smaseguridad.modAccion(1,'Insertar','Agregar Datos','./api/post',FALSE,'POSt')
+
+
+/* -------------------------------------Eliminar Accion--------------------------------*/
+
+
+CREATE OR REPLACE PROCEDURE smaseguridad.elAccion
+(
+	
+		c_intid INTEGER
+		
+			
+)
+LANGUAGE plpgsql AS
+$$
+BEGIN 
+	DELETE FROM smaseguridad.accion 
+	WHERE intid= c_intid; 
+END 
+$$;
+
+
+/* -----------------------llamado ----------------------------------*/
+
+CALL smaseguridad.elAccion()
+
+
+/********************************************************************/
+/*                             tabla grupo                           */
+/*********************************************************************/
+
+
+/* INSERTAR*/
+
+CREATE PROCEDURE smaseguridad.addGrupo
+(
+	
+    c_strnombre VARCHAR(32),
+    c_strdescripcion VARCHAR(1024), 
+    c_intorden INTEGER,
+    c_intpadre INTEGER,
+    c_blnactivo BOOLEAN
+	
+)
+LANGUAGE plpgsql AS 
+$$
+BEGIN 
+	INSERT INTO smaseguridad.grupo (strnombre,strdescripcion,intorden,intpadre,blnactivo)VALUES
+	(c_strnombre, c_strdescripcion,c_intorden,c_intpadre,c_blnactivo );
+END 
+$$;
+
+/*-----------------------------llamado--------------------------------*/
+
+
+CALL smaseguridad.addGrupo('grupo1', 'Descripcion grupo1','001','0001',TRUE)
+
+
+/*---------------------------------- VER datos ------------------------*/
+
+
+
+CREATE OR REPLACE FUNCTION smaseguridad.getGrupo()
+RETURNS TABLE (
+	
+		intid INTEGER,
+		strnombre VARCHAR(32),
+     	strdescripcion VARCHAR(1024), 
+    	intorden INTEGER,
+    	intpadre INTEGER,
+     	blnactivo BOOLEAN
+)
+AS $$
+BEGIN 
+	RETURN QUERY SELECT * FROM smaseguridad.grupo;
+END; 
+$$ LANGUAGE plpgsql;
+
+/*------------------------------llamado ---------------------------------------*/
+
+select * from smaseguridad.getGrupo()
+
+
+/*------------------Buscar grupo------------------------------------*/
+
+
+CREATE OR REPLACE FUNCTION smaseguridad.buscarGrupo(codigo INTEGER)
+RETURNS TABLE (
+	
+		c_intid INTEGER,
+		c_strnombre VARCHAR(32),
+     	c_strdescripcion VARCHAR(1024), 
+    	c_intorden INTEGER,
+    	c_intpadre INTEGER,
+     	c_blnactivo BOOLEAN
+)
+AS $$
+BEGIN
+    
+    RETURN QUERY SELECT * FROM smaseguridad.grupo WHERE codigo = intid;
+END;
+$$ LANGUAGE plpgsql;
+
+/*------------------------------llamado ---------------------------------------*/
+select * from smaseguridad.buscarGrupo(2)
+
+
+/*-----------------modificar grupo -----------------------------------------------*/ 
+
+
+CREATE OR REPLACE PROCEDURE smaseguridad.modGrupo
+(
+	
+		c_intid INTEGER,
+		c_strnombre VARCHAR(32),
+     	c_strdescripcion VARCHAR(1024), 
+    	c_intorden INTEGER,
+    	c_intpadre INTEGER,
+     	c_blnactivo BOOLEAN
+			
+)
+LANGUAGE plpgsql AS
+$$
+BEGIN 
+	UPDATE smaseguridad.grupo
+	SET strnombre = c_strnombre, strdescripcion = c_strdescripcion , intorden = c_intorden, intpadre = c_intpadre, blnactivo = c_blnactivo  
+	WHERE intid= c_intid;
+	
+	
+END 
+$$;
+
+
+/*------------------------- llamado------------------------------*/
+
+Call smaseguridad.modGrupo(2,'grupo numero 2','va la descripcion del grupo 2',2,2,false)
+
+
+/* ELiminar grupo */
+
+
+CREATE OR REPLACE PROCEDURE smaseguridad.elGrupo
+(
+	
+		c_intid INTEGER
+		
+			
+)
+LANGUAGE plpgsql AS
+$$
+BEGIN 
+	DELETE FROM smaseguridad.grupo
+	WHERE intid= c_intid; 
+END 
+$$;
+
+/*------------------------llamado ----------------------------------*/
+
+CALL smaseguridad.elGrupo(1)
+
+
+/**********************************************************************/
+/*                            tabla funcion                          */
+/**********************************************************************/
+
+/*--------------------------------INSERTAR------------------------------*/
+
+
+CREATE PROCEDURE smaseguridad.addFuncion
+(
+	
+    c_intacc_id INTEGER,
+    c_introl_id INTEGER,
+    c_intgru_id INTEGER,
+    c_intorden INTEGER,
+    c_blnactivo BOOLEAN, 
+    c_blnpermisoagregar BOOLEAN,
+    c_blnpermisoeditar BOOLEAN,
+    c_blnpermisoeliminar BOOLEAN
+	
+)
+LANGUAGE plpgsql AS 
+$$
+BEGIN 
+	INSERT INTO smaseguridad.funcion (intacc_id,introl_id,intgru_id,intorden,blnactivo,blnpermisoagregar,blnpermisoeditar,blnpermisoeliminar)VALUES
+	(c_intacc_id,c_introl_id,c_intgru_id,c_intorden,c_blnactivo,c_blnpermisoagregar,c_blnpermisoeditar,c_blnpermisoeliminar);
+END 
+$$;
+
+/*------------------------------llamado-------------------------------*/
+
+CALL smaseguridad.addFuncion(2,2,2, 1,TRUE,TRUE,TRUE,TRUE )
+
+
+/*----------------------------Ver FUNCION ----------------------------*/ 
+
+
+CREATE OR REPLACE FUNCTION smaseguridad.getFuncion()
+RETURNS TABLE (
+		
+		intid INTEGER,
+		intacc_id INTEGER,
+    	introl_id INTEGER,
+    	intgru_id INTEGER,
+    	intorden INTEGER,
+    	blnactivo BOOLEAN, 
+    	blnpermisoagregar BOOLEAN,
+    	blnpermisoeditar BOOLEAN,
+    	blnpermisoeliminar BOOLEAN
+)
+AS $$
+BEGIN 
+	RETURN QUERY SELECT * FROM smaseguridad.funcion;
+END; 
+$$ LANGUAGE plpgsql;
+
+/*------------------------------llamado-------------------------------*/
+
+select * from smaseguridad.getFuncion()
+
+/*------------------Buscar funcion-----------------------------------*/
+
+
+CREATE OR REPLACE FUNCTION smaseguridad.buscarFuncion(codigo INTEGER)
+RETURNS TABLE (
+		
+		c_intid INTEGER,
+		c_intacc_id INTEGER,
+		c_introl_id INTEGER,
+		c_intgru_id INTEGER,
+		c_intorden INTEGER,
+		c_blnactivo BOOLEAN, 
+		c_blnpermisoagregar BOOLEAN,
+		c_blnpermisoeditar BOOLEAN,
+		c_blnpermisoeliminar BOOLEAN
+)
+AS $$
+BEGIN
+    
+    RETURN QUERY SELECT * FROM smaseguridad.funcion WHERE codigo = intid;
+END;
+$$ LANGUAGE plpgsql;
+
+/*------------------------------llamado-------------------------------*/
+
+select * from smaseguridad.buscarFuncion(2)
+
+/*------------------Modificar funcion-----------------------------------*/
+
+
+CREATE OR REPLACE PROCEDURE smaseguridad.modFuncion
+(
+	
+		c_intid INTEGER,
+		c_intacc_id INTEGER,
+		c_introl_id INTEGER,
+		c_intgru_id INTEGER,
+		c_intorden INTEGER,
+		c_blnactivo BOOLEAN, 
+		c_blnpermisoagregar BOOLEAN,
+		c_blnpermisoeditar BOOLEAN,
+		c_blnpermisoeliminar BOOLEAN
+)
+LANGUAGE plpgsql AS
+$$
+BEGIN 
+	UPDATE smaseguridad.funcion
+	SET intacc_id= c_intacc_id, introl_id= c_introl_id , intgru_id= c_intgru_id ,intorden= c_intorden ,blnactivo = c_blnactivo ,blnpermisoagregar= c_blnpermisoagregar ,blnpermisoeditar =c_blnpermisoeditar ,blnpermisoeliminar = c_blnpermisoeliminar 
+	WHERE intid= c_intid;
+	
+	
+END 
+$$;
+
+/*------------------------------llamado-------------------------------*/
+
+Call smaseguridad.modFuncion(1,2,2,2,1,FALSE,FALSE,FALSE,FALSE)
+
+/* -------------------------------------Eliminar FUNCION--------------------------------*/
+
+CREATE OR REPLACE PROCEDURE smaseguridad.elFuncion
+(
+	
+		c_intid INTEGER
+		
+			
+)
+LANGUAGE plpgsql AS
+$$
+BEGIN 
+	DELETE FROM smaseguridad.funcion
+	WHERE intid= c_intid; 
+END 
+$$;
+
+/*------------------------------llamado-------------------------------*/
+
+CALL smaseguridad.elFuncion()
+
