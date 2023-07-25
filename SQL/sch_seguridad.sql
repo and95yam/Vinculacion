@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS Smaseguridad.rol
 )
 WITH (
     OIDS = FALSE
-)
+);
 
 /*************************************PERFILES***********************************/
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS Smaseguridad.perfil
         REFERENCES Smaseguridad.rol (intid) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
-)
+);
 
 /*******************************ACCION****************************************/
 
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS Smaseguridad.accion
 )
 WITH (
     OIDS = FALSE
-)
+);
 
 
 /*******************************GRUPO****************************************/
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS Smaseguridad.grupo
     blnactivo boolean NOT NULL DEFAULT false,
     CONSTRAINT grupo_pkey PRIMARY KEY (intid),
     CONSTRAINT grupo_strnombre_ukey UNIQUE (strnombre)
-)
+);
 
 /*******************************FUNCION****************************************/
 
