@@ -73,7 +73,7 @@ alter table smaconvenios.ejes
 /*==============================================================*/
 
 create table smaconvenios.Planificacion (
-   strid_informe        varchar(10)          not null,
+   strid_informe        varchar(15)          not null,
    strid_resolucion     varchar(15)          not null,
    dtperiodo            date                 null,
    strestado            varchar(20)          null,
@@ -91,13 +91,15 @@ alter table smaconvenios.Planificacion
 /* table: informe                                               */
 /*==============================================================*/
 create table smaconvenios.Informe (
-   strid_informe        varchar(10)          not null,
-   strid_resolucion     varchar(15)          not null,
-   strbeneficiarios     varchar(200)         null,
-   strbeneficio         varchar(200)         null,
-   strresultados        varchar(250)         null,
-   strobservaciones_infmorme varchar(250)         null,
-   strlinkarch          varchar(250)         null,
+   strid_informe              varchar(15)          not null,
+   strid_resolucion           varchar(15)          not null,
+   strbeneficiariosdirectos   varchar(1024)         null,
+   strbeneficiodirecto        varchar(1024)         null,
+   strbeneficiariosindirectos varchar(1024)         null,
+   strbeneficioindirecto      varchar(1024)         null,
+   strresultados              varchar(1024)         null,
+   strobservaciones_infmorme  varchar(1024)         null,
+   strlinkarch                varchar(250)         null,
    constraint pk_informe primary key (strid_informe)
 );
 
@@ -127,7 +129,7 @@ alter table smaconvenios.Actividadinforme
 /*==============================================================*/
 create table smaconvenios.Equipoinforme (
    strci_eq             varchar(10)          not null,
-   strid_informe        varchar(10)          null,
+   strid_informe        varchar(15)          null,
    strnombres           varchar(50)          null,
    strdependencia       char(15)             null,
    stractividad         varchar(100)         null,
@@ -144,7 +146,7 @@ alter table smaconvenios.Equipoinforme
 /* table: archivos                                              */
 /*==============================================================*/
 create table smaconvenios.Archivos (
-   strid_informe        varchar(10)          null,
+   strid_informe        varchar(15)          null,
    strid_archivo        varchar(10)          null,
    strenlace            varchar(250)         null
 );

@@ -33,7 +33,7 @@ BEGIN
     RETURN QUERY  SELECT strnombredependencia AS CHAR FROM smaconvenios.Dependencia WHERE intid_dependencia = id_dep;
 END;
 $$ LANGUAGE plpgsql;
-/*LLAMADO FUNCION GET DEPENDENCIA: SELECT * FROM getDepen() */
+/*LLAMADO FUNCION GET DEPENDENCIA: SELECT smaconvenios.getunadepencia() */
 
 
 
@@ -88,12 +88,70 @@ call public.AddDependencia('0600000006',1,'Ned Stark','ned.stark@espoch.edu.ec',
 */
 
 /*Listar Convenios */
+CREATE OR REPLACE FUNCTION smaconvenios.ListaConvenios()
+RETURNS TABLE(
+
+	strtitulo            varchar,
+	strnombrescoordinador varchar,
+	strid_resolucion     varchar,
+	strci_cordinador     varchar,
+	strcorreo            varchar, 
+	strtelefono          varchar,
+	strnombreDependencia char,
+	strnaturaleza        varchar,
+	strclasificacion     varchar,
+    blnacademico         BOOLEAN,                 
+    blninvestigacion     BOOLEAN,                 
+    blnpracticas         BOOLEAN,                 
+    blnvinculacion       BOOLEAN,  
+	strinstitucion       varchar,
+	strobjeto            varchar,
+	dtfechainicio        date,                
+    dtfechafin           date,
+	strVigencia 		 interval, 
+	strrazon             varchar,          
+    strarchivo           varchar         
+	
+)AS $$
+BEGIN  
+	
+RETURN QUERY SELECT tc.strtitulo, tco.strnombrescoordinador, tc.strid_resolucion, tco.strci_cordinador, tco.strcorreo,tco.strtelefono, 
+       td.strnombredependencia, tc.strnaturaleza, tc.strclasificacion, te.blnacademico,te.blninvestigacion,te.blnpracticas,te.blnvinculacion,
+       tc.strinstitucion, tc.strobjeto, tc.dtfechainicio, tc.dtfechafin, AGE(tc.dtfechafin, tc.dtfechainicio) AS Vigencia, tc.strrazon, tc.strarchivo 
+FROM smaconvenios.convenio AS tc 
+JOIN smaconvenios.ejes AS te On tc.strid_resolucion = te.strid_resolucion
+JOIN smaconvenios.coordinador AS tco ON tc.strci_cordinador = tco.strci_cordinador
+JOIN smaconvenios.dependencia AS td ON  tco.intid_dependencia = td.intid_dependencia;
+	
+END;
+$$ LANGUAGE plpgsql;
+
+/* SELECT * FROM smaconvenios.listaconvenios()*/
+
 /* Buscar Convenios*/
+
 /* Modificar Convenios*/
 /* Eliminar Convenios*/
 
 
 
+/*Consulta para ver informe de convenios*/
 
+SELECT tc.strtitulo, tco.strnombrescoordinador, tc.strid_resolucion, tco.strci_cordinador, tco.strcorreo,tco.strtelefono, 
+       td.strnombredependencia, tc.strinstitucion, tc.dtfechainicio, tc.dtfechafin, AGE(tc.dtfechafin, tc.dtfechainicio) AS Vigencia,
+       tp.dtperiodo,tp.strid_informe, ti.strbeneficiariosdirectos, ti.strbeneficiodirecto, ti.strbeneficiariosindirectos, ti.strbeneficioindirecto,
+       tc.strobjeto, ti.strresultados,ti.strobservaciones_infmorme, ti.strlinkarch
+FROM smaconvenios.convenio AS tc
+JOIN smaconvenios.coordinador AS tco ON tc.strci_cordinador = tco.strci_cordinador
+JOIN smaconvenios.dependencia AS td ON  tco.intid_dependencia = td.intid_dependencia
+JOIN smaconvenios.planificacion AS tp ON tc.strid_resolucion = tp.strid_resolucion
+JOIN smaconvenios.informe AS ti ON tc.strid_resolucion = ti.strid_resolucion
+WHERE tp.strid_informe='099.CP.2012-1'
+
+SELECT * FROM smaconvenios.equipoinforme 
+WHERE strid_informe = '099.CP.2012-1';
+
+Select * FROM smaconvenios.actividadinforme
+WHERE strid_informe = '099.CP.2012-1';
 
 

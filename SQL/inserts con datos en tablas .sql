@@ -103,5 +103,70 @@ INSERT INTO smaconvenios.Ejes(
 
 /*Ingreso PLanificacion*/
 
+INSERT INTO smaconvenios.planificacion(strid_informe, strid_resolucion, dtperiodo, strestado, blnfirmado, strobservacionesrev) 
+VALUES
+    ('099.CP.2012-1','099.CP.2012','2012-08-02' ,'pendiente',False,'a'),
+    ('099.CP.2012-2','099.CP.2012','2012-11-02' ,'pendiente',False,'a'),
+    ('099.CP.2012-3','099.CP.2012','2013-02-02' ,'pendiente',False,'a'),
+    ('099.CP.2012-4','099.CP.2012','2013-05-02' ,'pendiente',False,'a'),
+    ('099.CP.2012-5','099.CP.2012','2013-08-02' ,'pendiente',False,'a'),
+    ('099.CP.2012-6','099.CP.2012','2013-11-02' ,'pendiente',False,'a'),
+    ('099.CP.2012-7','099.CP.2012','2014-02-02' ,'pendiente',False,'a'),
+    ('099.CP.2012-8','099.CP.2012','2014-05-02' ,'pendiente',False,'a')
 
-			
+INSERT INTO smaconvenios.planificacion(strid_informe, strid_resolucion, dtperiodo, strestado, blnfirmado) 
+VALUES
+       ('114.CP.2012-1','114.CP.2012','2012-09-04' ,'validado',true),
+	   ('114.CP.2012-2','114.CP.2012','2013-03-04' ,'pendiente',False)
+    
+/*tabla informe*/
+
+INSERT INTO smaconvenios.informe(
+	strid_informe, strid_resolucion, strbeneficiariosdirectos, strbeneficiodirecto, strresultados, strobservaciones_infmorme, strlinkarch, strbeneficiariosindirectos, strbeneficioindirecto )
+	VALUES 
+     ('099.CP.2012-1',
+		'099.CP.2012',
+		' Estudiantes Y Docentes de la ESPOCH Sede Morona Santiago',
+		'El beneficiario directo son los estudiantes de la sede Morona Santiago debido que se desarrolla trabajos de investigación a través del desarrollo de tesis, en el rubro agropecuario, desarrollo de prácticas laborales y comunitarias',
+		
+		'"Ejecución y desarrollo de trabajos de practicas preprofesionales: Asistencia técnica a productores de chiguaza en cercas eléctricas, a través de los estudiantes Asistencia técnica en la comunidad de María Auxiliadora, administración de vitaminas para pollos en su primera semana de edad. Capacitación en la comunidad Valle del Pastaza en la que se tratan puntos como la ganadería regenerativa y controlar la
+		administración de ivermectina en las fincas ya que esto hace que los escarabajos estercoleros no realicen el trabajo de transformar el abono de las vacas en forma regular y así fertilizar de manera natural el suelo.',
+		'La delegación a la coordinación del convenio el 4 de marzo del 2022',
+		'https://www.contadordecaracteres.com/',
+	    'Población del cantón Huamboya',
+		'Los estudiantes al adquirir conocimientos y desarrollar destrezas en sus investigaciones pueden ir a replicar a toda la comunidad dejando un precedente positivo en el área productiva'
+	   ),
+
+	    ('114.CP.2012-1',
+		'114.CP.2012',
+		' Estudiantes Y Docentes de la ESPOCH Sede Morona Santiago',
+		'El beneficiario directo son los estudiantes de la sede Morona Santiago debido que se desarrolla trabajos de investigación a través del desarrollo de tesis, en el rubro agropecuario, desarrollo de prácticas laborales y comunitarias',
+		
+		'"Ejecución y desarrollo de trabajos de practicas preprofesionales: Asistencia técnica a productores de chiguaza en cercas eléctricas, a través de los estudiantes Asistencia técnica en la comunidad de María Auxiliadora, administración de vitaminas para pollos en su primera semana de edad. Capacitación en la comunidad Valle del Pastaza en la que se tratan puntos como la ganadería regenerativa y controlar la
+		administración de ivermectina en las fincas ya que esto hace que los escarabajos estercoleros no realicen el trabajo de transformar el abono de las vacas en forma regular y así fertilizar de manera natural el suelo.',
+		'La delegación a la coordinación del convenio el 4 de marzo del 2022',
+		'https://www.contadordecaracteres.com/',
+	    'Población del cantón Huamboya',
+		'Los estudiantes al adquirir conocimientos y desarrollar destrezas en sus investigaciones pueden ir a replicar a toda la comunidad dejando un precedente positivo en el área productiva'
+	   );
+
+/*tambla equipo informe*/
+
+INSERT INTO smaconvenios.equipoinforme(strci_eq,strid_informe,strnombres,strdependencia,stractividad)
+VALUES 
+      ('0604546135','099.CP.2012-1','HENDRY PILCO','AGRONOMIA','TESISTA' ),
+      ('0604546136','099.CP.2012-1','CRISTIAN ACAN','AGRONOMIA','TESISTA' ),
+      ('0604546137','114.CP.2012-1','JACKSON MORA','fIE','Analista' ),
+      ('0604546138','114.CP.2012-1','BEATRIZ VILLALBA','FIE','practicante' );
+ 
+/* tabla actividad informe*/
+INSERT INTO smaconvenios.actividadinforme(strid_informe,intnumact,stractividades,dtmes,intsemana)
+VALUES 
+      ('099.CP.2012-1',1,'Uso de productos yara en tomate hidropónico tesis Beatriz Villalba','2012-03-05',3),
+      ('099.CP.2012-1',2,'Tesis en tuna concluida defiende en Mayo 2022','2012-02-15',1),
+      ('099.CP.2012-1',3,'Tesis en cebada concluida defiende en Mayo 2022','2012-03-05',4),
+      ('099.CP.2012-1',4,'Tesis tomate hidropónico del Sr Jackson Mora concluida y el Sr ya DEFENDIO','2013-03-05',2),
+      ('114.CP.2012-1',1,'Tesis en tomate hidropónico de Beatriz Villalba concluída','2013-08-05',3),
+      ('114.CP.2012-1',2,'"Investigación de Co-compostaje de residuos de Pitahaya provenientes del cantón Palora, Morona Santiago, con la utilización del estiércol de vaca "','2012-03-05',4),
+      ('114.CP.2012-1',3,'Evaluación de la calidad del suelo en el sistema productivo de pitahaya del cantón Palora, provincia de Morona Santiago"','2012-03-05',2),
+      ('114.CP.2012-1',4,'Capacitación sobre radiactividad natural','2012-05-05',1);
