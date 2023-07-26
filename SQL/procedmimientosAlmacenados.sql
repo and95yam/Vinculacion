@@ -13,6 +13,8 @@ BEGIN
 	(c_nombre,c_tipo);
 END 
 $$;
+/*LLAMADO*/
+/* call smaconvenios.AddDependencia('','')*/
 
 /*Listar dependencia */
 /* Buscar Dependencia*/

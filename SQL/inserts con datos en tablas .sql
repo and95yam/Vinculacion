@@ -100,4 +100,8 @@ INSERT INTO smaconvenios.Ejes(
 			('538.CP.2012', false, true, false, true),
 			('539.CP.2012', false, false, true, false),
 			('541.CP.2012', false, false, false, true)
+
+/*Ingreso PLanificacion*/
+
+
 			
