@@ -3,8 +3,8 @@
 /*==============================================================*/
 create table smaconvenios.Dependencia (
    intid_dependencia    smallserial          not null,
-   strdombreDependencia char(15)             null,
-   strdipodependencia   char(20)             null,
+   strnombreDependencia char(15)             null,
+   strtipodependencia   char(20)             null,
    constraint pk_dependencia primary key (intid_dependencia)
 );
 
