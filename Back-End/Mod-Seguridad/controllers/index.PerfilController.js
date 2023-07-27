@@ -67,10 +67,22 @@ const delPerfil = async(req,res)=>{
     }
 }
 
+const perfilyRol = async(req,res)=>{
+    try{
+    const response= await con.query('select tp.lngusr_id as  id_usuario,tp.strnombretema as perfil,tr.strcodigo as codigo_rol, tr.strnombre as rol, tr.strdescripcion, tp.blnactivo, tp.lngfechaasignacion From smaseguridad.rol AS tr JOIN smaseguridad.perfil AS tp On tr.intid = tp.introl_id');
+    
+    console.log(response.rows);
+    res.status(200).json(response.rows);
+
+    }catch(error){
+        res.status(500).send({success:false,message: error.message});
+    }
+}
 module.exports ={
     addPerfil,
     getPerfil,
     buscarPerfil,
     modPerfil,
-    delPerfil
+    delPerfil,
+    perfilyRol
 }

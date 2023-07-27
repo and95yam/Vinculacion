@@ -155,3 +155,8 @@ Select * FROM smaconvenios.actividadinforme
 WHERE strid_informe = '099.CP.2012-1';
 
 
+/* Consulta de roles por perfil (servicio web modulo seguridad)*/
+select tp.lngusr_id as  id_usuario,tp.strnombretema as perfil,tr.strcodigo as codigo_rol, tr.strnombre as rol, tr.strdescripcion,   tp.blnactivo, tp.lngfechaasignacion
+From smaseguridad.rol AS tr
+JOIN smaseguridad.perfil AS tp 
+On tr.intid = tp.introl_id;
