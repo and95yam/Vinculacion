@@ -1,0 +1,17 @@
+<app-spinner></app-spinner>
+<div class="container">
+
+    <app-pg-header (onChangeSession)="changeSession($event)"></app-pg-header>
+    <div class="body-close">
+        <div class="main container-slider">
+
+            <app-pg-menu (onShowSidebar)="procesaPropagar($event)" [rolActivo]="idrol"></app-pg-menu>
+        </div>
+        <div class="sidebar container-slider">
+
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+
+    <app-pg-footer></app-pg-footer>
+</div>
