@@ -1,0 +1,307 @@
+<p-toast></p-toast>
+<div class="contenido">
+   <div class="card">
+      <p-toolbar styleClass="mb-4">
+         <ng-template pTemplate="left">
+            <strong>  USUARIOS</strong>
+         </ng-template>
+         <ng-template pTemplate="right">
+            <button pButton pRipple label="Nuevo" icon="pi pi-pencil" class="p-button mr-2" pTooltip="Crear nuevo usuario" (click)="abrirModalUsuario()">
+            </button>
+         </ng-template>
+      </p-toolbar>
+      <p-table #dt *ngIf="lstUsuarios.length > 0" [value]="lstUsuarios" [rows]="10" [showCurrentPageReport]="true" [responsive]="true"
+         [rowsPerPageOptions]="[10,15,20]" [loading]="loading" [paginator]="true" [rowHover]="true"
+         currentPageReportTemplate="Mostrando {first} hasta {last} de {totalRecords} registros"
+         [globalFilterFields]="['per_cedula','per_nombres','per_apellidos','per_email']">
+         <ng-template pTemplate="caption">
+            <div class="card">
+               <div class="flex justify-content-between flex-wrap card-container">
+                  <div>{{'lista' | titlecase}}</div>
+                  <span class="p-input-icon-left">
+                     <i class="pi pi-search"></i>
+                     <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
+                  </span>
+               </div>
+            </div>
+         </ng-template>
+         <ng-template pTemplate="header">
+            <tr>
+               <th style="width:10em" pSortableColumn="per_cedula" pResizableColumn>Cédula
+                  <p-sortIcon field="per_cedula"></p-sortIcon>
+               </th>
+               <th pSortableColumn="per_apellidos" pResizableColumn>Apellidos
+                  <p-sortIcon field="per_apellidos"> </p-sortIcon>
+               </th>
+               <th pSortableColumn="per_nombres" pResizableColumn> Nombres
+                  <p-sortIcon field="per_nombres"></p-sortIcon>
+               </th>
+               <th pSortableColumn="per_email" pResizableColumn> Email
+                  <p-sortIcon field="per_email"></p-sortIcon>
+               </th>
+               <th pSortableColumn="per_estado" pResizableColumn> Estado
+                  <p-sortIcon field="per_estado"></p-sortIcon>
+               </th>
+               <th> Acciones
+               </th>
+            </tr>
+         </ng-template>
+         <ng-template pTemplate="body" let-ser>
+            <tr>
+               <td>
+                  <a class="no-underline" >{{ser.per_cedula}}</a>
+               </td>
+               <td> {{ser.per_apellidos}} </td>
+               <td> {{ser.per_nombres}} </td>
+               <td> {{ser.per_email}} </td>
+               <td> <span [class]="'product-badge status-' + ser.per_estado" *ngIf="ser.per_estado==1; else inactivo">Activo</span>
+                  <ng-template #inactivo>
+                      <span [class]="'product-badge status-' + ser.per_estado">Inactivo</span>
+                  </ng-template></td>
+               <td>
+                  <button pRipple pButton icon="pi pi-eye" class="p-button-rounded p-button-info mr-2"
+                     pTooltip="Ver Perfiles" tooltipPosition="left" (click)="editarUsuario(ser)" >
+                  </button>
+                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger " (click)="eliminarUsuario(ser)"  pTooltip="Desactivar usuario"></button>
+               </td>
+            </tr>
+         </ng-template>
+         <ng-template pTemplate="emptymessage">
+            <tr>
+               <td colspan="6">No se obtuvo registros con el dato buscado</td>
+            </tr>
+         </ng-template>
+      </p-table>
+
+      </div>
+      </div>
+      <p-dialog [(visible)]="usuarioDialog" [style]="{width: '50em'}" header="Usuarios" [modal]="true" styleClass="p-fluid">
+         <ng-template pTemplate="content">
+            <p-panel header="Usuario">
+               <div class="grid p-fluid">
+                  <div class="col-10 md:col-2">
+                     <label for="name">Cédula</label>
+                 </div>
+                  <div class="col-10 md:col-8">
+                     <input type="text" pInputText id="name" [(ngModel)]="usuario.per_cedula"  required autofocus />
+                     <small class="p-invalid" *ngIf="submitted && !usuario.per_nombres">cédula es requerida.</small>
+                 </div>
+                 <div class="col-2 md:col-2 flex flex-wrap-reverse">
+                  <button pButton type="button" icon="pi pi-search" iconPos="bottom" class="p-button-text p-button-text" (click)=" buscarUsuario()"></button>
+                </div>    
+              </div>
+            <div class="grid p-fluid">
+               <div class="col-6 md:col-6">
+                  <label for="description">Nombres</label>
+                  <input type="text" pInputText id="name" [disabled]="disabled" [(ngModel)]="usuario.per_nombres"   />
+              </div>
+              <div class="col-6 md:col-6">
+                <label for="description">Apellidos</label>
+                <input type="text" pInputText id="name" [disabled]="disabled" [(ngModel)]="usuario.per_apellidos"   />
+            </div>
+            <div class="col-12 md:col-12">
+             <label for="description">Email</label>
+             <input type="text" pInputText id="name" [disabled]="disabled" [(ngModel)]="usuario.per_email"  />
+            </div>
+              
+             </div>
+           </p-panel>
+           <p-panel header="Roles">
+            <div class="p-formgrid p-grid">
+              
+               <div class="p-field">
+                   <label class="p-mb-3">Roles</label>
+                   <div class="p-formgrid p-grid">
+                     <p-dropdown  appendTo="body" [options]="roles" [(ngModel)]="rol" optionLabel="rol_nombre" placeholder="Seleccione un rol"></p-dropdown>
+                       
+                   </div>
+               </div>
+              </div>
+         </p-panel>
+         <p-panel header="Dependencias">
+            <div class="p-formgrid p-grid">
+              
+               <div class="p-field">
+                  <label class="p-mb-3">Tipo</label>
+                  <div class="p-formgrid p-grid">
+                    <p-dropdown appendTo="body" [options]="lstTipoDependencia" [(ngModel)]="tipoDependencia" optionLabel="des" placeholder="Seleccione un tipo"  (ngModelChange)="ListarDependenciasTipo()"></p-dropdown>
+                      
+                  </div>
+              </div>
+              </div>
+
+              <div *ngIf="tipoDependencia.id==1" class="grid p-fluid">
+ 
+              
+               <div class="col-6 md:col-4"><label class="p-mb-3">Sede</label></div>
+                  <div class="col-6 md:col-8">
+                    <p-dropdown appendTo="body" [options]="lstSedes" [(ngModel)]="objSede" optionLabel="sednombre" placeholder="Seleccione una sede" (ngModelChange)="ListarFacultades($event)" ></p-dropdown> 
+                  </div>
+           
+              
+               <div class="col-6 md:col-4"> <label class="p-mb-3">Facultad</label></div>
+               <div class="col-6 md:col-8">
+                 <p-dropdown appendTo="body" [options]="lstFacultades" [(ngModel)]="objFacultad" optionLabel="facnombre" placeholder="Seleccione una facultad" (ngModelChange)="ListarCarreras($event)"></p-dropdown> 
+               </div>
+             
+             <div class="col-6 md:col-4">
+               <label class="p-mb-3">Carreras</label>
+            </div>
+               <div class="col-6 md:col-8">
+                 <p-dropdown appendTo="body" [options]="lstCarreras" [(ngModel)]="objCarrera" optionLabel="carnombre" placeholder="Seleccione una carrera"></p-dropdown> 
+               </div>
+            
+               
+ 
+     </div>
+              <div *ngIf="tipoDependencia.id==2" class="grid p-fluid">
+ 
+              
+               <div class="col-6 md:col-4"><label class="p-mb-3">Dependencias</label></div>
+               <div class="col-6 md:col-8">
+                    <p-dropdown appendTo="body" [options]="lstDependencias" [(ngModel)]="objDependencia" optionLabel="depNombre" placeholder="Seleccione una Dependencia"  ></p-dropdown> 
+               </div>
+           
+                   
+                </div>
+         </p-panel>
+        
+           
+            
+         </ng-template>
+         
+         <ng-template pTemplate="footer">
+             <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+             <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text"  (click)="guardarUsuario()"></button>
+         </ng-template>
+     </p-dialog>
+     <p-dialog [(visible)]="perfilesDialog" [style]="{width: '50em'}" header="Usuarios" [modal]="true" styleClass="p-fluid">
+      <ng-template pTemplate="content">
+         <p-panel header="Usuario">
+            <div class="grid p-fluid">
+               <div class="col-10 md:col-2">
+                  <button pButton type="button" icon="pi pi-user-plus" iconPos="bottom" class="p-button-text p-button-text" (click)="abrirRoles()" pTooltip="Ingresar un nuevo rol"></button>
+                
+              </div>
+               <div class="col-10 md:col-10">
+                  {{usuario.per_nombres}}  {{usuario.per_apellidos}} 
+              </div>
+             
+               
+           </div>
+      
+       
+        </p-panel>
+        <p-panel header="Roles">
+         <h4 class="p-mb-3">Nuevo rol</h4>
+         <div class="grid p-fluid" *ngIf="activarroles">
+                    
+                     
+           
+            <div class="col-6 md:col-4">
+               <label class="p-mb-3">Seleccione un rol</label>
+             </div>
+            <div class="col-6 md:col-8">
+              <p-dropdown  appendTo="body" [options]="roles" [(ngModel)]="rol" optionLabel="rol_nombre" placeholder="Seleccione un rol" [filter]="true" filterBy="rol_nombre"></p-dropdown>
+            </div>
+              <div class="col-6 md:col-4">
+                 <label class="p-mb-3">Tipo de Dependencia</label>
+               </div>
+               <div class="col-6 md:col-8">
+                   <p-dropdown appendTo="body" [options]="lstTipoDependencia" [(ngModel)]="tipoDependencia" optionLabel="des" placeholder="Seleccione un tipo" (ngModelChange)="ListarDependenciasTipo()"></p-dropdown>
+                     
+               </div>
+           
+           
+              <div *ngIf="tipoDependencia.id==1" class="grid p-fluid">
+ 
+              
+                 <div class="col-6 md:col-4"><label class="p-mb-3">Sede</label></div>
+                    <div class="col-6 md:col-8">
+                      <p-dropdown appendTo="body" [options]="lstSedes" [(ngModel)]="objSede" optionLabel="sednombre" placeholder="Seleccione una sede" (ngModelChange)="ListarFacultades($event)" [filter]="true" filterBy="sednombre"></p-dropdown> 
+                    </div>
+             
+                
+                 <div class="col-6 md:col-4"> <label class="p-mb-3">Facultad</label></div>
+                 <div class="col-6 md:col-8">
+                   <p-dropdown appendTo="body" [options]="lstFacultades" [(ngModel)]="objFacultad" optionLabel="facnombre" placeholder="Seleccione una facultad" (ngModelChange)="ListarCarreras($event)" [filter]="true" filterBy="sednombre"></p-dropdown> 
+                 </div>
+               
+               <div class="col-6 md:col-4">
+                 <label class="p-mb-3">Carreras</label>
+              </div>
+                 <div class="col-6 md:col-8">
+                   <p-dropdown appendTo="body" [options]="lstCarreras" [(ngModel)]="objCarrera" optionLabel="carnombre" placeholder="Seleccione una carrera" [filter]="true" filterBy="carnombre"></p-dropdown> 
+                 </div>
+              
+                 
+   
+       </div>
+       <div *ngIf="tipoDependencia.id==2" class="grid p-fluid col-12 md:col-12">
+         <div class="col-6 md:col-4">
+            <label class="p-mb-3">Dependencias</label>
+         </div>
+            <div class="col-6 md:col-8">
+               <p-dropdown appendTo="body" [options]="lstDependencias" [(ngModel)]="objDependencia" optionLabel="depNombre" placeholder="Seleccione una Dependencia" [filter]="true" filterBy="depNombre" ></p-dropdown> 
+            </div>
+          </div>
+     
+                  <div class="col-6 md:col-4"></div>
+                 <div class="col-6 md:col-2"><button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="cerrarRol()"></button></div>
+                 <div class="col-6 md:col-2"><button pButton pRipple label="Guardar" icon="pi pi-check"  class="p-button-text" (click)="guardarRol()"></button></div>
+                 <div class="col-6 md:col-4"></div>
+         
+     </div>
+         <div class="p-formgrid p-grid" *ngIf="!activarroles">
+           
+            <div class="p-field">
+                <div class="p-formgrid p-grid">
+                  <p-table [value]="usuariosrol">
+                     <ng-template pTemplate="header">
+                         <tr>
+                             <th>Nombre</th>
+                             <th>Tipo</th>
+                             <th>Estado</th>
+                             <th>Acciones</th>
+                         </tr>
+                     </ng-template>
+                     <ng-template pTemplate="body" let-usuariorol>
+                         <tr>
+                             <td>{{usuariorol.rol_nombre}}</td>
+                             
+                              
+                              <td> 
+                                 <p-message *ngIf="usuariorol.tipo==1" severity="info" text="ACADÉMICO" styleClass="p-mr-2"></p-message>
+                                 <p-message *ngIf="usuariorol.tipo==2" severity="info" text="ADMINISTRATIVO" styleClass="p-mr-2"></p-message>
+                                
+                              
+                            
+                             </td>
+                              <td>    
+                                 <span [class]="'product-badge status-' +usuariorol.prol_estado" *ngIf="usuariorol.prol_estado==1; else inactivo">Activo</span>
+                                 <ng-template #inactivo>
+                                     <span [class]="'product-badge status-' + usuariorol.prol_estado">Inactivo</span>
+                                 </ng-template>
+                           
+                              </td>
+                              <td> <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger "  *ngIf="usuariorol.prol_estado==1" pTooltip="Eliminar" (click)="eliminarRol(usuariorol)"></button>
+                                 <button pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-success "  *ngIf="usuariorol.prol_estado==2" pTooltip="Activar" (click)="activarRol(usuariorol)"></button>
+                             </td>
+                         </tr>
+                     </ng-template>
+                 </p-table>
+                </div>
+            </div>
+           </div>
+      </p-panel>
+      
+      </ng-template>
+      
+      <ng-template pTemplate="footer">
+          <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+      </ng-template>
+  </p-dialog>
+     
+     <p-confirmDialog [style]="{width: '25em'}">
+      
+     </p-confirmDialog>
