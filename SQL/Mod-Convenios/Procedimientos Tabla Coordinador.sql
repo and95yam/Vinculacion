@@ -22,7 +22,7 @@ $$;
 
 /*LLAMADO*/
 
-CALL smaconvenios.AddCoordinador('0600000002',1,'Nelly Pozo','nelly.pozo@espoch.edu.ec','0900000002');
+CALL smaconvenios.AddCoordinador('0600000001',1,'Nelly Pozo','nelly.pozo@espoch.edu.ec','0900000001');
 
 /* FUNCION GET COORDINADOR*/
 CREATE OR REPLACE FUNCTION smaconvenios.GetCoordinador()

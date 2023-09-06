@@ -28,7 +28,7 @@ CREATE OR REPLACE FUNCTION smaconvenios.GetEqInforme()
 RETURNS TABLE (
 
    stridinforme         varchar(32),
-   intiddependencia     int4,
+   intiddependencia     int,
    strciequipo          varchar(10),
    strnombreequipo      varchar(256),
    stractividadequipo   varchar(256) 
@@ -70,10 +70,10 @@ SELECT * FROM smaconvenios.BuscarEqInforme('d');
 
 /*MODIFICAR INFORME*/
 
-CREATE OR REPLACE PROCEDURE smaconvenios.ModConvenio_Institucion 
+CREATE OR REPLACE PROCEDURE smaconvenios.ModEquipoInforme 
 (
    c_stridinforme         varchar(32),
-   c_intiddependencia     int4,
+   c_intiddependencia     int,
    c_strciequipo          varchar(10),
    c_strnombreequipo      varchar(256),
    c_stractividadequipo   varchar(256)
@@ -82,19 +82,19 @@ LANGUAGE plpgsql AS
 $$
 BEGIN 
 	UPDATE smaconvenios.eqinforme
-	SET  intiddependencia = c_intiddependencia, strciequipo = c_strciequipo, strnombreequipo = c_strnombreequipo, stractividadequipo=c_stractividadequipo
+	SET  intiddependencia=c_intiddependencia, strciequipo=c_strciequipo, strnombreequipo=c_strnombreequipo, stractividadequipo=c_stractividadequipo
 	WHERE stridinforme = c_stridinforme; 
 END 
 $$;
 
 /*LLAMADO MOD EQINFORME */
 
-CALL smaconvenios.ModConvenio_Institucion();
+CALL smaconvenios.ModEquipoInforme();
 
 
-/* DELETE EQINFORME */
+/* DELETE EstadoINFORME */
 
-CREATE OR REPLACE PROCEDURE smaconvenios.DelEqInforme 
+CREATE OR REPLACE PROCEDURE smaconvenios.DelEquipoInforme 
 (
 	
 		c_stridinforme         varchar(32)

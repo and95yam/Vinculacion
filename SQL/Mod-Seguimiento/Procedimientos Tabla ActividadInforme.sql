@@ -81,8 +81,8 @@ CREATE OR REPLACE PROCEDURE smaconvenios.ModActInforme
 LANGUAGE plpgsql AS
 $$
 BEGIN 
-	UPDATE smaconvenios.informe
-	SET  intidplanificacion=c_intidplanificacion, strperiodo = c_strperiodo, stridconvenio = c_stridconvenio, strbeneficiariodirecto= c_strbeneficiariodirecto, strbeneficiodirecto = c_strbeneficiodirecto, strbeneficiarioindirecto = c_strbeneficiarioindirecto, strbeneficioindirecto = c_strbeneficioindirecto, strresultados = c_strresultados , strobservaciones = c_strobservaciones, stranexo = c_stranexo
+	UPDATE smaconvenios.actividadinforme
+	SET  intnumactividad=c_intnumactividad, stractividad= c_stractividad, dtfechainicioactividad =c_dtfechainicioactividad, dtfechafinactividad= c_dtfechafinactividad 
 	WHERE stridinforme = c_stridinforme; 
 END 
 $$;
@@ -93,7 +93,7 @@ CALL smaconvenios.ModConvenio_Institucion();
 
 /*DELETE INFORME*/
 
-CREATE OR REPLACE PROCEDURE smaconvenios.DelInforme 
+CREATE OR REPLACE PROCEDURE smaconvenios.DelActInforme 
 (
 	
 		c_stridinforme         varchar(32)
@@ -103,10 +103,10 @@ CREATE OR REPLACE PROCEDURE smaconvenios.DelInforme
 LANGUAGE plpgsql AS
 $$
 BEGIN 
-	DELETE FROM smaconvenios.informe 
+	DELETE FROM smaconvenios.actividadinforme
 	WHERE stridinforme= c_stridinforme; 
 END 
 $$;
 
 /*LLAMADO DELINFORME*/
-CALL smaconvenios.DelInforme(1);
+CALL smaconvenios.DelInforme('1');

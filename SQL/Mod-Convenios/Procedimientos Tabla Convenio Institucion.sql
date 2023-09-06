@@ -59,7 +59,7 @@ $$ LANGUAGE plpgsql;
 
 /*LLAMADO PROCEDIMIENTO */
 
-SELECT * FROM smaconvenios.BuscarConvenio_Institucion();
+SELECT * FROM smaconvenios.BuscarConvenio_Institucion(1);
 
 /*MODIFICAR CONVENIO_INSTITUCION*/
 

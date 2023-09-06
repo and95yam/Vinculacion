@@ -91,7 +91,7 @@ SELECT * FROM smaconvenios.BuscarInforme('d');
 CREATE OR REPLACE PROCEDURE smaconvenios.ModInforme 
 (
    c_stridinforme         varchar(32),
-   c_intidplanificacion   int4,
+   c_intidplanificacion   int,
    c_strperiodo           varchar(64),
    c_stridconvenio        varchar(16),
    c_strbeneficiariodirecto varchar(512),
@@ -133,4 +133,4 @@ END
 $$;
 
 /*LLAMADO DELINFORME*/
-CALL smaconvenios.DelInforme(1);
+CALL smaconvenios.DelInforme('1');
