@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon Mod-Seguridad/index.js",
+    "convenios": "nodemon Mod-Convenios/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Andy Yamada",

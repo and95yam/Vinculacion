@@ -16,7 +16,7 @@ $$;
 
 /*LLAMADO*/
 
-CALL smaconvenios.AddInstitucion('?');
+CALL smaconvenios.AddInstitucion('Pepsi');
 
 /* FUNCION GET INSTITUCION*/
 CREATE OR REPLACE FUNCTION smaconvenios.GetInstitucion()
