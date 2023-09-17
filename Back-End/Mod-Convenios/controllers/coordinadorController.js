@@ -22,7 +22,9 @@ const addCoordinador = async(req,res)=>{
 
 
 const getCoordinador = async(req,res)=>{
+    
     try{
+        
         const response = await con.query('SELECT  * FROM smaconvenios.GetCoordinador()');
         
         res.status(200).json(response.rows);

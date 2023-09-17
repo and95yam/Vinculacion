@@ -28,7 +28,7 @@ const getDependencia= async(req,res)=>{
         console.log(response.rows);
         res.status(200).json(response.rows);
     }catch(error){
-        res.status(500).send({ success: false, message:error.message });
+       // res.status(500).send({ success: false, message:error.message });
     }
     
 }

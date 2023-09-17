@@ -17,13 +17,12 @@ INSERT INTO smaconvenios.Dependencia (strnombredependencia,strtipodependencia) V
 
 /*INGRESO CONVENIO */ 
 /* TABLA DOCENTE Y CONVENIO*/
+select * from smaconvenios.coordinador
 
-
-INSERT INTO smaconvenios.Coordinador(
-	strci_cordinador, intid_dependencia, strnombrescoordinador, strcorreo, strtelefono)
+INSERT INTO smaconvenios.Coordinador(strcicoordinador, intiddependencia, strnombrescoordinador, strcorreocoordinador, strtelefonocoordinador)
 	VALUES ('0600000000',4,'Jose Pazmiño G','jose.pazmiño@espoch.edu.ec','0999999999'),
-		   ('0600000001',7,'Rector','rector@espoch.edu.ec','0900000001'),
-		   ('0600000002',1,'Nelly Chávez','nelly.chavez@espoch.edu.ec','0900000002'),
+		   --('0600000001',7,'Rector','rector@espoch.edu.ec','0900000001'),
+		   --('0600000002',1,'Nelly Chávez','nelly.chavez@espoch.edu.ec','0900000002'),
 		   ('0600000003',3,'René Carvajal','rene.carvajal@espoch.edu.ec','0900000003'),
 		   ('0600000004',7,'Romero Rodriguez','romero.rodriguez@espoch.edu.ec','0900000004'),
 		   ('0600000005',2,'Fernando Cazco','fernando.cazco@espoch.edu.ec','0900000005'),

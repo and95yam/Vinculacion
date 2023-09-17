@@ -18,6 +18,7 @@ app.use((req, res, next) => {
  app.use(require('./routes/rutasDependencia'));
  app.use(require('./routes/rutasInstitucion'));
  app.use(require('./routes/rutasCoordinador'));
+ app.use(require('./routes/rutasConvenio'));
 
 app.listen(3001);
 console.log( 'listening on port 3001' );
