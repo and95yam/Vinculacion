@@ -131,15 +131,15 @@ const modConvenio = async( req, res )=>{
     try{
          id = req.params.id;
          console.log('modificar convenio');
-         const{strcicoordinador,strtituloconvenio,strnaturalezaconvenio,strclasificacionconvenio,strobjetivoconvenio,dtfechainicioconvenio,dtfechafinconvenio,intrazonconvenio,strarchivoconvenio,//tabla convenios
+         const{strcicoordinador,strtituloconvenio,strnaturalezaconvenio,strclasificacionconvenio,strobjetivoconvenio,strarchivoconvenio,//tabla convenios
              intiddependencia,//tabla Convenio-Dependencia
              intidinstitucion,//tablaconvenio-Institucion   
              blnacademico,blninvestigacion,blnpracticas,blnvinculacion//Tabla ejes
             }=req.body;
          
             //Modificar datos tabla convenio//
-         const responseConvenio2 = await con.query('CALL smaconvenios.modConvenio($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)',
-         [id,strcicoordinador,strtituloconvenio,strnaturalezaconvenio,strclasificacionconvenio,strobjetivoconvenio,dtfechainicioconvenio,dtfechafinconvenio,intrazonconvenio,strarchivoconvenio]);   
+         const responseConvenio2 = await con.query('CALL smaconvenios.modConvenio($1,$2,$3,$4,$5,$6,$7)',
+         [id,strcicoordinador,strtituloconvenio,strnaturalezaconvenio,strclasificacionconvenio,strobjetivoconvenio,strarchivoconvenio]);   
          
          console.log(responseConvenio2);
          
@@ -147,9 +147,9 @@ const modConvenio = async( req, res )=>{
          
 
          //Obtener el codigo de la fila correspondiente en la tabla convenio_dependencia//
-         const idcd = await con.query('select  intidc_d from smaconvenios.convenio_dependencia Where stridconvenio =$1',[id])
+         const idcd = await con.query('SELECT * FROM smaconvenios.GetIdConvenioDependencia($1)',[id])
          const codConDep =idcd.rows 
-         const dcCod = codConDep[0].intidc_d;
+         const dcCod = codConDep[0].c_intidc_d// si hay error revisar aqui ;
         
          //Modificar datos tabla convenio_dependencia 
          const responsecd2 = await con.query('CALL smaconvenios.ModConvenio_dependencia($1,$2,$3)',[dcCod,intiddependencia,id]);
@@ -157,9 +157,9 @@ const modConvenio = async( req, res )=>{
         // res.json('convenio_dependencia{$dcCod} Actualizada');
         
          //Obtener el codigo de la fila correspondiente en la tabla convenio_institucion
-         const idci = await con.query('select intidc_i from smaconvenios.convenio_institucion Where stridconvenio =$1',[id])
+         const idci = await con.query('select * from smaconvenios.GetIdConvenioInstitucion($1)',[id])
          const codConIns = idci.rows;
-         const icCod = codConIns[0].intidc_i;
+         const icCod = codConIns[0].c_intidc_i;// si hay error revisar aqui  
 
          //Modifficar datos tabla convenio_institucion
 

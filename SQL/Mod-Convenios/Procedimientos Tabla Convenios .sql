@@ -128,9 +128,9 @@ CREATE OR REPLACE PROCEDURE smaconvenios.ModConvenio
    c_strnaturalezaconvenio varchar(16),         
    c_strclasificacionconvenio varchar(16),      
    c_strobjetivoconvenio  varchar(1024),        
-   c_dtfechainicioconvenio date,                
-   c_dtfechafinconvenio   date,                 
-   c_intrazonconvenio     int,                               
+   --c_dtfechainicioconvenio date,                
+   --c_dtfechafinconvenio   date,                 
+   --c_intrazonconvenio     int,                               
    c_strarchivoconvenio   varchar(256)
 			
 )
@@ -138,7 +138,7 @@ LANGUAGE plpgsql AS
 $$
 BEGIN 
 	UPDATE smaconvenios.convenio
-	SET strcicoordinador = c_strcicoordinador, strtituloconvenio = c_strtituloconvenio, strnaturalezaconvenio = c_strnaturalezaconvenio, strclasificacionconvenio= c_strclasificacionconvenio, strobjetivoconvenio= c_strobjetivoconvenio, dtfechainicioconvenio = c_dtfechainicioconvenio, dtfechafinconvenio= c_dtfechafinconvenio, intrazonconvenio = c_intrazonconvenio, strarchivoconvenio=c_strarchivoconvenio
+	SET strcicoordinador = c_strcicoordinador, strtituloconvenio = c_strtituloconvenio, strnaturalezaconvenio = c_strnaturalezaconvenio, strclasificacionconvenio= c_strclasificacionconvenio, strobjetivoconvenio= c_strobjetivoconvenio,  strarchivoconvenio=c_strarchivoconvenio
 	WHERE stridconvenio = c_stridconvenio; 
 END 
 $$;
