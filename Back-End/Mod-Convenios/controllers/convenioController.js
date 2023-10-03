@@ -36,7 +36,7 @@ const addConvenio = async(req,res)=>{// INGRESA EL CONVENIO COMPLETO MAS LA PLAN
                 const datoperiodo = format(objfecha,'yyyy-MM');
                 fecha1 = new Date(fechaActual);// se actualiza la cadena  
                 let fecha2 = format(fecha1,'yyyy-MM');// se formatea la cadena 1
-                const periodo = fecha2+' / '+datoperiodo;// se concatena    
+                const periodo = fecha2+' - '+datoperiodo;// se concatena    
                 const responsePlanificacion = await con.query('CALL smaconvenios.addplanificacion($1,$2)',[periodo,stridconvenio]);
 
                 fechaActual=strperiodo;
@@ -149,7 +149,9 @@ const modConvenio = async( req, res )=>{
          //Obtener el codigo de la fila correspondiente en la tabla convenio_dependencia//
          const idcd = await con.query('SELECT * FROM smaconvenios.GetIdConvenioDependencia($1)',[id])
          const codConDep =idcd.rows 
-         const dcCod = codConDep[0].c_intidc_d// si hay error revisar aqui ;
+         const dcCod = codConDep[0].c_intidc_d// si hay error revisar aqui 
+         
+         ;
         
          //Modificar datos tabla convenio_dependencia 
          const responsecd2 = await con.query('CALL smaconvenios.ModConvenio_dependencia($1,$2,$3)',[dcCod,intiddependencia,id]);

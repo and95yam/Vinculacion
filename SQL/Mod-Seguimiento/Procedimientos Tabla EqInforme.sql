@@ -45,22 +45,26 @@ $$ LANGUAGE plpgsql;
 SELECT  * FROM smaconvenios.GetEqInforme();
 
 
-/*FUNCION BUSCAR EQINFORME ID*/
+/*FUNCION BUSCAR EQINFORME ID
+(Muestra todos los datos de los miembros del equipo por el informe y se muestran en el informe)*/
 
-CREATE OR REPLACE FUNCTION smaconvenios.BuscarEqInforme(codigo VARCHAR(32))
+CREATE OR REPLACE FUNCTION smaconvenios.BuscarEqInforme(codigo VARCHAR(64))
 RETURNS TABLE (
 
-   c_stridinforme         varchar(32),
-   c_intiddependencia     int4,
-   c_strciequipo          varchar(10),
    c_strnombreequipo      varchar(256),
+   c_strciequipo          varchar(10),
+   c_strnombredependencia varchar(32),
    c_stractividadequipo   varchar(256)
    
 )
 AS $$
 BEGIN
     
-    RETURN QUERY SELECT * FROM smaconvenios.eqinforme WHERE codigo = stridinforme;
+    RETURN QUERY 
+    SELECT e.strnombreequipo, e.strciequipo, d.strnombredependencia, e.stractividadequipo 
+    FROM smaconvenios.eqinforme  AS e  
+    JOIN smaconvenios.dependencia AS d On e.intiddependencia = d.intiddependencia
+    WHERE codigo = e.stridinforme;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -76,14 +80,15 @@ CREATE OR REPLACE PROCEDURE smaconvenios.ModEquipoInforme
    c_intiddependencia     int,
    c_strciequipo          varchar(10),
    c_strnombreequipo      varchar(256),
-   c_stractividadequipo   varchar(256)
+   c_stractividadequipo   varchar(256),
+   c_strcibuscar          varchar(10)
 )
 LANGUAGE plpgsql AS
 $$
 BEGIN 
 	UPDATE smaconvenios.eqinforme
 	SET  intiddependencia=c_intiddependencia, strciequipo=c_strciequipo, strnombreequipo=c_strnombreequipo, stractividadequipo=c_stractividadequipo
-	WHERE stridinforme = c_stridinforme; 
+	WHERE stridinforme = c_stridinforme AND strciequipo = c_strcibuscar;
 END 
 $$;
 
@@ -97,15 +102,15 @@ CALL smaconvenios.ModEquipoInforme();
 CREATE OR REPLACE PROCEDURE smaconvenios.DelEquipoInforme 
 (
 	
-		c_stridinforme         varchar(32)
-		
+		c_stridinforme         varchar(32),
+		c_strcimiembro         varchar(10)
 			
 )
 LANGUAGE plpgsql AS
 $$
 BEGIN 
 	DELETE FROM smaconvenios.eqinforme
-	WHERE stridinforme= c_stridinforme; 
+	WHERE stridinforme= c_stridinforme AND strciequipo = c_strcimiembro; 
 END 
 $$;
 

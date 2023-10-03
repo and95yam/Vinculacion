@@ -4,12 +4,13 @@
 /* table: actividadinforme                                      */
 /*==============================================================*/
 create table smaconvenios.actividadinforme (
+   intidactividad       SERIAL                  not null,
    intnumactividad      int                  not null,
    stridinforme         varchar(32)          null,
    stractividad         varchar(512)         null,
    dtfechainicioactividad date                 null,
    dtfechafinactividad  date                 null,
-   constraint PK_ACTIVIDADINFORME primary key ( STRIDINFORME)
+   constraint PK_ACTIVIDADINFORME primary key ( intidactividad, STRIDINFORME)
    
 );
 
@@ -103,7 +104,7 @@ create table smaconvenios.eqinforme (
    strciequipo          varchar(10)          null,
    strnombreequipo      varchar(256)         null,
    stractividadequipo   varchar(256)         null,
-   constraint pk_eqinforme primary key (stridinforme)
+   constraint pk_eqinforme primary key (stridinforme, strciequipo)
 );
 
 
@@ -111,10 +112,13 @@ create table smaconvenios.eqinforme (
 /* table: estadoinforme                                         */
 /*==============================================================*/
 create table smaconvenios.estadoinforme (
-   stridinforme         varchar(32)          not null,
-   strestadoinforme     varchar(16)          null,
-   strobservacionesinforme varchar(512)         null,
-   blnfirmado           bool                 null,
+   stridinforme         varchar(64)          not null,
+   strestadoinforme     varchar(16)           DEFAULT 'Pendiente',
+   strobservacionesinforme varchar(512)        DEFAULT NULL,
+   blnfirmado           bool                 Default False,
+   dtfechacreacióninforme date               Default current_date,
+   dtfechaevaluacionInforme date
+
    constraint pk_estadoinforme primary key (stridinforme)
 );
 
@@ -134,6 +138,7 @@ create table smaconvenios.informe (
    strresultados        varchar(1024)        null,
    strobservaciones     varchar(1024)        null,
    stranexo             varchar(256)         null,
+   dtfechacreacion      date DEFAULT current_date,
    constraint pk_informe primary key (stridinforme)
 );
 

@@ -43,7 +43,8 @@ RETURNS TABLE (
     strbeneficioindirecto varchar(1024),
     strresultados        varchar(1024),
     strobservaciones     varchar(1024),
-    stranexo             varchar(256)
+    stranexo             varchar(256),
+    dtfechacreacion      date
    				
 )
 AS $$

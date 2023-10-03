@@ -1,10 +1,10 @@
 const {Router}= require('express');
 const router =Router();
-const {addConvenio}= require('../controllers/informeController');
+const {addInforme,getInforme}= require('../controllers/informeController');
 
 
-router.post('/informe',addConvenio);
-
+router.post('/informe/:id',addInforme);
+router.get('/informe',getInforme);
 
 
 module.exports = router;

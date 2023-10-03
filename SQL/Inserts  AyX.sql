@@ -113,7 +113,7 @@ BEGIN
 	INSERT INTO public.ejes(id_resolucion, academico, investigacion, practivas, vinculacion)VALUES 
 					       (id_resolucion, c_academico,c_investigacion,c_practicas,c_vinculacion);*/
 
-END
+
 $BODY$;
 ALTER PROCEDURE public.addcoordinador(character varying, integer, character varying, character varying, character varying)
     OWNER TO postgres;

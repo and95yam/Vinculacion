@@ -18,6 +18,8 @@ app.use(express.urlencoded({ extended: true }));// procesa datos de forms
 //RUTAS//
 
 app.use(require('./routes/rutasInforme.js'));
+app.use(require('./routes/rutasEqInforme.js'));
+app.use(require('./routes/rutasActividadInforme.js'));
 
 app.listen(3002);
 console.log('listening on port 3002');

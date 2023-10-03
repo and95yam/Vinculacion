@@ -5,9 +5,9 @@ select * from smaconvenios.estadoinforme
 
 CREATE PROCEDURE smaconvenios.AddEstadoInforme
 (
-   c_stridinforme         varchar(32),
+   c_stridinforme         varchar(64),
    c_strestadoinforme     varchar(16),
-   c_strobsercacionesinforme          varchar(512),
+   c_strobservacionesinforme          varchar(512),
    c_blnfirmado           boolean
 )
 LANGUAGE plpgsql AS 

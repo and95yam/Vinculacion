@@ -26,7 +26,7 @@ CALL smaconvenios.AddConvenio_AddActInforme(?, ?);
 /* FUNCION GET INFORME*/
 CREATE OR REPLACE FUNCTION smaconvenios.GetActInforme()
 RETURNS TABLE (
-
+    intidactividad int,
     intnumactividad      int,
     stridinforme         varchar(32),
     stractividad         varchar(512),
@@ -45,11 +45,11 @@ $$ LANGUAGE plpgsql;
 SELECT  * FROM smaconvenios.GetActInforme();
 
 
-/*FUNCION BUSCAR INFORME ID*/
+/*FUNCION BUSCAR ACTIVIDAD INFORME ID*/
 
 CREATE OR REPLACE FUNCTION smaconvenios.BuscarActInforme(codigo VARCHAR(32))
 RETURNS TABLE (
-
+   
    c_intnumactividad      int,
    c_stridinforme         varchar(32),
    c_stractividad         varchar(512),
@@ -60,7 +60,8 @@ RETURNS TABLE (
 AS $$
 BEGIN
     
-    RETURN QUERY SELECT * FROM smaconvenios.actividadinforme WHERE codigo = stridinforme;
+    RETURN QUERY SELECT intnumactividad,stridinforme,stractividad, dtfechafinactividad, dtfechafinactividad FROM smaconvenios.actividadinforme WHERE codigo = stridinforme
+    ORDER BY intnumactividad ASC;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -72,8 +73,10 @@ SELECT * FROM smaconvenios.BuscarActInforme('d');
 
 CREATE OR REPLACE PROCEDURE smaconvenios.ModActInforme 
 (
-   c_intnumactividad      int,
+   
+   
    c_stridinforme         varchar(32),
+   c_intnumactividad      int,
    c_stractividad         varchar(512),
    c_dtfechainicioactividad date,
    c_dtfechafinactividad  date
@@ -81,30 +84,32 @@ CREATE OR REPLACE PROCEDURE smaconvenios.ModActInforme
 LANGUAGE plpgsql AS
 $$
 BEGIN 
-	UPDATE smaconvenios.actividadinforme
-	SET  intnumactividad=c_intnumactividad, stractividad= c_stractividad, dtfechainicioactividad =c_dtfechainicioactividad, dtfechafinactividad= c_dtfechafinactividad 
-	WHERE stridinforme = c_stridinforme; 
+
+    UPDATE smaconvenios.actividadinforme
+    SET  stractividad = c_stractividad ,dtfechainicioactividad =c_dtfechainicioactividad, dtfechafinactividad = c_dtfechafinactividad
+    WHERE stridinforme= c_stridinforme AND intnumactividad = c_intnumactividad;
+
 END 
 $$;
 
 /*LLAMADO MOD INFORME */
 
-CALL smaconvenios.ModConvenio_Institucion();
+CALL smaconvenios.ModActInforme();
 
-/*DELETE INFORME*/
+/*DELETE  ACTIVIDAD INFORME*/
 
 CREATE OR REPLACE PROCEDURE smaconvenios.DelActInforme 
 (
-	
-		c_stridinforme         varchar(32)
+        c_intnumactividad      int,
+		c_stridinforme         varchar(64)
 		
 			
 )
 LANGUAGE plpgsql AS
 $$
 BEGIN 
-	DELETE FROM smaconvenios.actividadinforme
-	WHERE stridinforme= c_stridinforme; 
+	DELETE  FROM smaconvenios.actividadinforme
+    WHERE  intnumactividad = c_intnumactividad AND stridinforme =c_stridinforme; 
 END 
 $$;
 
