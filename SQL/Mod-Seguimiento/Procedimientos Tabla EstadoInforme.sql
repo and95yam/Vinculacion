@@ -26,15 +26,16 @@ CALL smaconvenios.AddEstadoInforme(?, ?,?,?);
 CREATE OR REPLACE FUNCTION smaconvenios.GetEstadoInforme()
 RETURNS TABLE (
 
-   stridinforme         varchar(32),
-   strestadoinforme     varchar(16),
-   strobsercacionesinforme          varchar(512),
-   blnfirmado           boolean 
+   c_stridinforme         varchar(32),
+   c_strestadoinforme     varchar(16),
+   c_strobsercacionesinforme          varchar(512),
+   c_blnfirmado           boolean, 
+   c_dtfechacreacioninforme date
    				
 )
 AS $$
 BEGIN 
-	RETURN QUERY SELECT * FROM smaconvenios.estadoinforme;
+	RETURN QUERY SELECT stridinforme,strestadoinforme,strobservacionesinforme,blnfirmado,dtfechacreacioninforme FROM smaconvenios.estadoinforme;
 END; 
 $$ LANGUAGE plpgsql;
 
@@ -51,19 +52,24 @@ RETURNS TABLE (
    c_stridinforme         varchar(32),
    c_strestadoinforme     varchar(16),
    c_strobsercacionesinforme          varchar(512),
-   c_blnfirmado           boolean
+   c_blnfirmado           boolean,
+   c_fechacreacioninforme date
    
 )
 AS $$
 BEGIN
     
-    RETURN QUERY SELECT * FROM smaconvenios.estadoinforme WHERE codigo = stridinforme;
+    RETURN QUERY 
+    SELECT stridinforme,strestadoinforme,strobservacionesinforme,blnfirmado,dtfechacreacioninforme FROM smaconvenios.estadoinforme
+    WHERE stridinforme=codigo;
+    
+    
 END;
 $$ LANGUAGE plpgsql;
 
 /*LLAMADO PROCEDIMIENTO */
 
-SELECT * FROM smaconvenios.BuscarEstadoInforme('d');
+SELECT * FROM smaconvenios.BuscarEstadoInforme('1211.CP.2012--2012-11');
 
 /*MODIFICAR INFORME*/
 
@@ -71,14 +77,15 @@ CREATE OR REPLACE PROCEDURE smaconvenios.ModEstadoInforme
 (
    c_stridinforme         varchar(32),
    c_strestadoinforme     varchar(16),
-   c_strobsercacionesinforme          varchar(512),
-   c_blnfirmado           boolean
+   c_strobservacionesinforme          varchar(512),
+   c_blnfirmado           boolean,
+   c_fechaevaluacioninforme date 
 )
 LANGUAGE plpgsql AS
 $$
 BEGIN 
 	UPDATE smaconvenios.estadoinforme
-	SET  strestadoinforme = c_strestadoinforme, strobservacionesinforme = c_strobservacionesinforme, blnfirmado= c_blnfirmado
+	SET  strestadoinforme = c_strestadoinforme, strobservacionesinforme = c_strobservacionesinforme, blnfirmado= c_blnfirmado, dtfechaevaluacioninforme= c_fechaevaluacioninforme
 	WHERE stridinforme = c_stridinforme; 
 END 
 $$;
