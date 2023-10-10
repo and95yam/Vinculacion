@@ -1,0 +1,20 @@
+:host ::ng-deep .p-menubar {
+    display: flex;
+    flex-direction: row-reverse;
+    border: none;
+    justify-content: space-evenly;
+  }
+  .p-mr-2 {
+    margin-right: 10px;
+  }
+  :host::ng-deep .p-menubar .p-submenu-list {
+    z-index: 100;
+  }
+  
+  :host ::ng-deep .p-menubar-end {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+  }
+  

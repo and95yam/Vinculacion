@@ -1,0 +1,22 @@
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Cambia esto según tus necesidades */
+    align-items: center;
+    padding: 20px;
+    font-family: var(--font-family-roboto);
+    
+  }
+
+  .caja {
+    flex: 1 ;
+    margin: 10px;
+    text-align: center;
+    
+    
+    
+    width: auto;
+    height: 260px;
+    font-family: var(--font-family-roboto);
+    
+  }

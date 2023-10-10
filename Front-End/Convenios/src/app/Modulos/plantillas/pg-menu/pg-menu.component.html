@@ -1,0 +1,27 @@
+<div class="sidebar close">
+    <div class="profile-details">
+        <div class="profile-content">
+            <img [src]="imgToggle" alt="profile" (click)="toggleSideBar()">
+        </div>
+    </div>
+    <ul class="nav-links">
+        <li>
+            <a (click)="redirectHome()">
+                <i class="pi pi-server"></i>
+                <span class="link_name">Convenios</span>
+            </a>
+        </li>
+        <li>
+            <a (click)="redirectHome()">
+                <i class="pi pi-server"></i>
+                <span class="link_name">Seguimiento</span>
+            </a>
+        </li>
+        <li>
+            <a (click)="redirectHome()">
+                <i class="pi pi-server"></i>
+                <span class="link_name">Graficos</span>
+            </a>
+        </li>
+    </ul>
+</div>
