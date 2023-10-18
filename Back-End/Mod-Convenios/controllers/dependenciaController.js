@@ -6,7 +6,7 @@ const addDependencia = async(req,res)=>{
 
         const{strnombredependencia,strtipodependencia} = req.body;
         const response= await con.query('CALL smaconvenios.AddDependencia($1,$2)',[strnombredependencia,strtipodependencia]);
-        console.log(response);//borrar cuando este full//
+        
 
         //RESPUESTA 
         res.json({
@@ -51,7 +51,9 @@ const editarDependencia = async(req,res)=>{
     const response = await con.query('CALL smaconvenios.ModDependencia($1,$2,$3)',[id,strnombredependencia,strtipodependencia]);
     
     console.log(response);
-    res.json('Dependencia{$id} Actualizada');
+    res.status(200).json({ success: true, message: 'Dependencia actualizada exitosamente' });
+
+    
 
     }catch(error){
         res.status(500).send({succes:false,message:error.message});

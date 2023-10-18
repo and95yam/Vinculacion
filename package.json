@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "ngx-quill": "^23.0.0-beta.1"
+  }
+}

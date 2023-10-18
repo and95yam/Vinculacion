@@ -12,6 +12,7 @@
   "author": "Andy Yamada",
   "license": "ISC",
   "dependencies": {
+    "date-fns": "^2.30.0",
     "express": "^4.18.2",
     "nodemon": "^3.0.1",
     "pg": "^8.11.1"

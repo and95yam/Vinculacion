@@ -1,0 +1,91 @@
+
+<div class="card">
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+            <strong>  DEPENDENCIAS</strong>
+         </ng-template>
+        <ng-template pTemplate="right">
+            <button pButton pRipple label="Nuevo" icon="pi pi-pencil" class="p-button mr-2" pTooltip="Crear nuevo rol" (click)="Nuevo()"></button>
+            <span class="p-input-icon-right">
+                 <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
+            </span>
+
+
+        </ng-template>
+
+    </p-toolbar>
+
+    <p-table #dt [value]="dependencia" [rows]="10" [paginator]="true" [globalFilterFields]="['intiddependencia','strnombredependencia','strtipodependencia']"
+             styleClass="p-datatable-gridlines p-datatable-sm" [rowHover]="true" dataKey="id" [rowsPerPageOptions]="[10,25,50]" responsiveLayout="scroll" [responsive]="true"
+             currentPageReportTemplate="Mostrando {first} hasta {last} de {totalRecords} registros" [showCurrentPageReport]="true">
+
+        <ng-template pTemplate="header">
+            <tr>
+
+                <th pSortableColumn="intiddependencia">ID <p-sortIcon field="code"></p-sortIcon></th>
+                <th pSortableColumn="strnombredependencia" style="width:20%">Nombre <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="strtipodependencia" style="width:20%">Tipo <p-sortIcon field="category"></p-sortIcon></th>
+
+                <th class="text-center">Acción</th>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+
+
+                    <td style="width: 33%;">{{ item.intiddependencia }}</td>
+                    <td style="width: 33%;">{{ item.strnombredependencia }}</td>
+                    <td style="width: 33%;">{{ item.strtipodependencia }}</td>
+                <td style="width: 1%;">
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded mr-2"  (click)="EditarDependencia(item)"></button>
+
+
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+              <!-- In total there are {{products ? products.length : 0 }} products.-->
+            </div>
+
+        </ng-template>
+    </p-table>
+    <br><br>
+</div>
+
+
+<p-toast></p-toast>
+<p-dialog [(visible)]="nuevoModal" header="{{titulo}}" [modal]="true" styleClass="p-fluid"  [style]="{width: '450px'}" [contentStyle]="{ 'height': '300px' }" >
+  <ng-template pTemplate="content">
+
+    <div class="p-field">
+      <label for="codigo">Código</label>
+      <input type="text"  class="form-control" pInputText id="intiddependencia" readonly required name="" [(ngModel)]="txtCodigoDependencia"  />
+    </div><br>
+
+    <div class="p-field">
+      <label for="name">Nombre Dependencia</label>
+      <input type="text" pInputText id="strnombredependencia" [(ngModel)]="txtNombreDependencia" required autofocus  maxlength="32"/>
+      <small class="p-invalid" *ngIf="submitted && !txtNombreDependencia">Dependencia Necesaria</small>
+    </div><br>
+    <div class="p-field">
+      <label for="name">Tipo Dependencia</label>
+      <p-dropdown [options]="tipo" [(ngModel)]="txtTipoDependencia" optionLabel="name" optionValue="name"></p-dropdown>
+      <small class="p-invalid" *ngIf="submitted && !txtTipoDependencia">Tipo de Dependencia Necesario</small>
+    </div><br><br>
+
+
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"  (click)="nuevoModal=false"></button>
+    <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text"  (click)="GuardarDependencia()" ></button>
+
+  </ng-template>
+
+</p-dialog>
+
+
+
+
