@@ -3,15 +3,21 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CDependencia } from './cDependencia';
 import { cDependenciaCreate } from './cDependencia';
+import {DireccionesApi} from '../../../../../herramientas/direcciones/Direcciones'
 
 @Injectable({
   providedIn: 'root'
 })
 export class SDependenciaService {
 
-  private url:string="http://localhost:3001/convenio/dependencia";
+     link: DireccionesApi = new DireccionesApi;
+     url:string=this.link.dependencia;
 
-  constructor(private http:HttpClient) { }
+  constructor(
+    private http:HttpClient ) { }
+
+
+
   //obtiene dependencia
   getAll():Observable<CDependencia[]>{
     return this.http.get<CDependencia[]>(this.url);

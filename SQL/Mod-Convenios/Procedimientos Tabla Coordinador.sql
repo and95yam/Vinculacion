@@ -45,6 +45,28 @@ $$ LANGUAGE plpgsql;
 
 SELECT  * FROM smaconvenios.GetCoordinador();
 
+/*FUNCION GET COORDINADOR CON NOMBRE DE DEPENDENCIA*/
+
+CREATE OR REPLACE FUNCTION smaconvenios.GetDatosCoordinador()
+RETURNS TABLE (
+	
+		strcicoordinador VARCHAR(10),
+	    strnombredependencia VARCHAR(32),
+        strnombrescoordinador VARCHAR(256),
+        strcorreocoordinador VARCHAR(256),
+        strtelefonocoordinador VARCHAR(256)
+					
+)
+AS $$
+BEGIN 
+    RETURN QUERY
+	SELECT  coord.strcicoordinador, dep.strnombredependencia, coord.strnombrescoordinador, coord.strcorreocoordinador, coord.strtelefonocoordinador 
+	FROM smaconvenios.coordinador AS coord JOIN 
+	smaconvenios.dependencia AS dep ON 
+	coord.intiddependencia= dep.intiddependencia;
+END; 
+$$ LANGUAGE plpgsql;
+
 
 /*FUNCION BUSCAR COORDINADOR ID*/
 

@@ -23,4 +23,6 @@ export class MensajesConvenios {
     ErrorFechas: string='La fecha final debe ser mayor a la inicial.';
     ArchivoIngresadoCorrectamente: string = 'Ingresado correctamente.';
     ErrorProcesoArchivoIncompleto: string = 'Error la carga de información es incorrecta.';
+    CedularIncorrecta:string='La cédula ingresada es incorrecta.';
+
 }

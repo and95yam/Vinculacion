@@ -1,1 +1,112 @@
-<p>pg-datos-coordinador works!</p>
+<div class="card">
+  <p-toolbar styleClass="p-mb-4">
+      <ng-template pTemplate="left">
+          <strong>  COORDINADORES</strong>
+       </ng-template>
+      <ng-template pTemplate="right">
+        <button type="button" pButton pRipple icon="pi pi-file-excel"  class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+            <button type="button" pButton pRipple icon="pi pi-file-pdf"  class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
+          <button pButton pRipple label="Nuevo" icon="pi pi-pencil" class="p-button mr-2" pTooltip="Crear nuevo coordinador" (click)="nuevo()" ></button>
+          <span class="p-input-icon-right">
+               <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
+          </span>
+      </ng-template>
+  </p-toolbar>
+
+  <p-table #dt [value]="coordinador" [rows]="10" [paginator]="true" [globalFilterFields]="['strcicoordinador','strnombrescoordinador']"
+             styleClass="p-datatable-gridlines p-datatable-sm" [rowHover]="true" dataKey="id" [rowsPerPageOptions]="[10,25,50]" responsiveLayout="scroll" [responsive]="true"
+             currentPageReportTemplate="Mostrando {first} hasta {last} de {totalRecords} registros" [showCurrentPageReport]="true">
+
+        <ng-template pTemplate="header">
+            <tr>
+
+                <th pSortableColumn="strcicoordinador">CÉDULA <p-sortIcon field="code"></p-sortIcon></th>
+                <th pSortableColumn="strnombrescoordinador" style="width:20%">NOMBRES <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="strcorreocoordinador" style="width:20%">CORREO <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="strtelefonocoordinador" style="width:20%">TELÉFONO <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="strnombredependencia">DEPENDENCIA <p-sortIcon field="name"></p-sortIcon></th>
+
+                <th class="text-center">Acción</th>
+
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-item>
+          <tr>
+
+
+                  <td >{{ item.strcicoordinador}}</td>
+                  <td >{{ item.strnombrescoordinador }}</td>
+                  <td >{{ item.strcorreocoordinador }}</td>
+                  <td >{{ item.strtelefonocoordinador }}</td>
+                  <td >{{ item.strnombredependencia }}</td>
+
+
+              <td style="width: 1%;">
+                  <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded mr-2"  (click)=" editarCoordinador(item)" ></button> <!--(click)="EditarDependencia(item)"-->
+
+
+              </td>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+          <div class="p-d-flex p-ai-center p-jc-between">
+            <!-- In total there are {{products ? products.length : 0 }} products.-->
+          </div>
+
+      </ng-template>
+
+
+    </p-table>
+    <br><br>
+
+</div>
+
+<p-toast></p-toast>
+<p-dialog [(visible)]="nuevoModal" header="{{titulo}}" [modal]="true" styleClass="p-fluid"  [style]="{width: '450px'}" [contentStyle]="{ 'height': '500px' }" >
+  <ng-template pTemplate="content">
+
+    <div class="p-field">
+      <label for="name">CI:</label>
+      <input type="text" pInputText id="strcicoordinador" [(ngModel)]="txtCiCoordinador" required autofocus maxlength="10"
+        (ngModelChange)="validarCedula()" #txtCiCoordinadorModel="ngModel" [readonly]="readonlyMode"/>
+      <small class="p-invalid" *ngIf="submitted && !txtCiCoordinador">Cédula Necesaria</small>
+    </div><br>
+
+
+
+    <div class="p-field">
+      <label for="name">Nombres:</label>
+      <input [ngClass]="{'error': submitted && !txtNombres}" type="text" pInputText id="strnombrescoordinador" [(ngModel)]="txtNombres" required   maxlength="256"/>
+      <small class="p-invalid" *ngIf="submitted && !txtNombres">Nombres Necesarios</small>
+    </div><br>
+
+    <div class="p-field">
+      <label for="name">Correo:</label>
+      <input [ngClass]="{'error':submitted && !txtCorreo}" type="text" pInputText id="strcorreocoordinador" [(ngModel)]="txtCorreo" required   maxlength="256"/>
+      <small class="p-invalid" *ngIf="submitted && !txtCorreo">Correo Necesario</small>
+    </div><br>
+
+    <div class="p-field">
+      <label for="name">Teléfono:</label>
+      <input [ngClass]="{'error':submitted && !txtTelefono}"  type="text" pInputText id="strtelefonocoordinador" [(ngModel)]="txtTelefono" required   maxlength="256"/>
+      <small class="p-invalid" *ngIf="submitted && !txtTelefono">Teléfono Necesario</small>
+    </div><br>
+
+
+    <div class="p-field">
+      <label for="name">Nombre Dependencia</label>
+      <p-dropdown [(ngModel)]="txtdependencia"[options]="dependencias" optionLabel="strnombredependencia" optionValue="strnombredependencia"  (onChange)="getIdDependencia($event)"></p-dropdown><!-- (onChange)="getIdDependencia($event)"-->
+      <small class="p-invalid" *ngIf="submitted && !txtdependencia"> Dependencia Necesaria</small>
+    </div><br><br>
+
+
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"  (click)="nuevoModal=false"></button>
+    <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text"  [disabled]="isGuardarButtonDisabled" (click)=" guardarCoordinador()"></button> <!--(click)="GuardarDependencia()"-->
+
+  </ng-template>
+
+</p-dialog>

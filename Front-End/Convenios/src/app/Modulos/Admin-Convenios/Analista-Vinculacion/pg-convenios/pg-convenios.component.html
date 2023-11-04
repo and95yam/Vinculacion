@@ -11,13 +11,13 @@
      <div class="tab-menu align-items-center" style="padding-left: 25px; padding-right: 25px;">
         <p-tabView styleClass="tabview-custom" (onChange)="cambiarSelector($event)"  >
             <p-tabPanel header="DEPENDENCIAS">
-               
+
                     <app-pg-dependencia></app-pg-dependencia>
-                
-                
+
+
             </p-tabPanel>
             <p-tabPanel header="COORDINADORES">
-               <h1>1</h1>
+               <app-pg-datos-coordinador></app-pg-datos-coordinador>
             </p-tabPanel>
             <p-tabPanel header="INSTITUCIONES">
                 <h1>2</h1>
@@ -25,10 +25,10 @@
             <p-tabPanel header="CONVENIOS">
                 <h1>3</h1>
             </p-tabPanel>
-          
+
          </p-tabView>
      </div>
-     
+
 
 
 

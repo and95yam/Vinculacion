@@ -17,9 +17,10 @@ import {MensajesConvenios} from '../../../../../herramientas/Mensajes/MensajesCo
 })
 export class PgDependenciaComponent {
 
+  mensaje: MensajesConvenios = new MensajesConvenios;
 
   dependencia!: CDependencia[];
-  listaDependencias: any[]=[];
+ // listaDependencias: any[]=[];
   loading: boolean = true;
   submitted!: boolean;
 
@@ -30,10 +31,10 @@ export class PgDependenciaComponent {
   txtCodigoDependencia: number=0;
   txtTipoDependencia: string ="";
   titulo: string ="";
-
-
-  mensaje: MensajesConvenios = new MensajesConvenios;
   nombre:string="";
+
+
+
 
   constructor(
     private dependenciaService: SDependenciaService,
@@ -143,6 +144,7 @@ export class PgDependenciaComponent {
             }
 
       );
+
 
 
     }
