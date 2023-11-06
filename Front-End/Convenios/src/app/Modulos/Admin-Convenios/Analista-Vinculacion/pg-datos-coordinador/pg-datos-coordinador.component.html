@@ -4,8 +4,8 @@
           <strong>  COORDINADORES</strong>
        </ng-template>
       <ng-template pTemplate="right">
-        <button type="button" pButton pRipple icon="pi pi-file-excel"  class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
-            <button type="button" pButton pRipple icon="pi pi-file-pdf"  class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
+        <button type="button" pButton pRipple icon="pi pi-file-excel"  class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom" (click)="generarXlsx()"></button>
+            <button type="button" pButton pRipple icon="pi pi-file-pdf"  class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom" (click)=" generarPDF()" ></button>
           <button pButton pRipple label="Nuevo" icon="pi pi-pencil" class="p-button mr-2" pTooltip="Crear nuevo coordinador" (click)="nuevo()" ></button>
           <span class="p-input-icon-right">
                <i class="pi pi-search"></i>
@@ -14,7 +14,7 @@
       </ng-template>
   </p-toolbar>
 
-  <p-table #dt [value]="coordinador" [rows]="10" [paginator]="true" [globalFilterFields]="['strcicoordinador','strnombrescoordinador']"
+  <p-table #dt [value]="coordinador" [rows]="10" [paginator]="true" [globalFilterFields]="['strcicoordinador','strnombrescoordinador','strnombredependencia']"
              styleClass="p-datatable-gridlines p-datatable-sm" [rowHover]="true" dataKey="id" [rowsPerPageOptions]="[10,25,50]" responsiveLayout="scroll" [responsive]="true"
              currentPageReportTemplate="Mostrando {first} hasta {last} de {totalRecords} registros" [showCurrentPageReport]="true">
 

@@ -55,6 +55,7 @@ import { PgConveniosComponent } from './Modulos/Admin-Convenios/Analista-Vincula
 import { PgDependenciaComponent } from './Modulos/Admin-Convenios/Analista-Vinculacion/pg-dependencia/pg-dependencia.component';
 import { PgDatosCoordinadorComponent } from './Modulos/Admin-Convenios/Analista-Vinculacion/pg-datos-coordinador/pg-datos-coordinador.component';
 import { PgInstitucionComponent } from './Modulos/Admin-Convenios/Analista-Vinculacion/pg-institucion/pg-institucion.component';
+import { PgAdminConveniosComponent } from './Modulos/Admin-Convenios/Analista-Vinculacion/pg-admin-convenios/pg-admin-convenios.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { PgInstitucionComponent } from './Modulos/Admin-Convenios/Analista-Vincu
     PgConveniosComponent,
     PgDependenciaComponent,
     PgDatosCoordinadorComponent,
-    PgInstitucionComponent
+    PgInstitucionComponent,
+    PgAdminConveniosComponent
 
   ],
   imports: [

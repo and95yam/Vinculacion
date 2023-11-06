@@ -1,0 +1,84 @@
+<div class="card">
+  <p-toolbar styleClass="p-mb-4">
+      <ng-template pTemplate="left">
+          <strong>  CONVENIOS</strong>
+       </ng-template>
+      <ng-template pTemplate="right">
+        <button type="button" pButton pRipple icon="pi pi-file-excel"  class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom" ></button><!--(click)="generarXlsx()"-->
+            <button type="button" pButton pRipple icon="pi pi-file-pdf"  class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom"  ></button><!--(click)=" generarPDF()"-->
+          <button pButton pRipple label="Nuevo" icon="pi pi-pencil" class="p-button mr-2" pTooltip="Crear nuevo coordinador"  ></button><!--(click)="nuevo()"-->
+          <span class="p-input-icon-right">
+               <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
+          </span>
+      </ng-template>
+  </p-toolbar>
+
+  <p-table #dt [value]="tablaConvenios" [rows]="10" [paginator]="true" [globalFilterFields]="['c_stridconvenio','c_strtituloconvenio','c_strnombrescoordinador']"
+             styleClass="p-datatable-gridlines p-datatable-sm" [rowHover]="true" dataKey="id" [rowsPerPageOptions]="[10,25,50]" responsiveLayout="scroll" [responsive]="true"
+             currentPageReportTemplate="Mostrando {first} hasta {last} de {totalRecords} registros" [showCurrentPageReport]="true">
+
+        <ng-template pTemplate="header">
+            <tr>
+
+                <th pSortableColumn="c_stridconvenio" style="width:6%">ID CONVENIO <p-sortIcon field="code"></p-sortIcon></th>
+                <th pSortableColumn="c_strtituloconvenio" style="width:15%">TÍTULO <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="c_strnombrescoordinador" style="width:10%">COORDINADOR <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="c_strnaturalezaconvenio" style="width:5%; ">NATURALEZA <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="c_strclasificacionconvenio">CLASIFICACIÓN <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="c_strnombredependencia" style="width:5%"> DEPENDENCIA<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="c_blnacademico"style="width:0.5% ; font-size: 10px;"> ACADÉMICO<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="c_blninvestigacion" style="width:0.5%; font-size: 10px;"> INVESTIGACIÓN<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="c_blnpracticas" style="width:0.5%; font-size: 10px;">PRÁCTICAS<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="c_blnvinculacion" style="width:0.5%; font-size: 10px;">VINCULACIÓN<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="c_strinstitucion" style="width:10%">INSTITUCIÓN<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="c_dtfechainicioconvenio"style="width:5%">INICIO<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="c_strvigencia" style="width:0.5%">VIGENCIA<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="c_fltavanceconvenio" style="width:0.5%">AVANCE<p-sortIcon field="name"></p-sortIcon></th>
+
+
+                <th class="text-center">Archivo</th>
+                <th class="text-center">Acción</th>
+
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-item>
+          <tr>
+            <td >{{ item.c_stridconvenio}}</td>
+            <td >{{ item.c_strtituloconvenio }}</td>
+            <td >{{ item.c_strnombrescoordinador }}</td>
+            <td >{{ item.c_strnaturalezaconvenio }}</td>
+            <td >{{ item.c_strclasificacionconvenio }}</td>
+            <td >{{ item.c_strnombredependencia }}</td>
+            <td >{{ item.c_blnacademico }}</td>
+            <td >{{ item.c_blninvestigacion }}</td>
+            <td >{{ item.c_blnpracticas }}</td>
+            <td >{{ item.c_blnvinculacion }}</td>
+            <td >{{ item.c_strinstitucion }}</td>
+            <td >{{ item.c_dtfechainicioconvenio }}</td>
+            <td >{{ item.c_strvigencia }}</td>
+            <td >{{ item.c_fltavanceconvenio }}</td>
+
+
+
+              <td style="width: 1%;">
+                  <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded mr-2"  ></button> <!--(click)="EditarDependencia(item)"-->
+              </td>
+              <td style="width: 1%;">
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded mr-2"  ></button> <!--(click)="EditarDependencia(item)"-->
+              </td>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+          <div class="p-d-flex p-ai-center p-jc-between">
+            <!-- In total there are {{products ? products.length : 0 }} products.-->
+          </div>
+
+      </ng-template>
+
+
+    </p-table>
+    <br><br>
+
+</div>

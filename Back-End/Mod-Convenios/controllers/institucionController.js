@@ -48,7 +48,7 @@ const EditarInstitucion = async(req,res)=>{
          const{strinstitucion}= req.body;
          const response = await con.query('CALL smaconvenios.ModInstitucion($1,$2)',[id,strinstitucion]);
          console.log(response);
-         res.json('institucion+{id}+actualizada');
+         res.json('institucion actualizada');
     }catch(error){
         res.status(500).send({ success: false, message:error.message });
     }

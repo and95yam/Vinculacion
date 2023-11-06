@@ -7,7 +7,13 @@ import { Cedula } from '../../Clases/cedula';
 import { NgModel } from '@angular/forms';
 import { SDependenciaService } from '../../Clases/cDependencia/sDependencia.service';
 import { cGetDependencia } from '../../Clases/cDependencia/cDependencia';
+import {CoordinadorPdf} from '../../../reportes/pdf/coordinador-pdf';//capas no
 //import { ElementRef } from '@angular/core';// Accede al elemento json
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+(pdfMake as any).vfs=pdfFonts.pdfMake.vfs;
+
+import * as xlsx from 'xlsx';
 
 
 @Component({
@@ -19,11 +25,12 @@ import { cGetDependencia } from '../../Clases/cDependencia/cDependencia';
 export class PgDatosCoordinadorComponent {
   @ViewChild('txtCiCoordinador') txtCiCoordinadorModel!:NgModel;
 
-   mensaje:MensajesConvenios=new MensajesConvenios;
-   cedula:Cedula= new Cedula;
-   isGuardarButtonDisabled: boolean = true;
+   mensaje:MensajesConvenios=new MensajesConvenios;//instancia de clase mensajes
+   cedula:Cedula= new Cedula;//Instancia de clase cedula
+   pdf:CoordinadorPdf= new CoordinadorPdf;// instancia para generar pdf
+   isGuardarButtonDisabled: boolean = true;//desactivar boton guardar
    dependencias!:cGetDependencia[];//para cargar las dependencias
-   intIdDependenciaS!:number;
+   intIdDependenciaS!:number;// objeto que tiene todas las dependencias
 
 
     loading: boolean = true;
@@ -45,6 +52,7 @@ export class PgDatosCoordinadorComponent {
     private dependenciaService: SDependenciaService,//para seleccionar dependencia
     private  messageService:MessageService,
     private changeDetectorRef:ChangeDetectorRef,
+
   ){}
 
   ngOnInit():void{
@@ -52,6 +60,9 @@ export class PgDatosCoordinadorComponent {
 
 
   }
+
+
+
 
   listarCoordinadores(){
     this.coordinadorService.getAllCoordinador().subscribe(
@@ -123,12 +134,7 @@ export class PgDatosCoordinadorComponent {
 
   }
 
-  //REVISAR POR SI ACASO EN UN FUTURO ESTA FUNCION //
 
- /* seleccionarDependencia(event: { value: { intiddependencia: number; }; }){
-    this.intIdDependenciaS =event.value.intiddependencia;
-    console.log(this.intIdDependenciaS)
-  }*/
 
   getIdDependencia(event:any){
 
@@ -226,6 +232,92 @@ export class PgDatosCoordinadorComponent {
       return false;
     }
   }
+
+  generarPDF() {// proximamente clase
+    // Definir el contenido del PDF
+    const data =[];
+    data.push(['CÉDULA', 'NOMBRES', 'CORREO', 'TELÉFONO', 'DEPENDENCIA']);
+
+    for ( const dato of  this.coordinador){
+      data.push([
+        dato.strcicoordinador,
+        dato.strnombrescoordinador,
+        dato.strcorreocoordinador,
+        dato.strtelefonocoordinador,
+        dato.strnombredependencia,
+
+      ]);
+    }
+
+    const documentDefinition: any = {
+      content: [
+        { text: 'Reporte de Coordinadores', style: 'header' },
+        { text: '\n' },
+        {
+          table: {
+            headerRows: 1,
+            widths: ['auto', 'auto', 'auto', 'auto', 'auto'],
+            body: data, // Usar la matriz de datos aquí
+          }
+        }
+      ],
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          alignment: 'center',
+          fillColor: '#3498db',
+          color: 'white'
+        }
+      }
+    };
+
+    pdfMake.createPdf(documentDefinition).download('reporte_coordinadores.pdf');
+  }
+
+
+  generarXlsx() {
+    if (this.coordinador && this.coordinador.length > 0) {
+      const datos: any[][] = this.coordinador.map(item => [
+        item.strcicoordinador,
+        item.strnombrescoordinador,
+        item.strcorreocoordinador,
+        item.strtelefonocoordinador,
+        item.strnombredependencia,
+      ]);
+
+      const worksheet = xlsx.utils.aoa_to_sheet([['CEDULA', 'NOMBRES', 'CORREO', 'TELEFONO', 'DEPENDENCIA'], ...datos]);
+      const workbook = xlsx.utils.book_new();
+      xlsx.utils.book_append_sheet(workbook, worksheet, 'Reporte de Coordinadores');
+
+      // Genera el archivo XLSX en formato base64
+      const xlsxData = xlsx.write(workbook, { bookType: 'xlsx', type: 'base64' });
+
+      // Convierte el archivo XLSX en un Blob
+      const blobData = this.base64toBlob(xlsxData, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+
+      // Crea un objeto URL y un enlace para descargar el archivo
+      const blobUrl = window.URL.createObjectURL(blobData);
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = 'reporte_coordinadores.xlsx';
+      a.click();
+      window.URL.revokeObjectURL(blobUrl);
+    } else {
+      console.log('No hay datos de coordinadores para generar el archivo XLSX.');
+    }
+  }
+
+  base64toBlob(base64: string, mimeType: string) {
+    const byteCharacters = atob(base64);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: mimeType });
+  }
+
 
 
 
