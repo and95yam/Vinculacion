@@ -18,4 +18,6 @@ export class SConvenioService {
   getConvenioTabla():Observable<IConvenioTabla[]>{
     return this.http.get<IConvenioTabla[]>(this.url);
   }
+
+
 }

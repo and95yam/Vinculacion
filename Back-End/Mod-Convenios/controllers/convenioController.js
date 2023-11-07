@@ -93,23 +93,30 @@ const buscConvenio = async(req,res)=>{// Muestra todos los datos de un convenio 
 }
 
 const verTablaConvenios = async (req, res) => {
-    try {
-      const response = await con.query('SELECT * FROM smaconvenios.VerTablaDatosConvenioAnalistaVinculacion()');
-      const vig = response.rows;
-  
-      if (vig.length > 0 && vig[0].c_strvigencia) {
-        const anio = vig[0].c_strvigencia.years;
-        vig[0].c_strvigencia = anio; // Asignar el valor de "years" directamente
-  
-        res.status(200).json(vig);
-      } else {
-        // Puedes manejar el caso en el que "c_strvigencia" no está presente o la respuesta está vacía
-        res.status(200).json(vig);
+  try {
+    const response = await con.query('SELECT * FROM smaconvenios.VerTablaDatosConvenioAnalistaVinculacion()');
+    const vig = response.rows;
+
+    vig.forEach(item => {
+      if (item.c_strvigencia && item.c_dtfechainicioconvenio) {
+        if (typeof item.c_strvigencia === 'object' && item.c_strvigencia.years !== undefined) {
+          item.c_strvigencia = item.c_strvigencia.years;
+        }
+
+       // if (typeof item.c_dtfechainicioconvenio === 'string') {
+          const fechaOriginal = new Date(item.c_dtfechainicioconvenio);
+          item.c_dtfechainicioconvenio = fechaOriginal.toLocaleDateString('es-ES'); // Puedes cambiar 'es-ES' a tu idioma preferido
+        //}
       }
-    } catch (error) {
-      res.status(500).send({ success: false, message: error.message });
-    }
+    });
+
+    res.status(200).json(vig);
+  } catch (error) {
+    res.status(500).send({ success: false, message: error.message });
   }
+}
+
+  
   
 
 const verConveniosCoordinador = async(req,res)=>{

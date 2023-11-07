@@ -22,10 +22,36 @@ export class PgAdminConveniosComponent {
   readonlyMode:boolean= false;
   tablaConvenios!:IConvenioTabla[];
   nuevoModal:boolean=false;
+  modalVerConvenio:boolean=false;
   titulo: string ="";
   nombre: string="";
+  tiempo!:Date;
+  vigencia!:number;
+  vigente!:boolean;
+
 
   //Pendientes poner los txt de datos a ingresar//
+  txtTituloConvenio:string="";
+  txtNombreCoordinador:string="";
+  txtResolucion:string="";
+  txtCedula:string="";
+  txtEmail:string="";
+  txtTelefono:string="";
+  txtDependencia:string="";
+  txtNaturaleza:string="";
+  txtClasificacion:string="";
+  btnAcademico:boolean=false;
+  btnInvestigacion:boolean=false;
+  btnPracticas:boolean=false;
+  btnVinculacion:boolean=true;
+  txtEspoch:string="ESPOCH";
+  txtInstitucion:string="";
+  txtFechaInicio:string="";
+  txtFechaFin:string="";
+  txtVigencia!:number;
+  txtRazon!:number;
+  //txtArchivo:string="";
+
 
   constructor(
     private convenioTablaService:SConvenioService,
@@ -35,6 +61,8 @@ export class PgAdminConveniosComponent {
 
     ngOnInit(){
       this.listarTablaConvenios();
+
+
     }
 
     listarTablaConvenios(){
@@ -42,8 +70,43 @@ export class PgAdminConveniosComponent {
         convenioTbl=>{
           this.tablaConvenios=convenioTbl;
 
+          this.tablaConvenios.forEach(convenioTbl=>{
+
+            this.tiempo=convenioTbl.c_dtfechainicioconvenio
+            this.vigencia=convenioTbl.c_strvigencia
+            this.calcularVigencia()
+            //console.log(this.vigente)
+            convenioTbl.c_vigente=this.vigente;
+            //console.log(convenioTbl)
+          })
+
+
         }
       );
 
     }
+
+    calcularVigencia() {
+      this.vigente!=null
+      const fechaActual = new Date();
+      const fecha = new Date(this.tiempo);
+      fecha.setFullYear(fecha.getFullYear() + this.vigencia);
+
+      if (fechaActual > fecha) {
+        this.vigente=false;
+        return false;
+
+      }else{
+         this.vigente= true;
+         return true;
+      }
+
+    }
+
+    verConvenio(){
+      this.modalVerConvenio=true;
+      this.titulo= " Información Convenios";
+    }
+
+
 }
