@@ -47,6 +47,7 @@ import{FormsModule} from '@angular/forms';
 import {DialogModule} from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { CheckboxModule } from 'primeng/checkbox';
 
 
 
@@ -56,6 +57,7 @@ import { PgDependenciaComponent } from './Modulos/Admin-Convenios/Analista-Vincu
 import { PgDatosCoordinadorComponent } from './Modulos/Admin-Convenios/Analista-Vinculacion/pg-datos-coordinador/pg-datos-coordinador.component';
 import { PgInstitucionComponent } from './Modulos/Admin-Convenios/Analista-Vinculacion/pg-institucion/pg-institucion.component';
 import { PgAdminConveniosComponent } from './Modulos/Admin-Convenios/Analista-Vinculacion/pg-admin-convenios/pg-admin-convenios.component';
+
 
 @NgModule({
   declarations: [
@@ -69,7 +71,7 @@ import { PgAdminConveniosComponent } from './Modulos/Admin-Convenios/Analista-Vi
     PgDependenciaComponent,
     PgDatosCoordinadorComponent,
     PgInstitucionComponent,
-    PgAdminConveniosComponent
+    PgAdminConveniosComponent,
 
   ],
   imports: [
@@ -103,7 +105,8 @@ import { PgAdminConveniosComponent } from './Modulos/Admin-Convenios/Analista-Vi
     MessagesModule,
     MessageModule,
     //ConfirmationService,
-    InputTextareaModule
+    InputTextareaModule,
+    CheckboxModule
 
 
 

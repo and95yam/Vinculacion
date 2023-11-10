@@ -68,13 +68,29 @@ const addConvenio = async(req,res)=>{// INGRESA EL CONVENIO COMPLETO MAS LA PLAN
 
 }
 
-const getConvenio = async(req,res)=>{//PROBABLEMENTE PARA  REPORTES 
+const getConvenio = async(req,res)=>{//SE UTILIZA PARA VER CONVENIOS ACTUALMENTE 
     try{
         
         const response = await con.query('SELECT * FROM smaconvenios.getconvenio()');
        // const response = await con.query('SELECT * From smaconvenios.VerTablaDatosConvenioAnalistaVinculacion()');
-    
-        res.status(200).json(  response.rows ); 
+       const vig = response.rows;
+
+        vig.forEach(item => {
+            if (item.strvigencia && item.dtfechainicioconvenio) {
+              if (typeof item.strvigencia === 'object' && item.strvigencia.years !== undefined) {
+                item.strvigencia = item.strvigencia.years;
+              }
+      
+             // if (typeof item.c_dtfechainicioconvenio === 'string') {
+                const fechaInicioOriginal = new Date(item.dtfechainicioconvenio);
+                const fechaFinOriginal = new Date(item.dtfechafinconvenio);
+                item.dtfechainicioconvenio = fechaInicioOriginal.toLocaleDateString('es-ES');
+                item.dtfechafinconvenio = fechaFinOriginal.toLocaleDateString('es-ES');
+              //}
+            }
+          });
+       
+          res.status(200).json(vig);
 
     }catch(error){
         res.status(500).send({success:false, message:error.message});

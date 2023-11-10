@@ -8,6 +8,6 @@ export class DireccionesApi{
   coordinador: string="http://localhost:3001/convenio/coordinador";
   insititucion: string="http://localhost:3001/convenio/institucion";
   convenioTabla: string="http://localhost:3001/convenio_tabla";
-  datosConvenioID:string="http://localhost:3001/convenio";
+  datosConvenio:string="http://localhost:3001/convenio";
 
 }

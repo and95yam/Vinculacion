@@ -2,22 +2,37 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DireccionesApi } from 'src/herramientas/direcciones/Direcciones';
-import { IConvenioTabla} from './i-convenio';
+import { IConvenio} from './i-convenio';
+import { addConvenio } from './i-convenio';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class SConvenioService {
 
+  //para convenios tabla
   link:DireccionesApi =  new DireccionesApi;
-  url:string=this.link.convenioTabla;
+  url:string=this.link.datosConvenio;
+
 
   constructor(private http:HttpClient) { }
 
   //Obtener datos convenio
-  getConvenioTabla():Observable<IConvenioTabla[]>{
-    return this.http.get<IConvenioTabla[]>(this.url);
+  getConvenioTabla():Observable<IConvenio[]>{
+    return this.http.get<IConvenio[]>(this.url);
   }
+
+  // crear convenio
+  createConvenio(datosConvenio:addConvenio):Observable<addConvenio>{
+    return this.http.post<addConvenio>(this.url,datosConvenio);
+  }
+
+  //Actualizar convenio
+  updateConvenio(datosconvenio:addConvenio, id:string):Observable<addConvenio>{
+    return this.http.put<addConvenio>(this.url+'/'+id,datosconvenio);
+  }
+
 
 
 }

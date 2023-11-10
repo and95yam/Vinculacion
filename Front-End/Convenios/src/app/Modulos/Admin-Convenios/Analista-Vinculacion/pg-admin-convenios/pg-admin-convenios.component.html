@@ -6,7 +6,7 @@
       <ng-template pTemplate="right">
         <button type="button" pButton pRipple icon="pi pi-file-excel"  class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom" ></button><!--(click)="generarXlsx()"-->
             <button type="button" pButton pRipple icon="pi pi-file-pdf"  class="p-button-danger p-button mr-2" pTooltip="PDF" tooltipPosition="bottom"  ></button><!--(click)=" generarPDF()"-->
-          <button pButton pRipple label="Nuevo" icon="pi pi-pencil" class="p-button mr-2" pTooltip="Crear nuevo convenio"  ></button><!--(click)="nuevo()"-->
+          <button pButton pRipple label="Nuevo" icon="pi pi-pencil" class="p-button mr-2" pTooltip="Crear nuevo convenio" (click)="nuevo()" ></button><!--(click)="nuevo()"-->
           <span class="p-input-icon-right">
                <i class="pi pi-search"></i>
               <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
@@ -46,36 +46,36 @@
 
         <ng-template pTemplate="body" let-item>
           <tr>
-            <td >{{ item.c_stridconvenio}}</td>
-            <td >{{ item.c_strtituloconvenio }}</td>
-            <td >{{ item.c_strnombrescoordinador }}</td>
-            <td >{{ item.c_strnaturalezaconvenio }}</td>
-            <td >{{ item.c_strclasificacionconvenio }}</td>
-            <td >{{ item.c_strnombredependencia }}</td>
+            <td >{{ item.stridconvenio}}</td>
+            <td >{{ item.strtituloconvenio }}</td>
+            <td >{{ item.strnombrescoordinador }}</td>
+            <td >{{ item.strnaturalezaconvenio }}</td>
+            <td >{{ item.strclasificacionconvenio }}</td>
+            <td >{{ item.strnombredependencia }}</td>
             <td  class="text-center">
-              <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': item.c_blnacademico === true, 'text-red-500 pi-times-circle': item.c_blnacademico === false }"></i>
+              <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': item.blnacademico === true, 'text-red-500 pi-times-circle': item.blnacademico === false }"></i>
             </td>
             <td  class="text-center">
-              <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': item.c_blninvestigacion === true, 'text-red-500 pi-times-circle': item.c_blninvestigacion === false }"></i>
+              <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': item.blninvestigacion === true, 'text-red-500 pi-times-circle': item.blninvestigacion === false }"></i>
             </td>
             <td  class="text-center">
-              <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': item.c_blnpracticas === true, 'text-red-500 pi-times-circle': item.c_blnpracticas === false }"></i>
+              <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': item.blnpracticas === true, 'text-red-500 pi-times-circle': item.blnpracticas === false }"></i>
             </td>
             <td  class="text-center">
-              <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': item.c_blnvinculacion === true, 'text-red-500 pi-times-circle': item.c_blnvinculacion === false }"></i>
+              <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': item.blnvinculacion === true, 'text-red-500 pi-times-circle': item.blnvinculacion === false }"></i>
             </td>
 
 
-            <td >{{ item.c_strinstitucion }}</td>
+            <td >{{ item.strinstitucion }}</td>
 
-            <td class="text-center">{{ item.c_dtfechainicioconvenio }}</td>
-            <td class="text-center">{{ item.c_strvigencia }}</td>
-            <td class="text-center">{{ item.c_fltavanceconvenio !== null ? item.c_fltavanceconvenio : 0 }}</td>
+            <td class="text-center">{{ item.dtfechainicioconvenio }}</td>
+            <td class="text-center">{{ item.strvigencia }}</td>
+            <td class="text-center">{{ item.fltavanceconvenio !== null ? item.fltavanceconvenio : 0 }}</td>
 
 
 
             <td style="width: 1%;" class="text-center">
-              <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': item.c_vigente === true, 'text-red-500 pi-times-circle': item.c_vigente === false }" ></i>
+              <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': item.vigente === true, 'text-red-500 pi-times-circle': item.vigente === false }" ></i>
             </td>
 
 
@@ -92,7 +92,7 @@
               <td style="width: 0.8%;">
                 <div style="display: flex;">
                   <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded mr-2"></button>
-                  <button pButton pRipple icon="pi pi-eye" class="p-button-rounded mr-2 p-button-success" pTooltip="Información"  (click)="verConvenio()"></button>
+                  <button pButton pRipple icon="pi pi-eye" class="p-button-rounded mr-2 p-button-success" pTooltip="Información" (click)="verConvenio(item)"  ></button>
                 </div>
               </td>
 
@@ -113,12 +113,37 @@
 
 <p-toast></p-toast>
 <p-dialog  [(visible)]="modalVerConvenio"  [modal]="true" styleClass="p-fluid"  [style]="{width: '900px'}" [contentStyle]="{ 'height': '1500px' }" >
-  <p-toolbar styleClass="p-mb-4">
-    <ng-template pTemplate="left">
+
+  <p-toolbar styleClass="p-mb-4" *ngIf="mostrarToolbar">
+    <ng-template pTemplate="left" >
         <strong> <h3> {{titulo}}</h3>  </strong>
      </ng-template>
     <ng-template pTemplate="right">
-          <button type="button" pButton pRipple icon="pi pi-file-pdf"  class="p-button-danger p-button mr-2" pTooltip="PDF" tooltipPosition="bottom"  ></button>
+
+      <div class="custom-col">
+        <div class="p-field">
+          <label for="name" >
+            <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': txtVigente === true, 'text-red-500 pi-times-circle': txtVigente === false }">Vigente</i>
+          </label>
+        </div>
+      </div>
+      <div class="custom-col">
+        <div class="p-field">
+          <label for="name">Avance:</label>
+          <input [ngClass]="{'error': submitted && !txtAvance}" type="text" pInputText id="txtAvance" [(ngModel)]="txtAvance" readonly="true" />
+
+
+        </div>
+      </div>
+      <div class="custom-col">
+          <div class="p-field">
+            <label for="name"></label><br>
+
+            <button type="button" pButton pRipple icon="pi pi-file-pdf"  class="p-button-danger p-button mr-2" pTooltip="PDF" tooltipPosition="bottom"  ></button>
+
+          </div>
+
+      </div>
 
     </ng-template>
   </p-toolbar>
@@ -127,48 +152,42 @@
     <h3>Información General</h3>
     <div class="p-field">
       <label for="name">Título Convenio:</label>
-      <input [ngClass]="{'error': submitted && !txtTituloConvenio}" type="text" pInputText id="strnombrescoordinador" [(ngModel)]="txtTituloConvenio" readonly="true" />
+      <input [ngClass]="{'error': submitted && !txtTituloConvenio}" type="text" pInputText id="strnombrescoordinador" [(ngModel)]="txtTituloConvenio" [readOnly]="read" class="width: 100%;"/>
 
     </div><br>
-
-    <!-- Inicia una fila -->
-    <div class="custom-row">
+    <div>
       <div class="custom-col">
-        <div class="p-field">
-          <label for="name" >Nombre Coordinador/a:</label>
-          <input [ngClass]="{'error': submitted && !txtNombreCoordinador}" type="text" pInputText id="txtNombreCoordinador" [(ngModel)]="txtNombreCoordinador" readonly="true" />
+        <div class="custom-row">
+          <div class="p-field">
+            <label for="name">CI:</label>
+            <input [ngClass]="{'error': submitted && !txtCedula}" type="text" pInputText id="txtCedula" [(ngModel)]="txtCedula" [readOnly]="read"/>        </div>
+        </div><br>
         </div>
-      </div><br>
 
-      <div class="custom-col">
-        <div class="p-field">
-          <label for="name">Resolución N:</label>
-          <input [ngClass]="{'error': submitted && !txtResolucion}" type="text" pInputText id="txtResolucion" [(ngModel)]="txtResolucion" readonly="true" />
-        </div>
+      <div class="campo" style="width: 80%;">
+        <label for="name">Nombre Coordinador/a:</label>
+        <input [ngClass]="{'error': submitted && !txtNombreCoordinador}" type="text" pInputText id="txtNombreCoordinador" [(ngModel)]="txtNombreCoordinador" [readOnly]="read" />
       </div>
-
-
+      <div class="campo" style="width: 20%;">
+        <label for="name">Resolución N:</label>
+        <input [ngClass]="{'error': submitted && !txtResolucion}" type="text" pInputText id="txtResolucion" [(ngModel)]="txtResolucion" [readOnly]="read"/>
+      </div>
     </div>
 
     <div class="custom-row">
-      <div class="custom-col">
-        <div class="p-field">
-          <label for="name">CI:</label>
-          <input [ngClass]="{'error': submitted && !txtCedula}" type="text" pInputText id="txtCedula" [(ngModel)]="txtCedula" readonly="true" />
-        </div>
-      </div><br>
+
 
       <div class="custom-col">
         <div class="p-field">
           <label for="name">Email:</label>
-          <input [ngClass]="{'error': submitted && !txtEmail}" type="text" pInputText id="txtEmail" [(ngModel)]="txtEmail" readonly="true" />
+          <input [ngClass]="{'error': submitted && !txtEmail}" type="text" pInputText id="txtEmail" [(ngModel)]="txtEmail" [readOnly]="read" />
         </div>
       </div>
 
       <div class="custom-col">
         <div class="p-field">
           <label for="name">Teléfono:</label>
-          <input [ngClass]="{'error': submitted && !txtTelefono}" type="text" pInputText id="txtTelefono" [(ngModel)]="txtTelefono" readonly="true" />
+          <input [ngClass]="{'error': submitted && !txtTelefono}" type="text" pInputText id="txtTelefono" [(ngModel)]="txtTelefono" [readOnly]="read" />
         </div>
       </div>
 
@@ -178,21 +197,21 @@
       <div class="custom-col">
         <div class="p-field">
           <label for="name">Dependencia:</label>
-          <input [ngClass]="{'error': submitted && !txtDependencia}" type="text" pInputText id="txtDependencia" [(ngModel)]="txtDependencia" readonly="true" />
+          <input [ngClass]="{'error': submitted && !txtDependencia}" type="text" pInputText id="txtDependencia" [(ngModel)]="txtDependencia" [readOnly]="read" />
         </div>
       </div>
 
       <div class="custom-col">
         <div class="p-field">
           <label for="name">Naturaleza:</label>
-          <input [ngClass]="{'error': submitted && !txtNaturaleza}" type="text" pInputText id="txtNaturaleza" [(ngModel)]="txtNaturaleza" readonly="true" />
+          <input [ngClass]="{'error': submitted && !txtNaturaleza}" type="text" pInputText id="txtNaturaleza" [(ngModel)]="txtNaturaleza" [readOnly]="read" />
         </div>
       </div>
 
       <div class="custom-col">
         <div class="p-field">
           <label for="name">Clasificación:</label>
-          <input [ngClass]="{'error': submitted && !txtClasificacion}" type="text" pInputText id="txtClasificacion" [(ngModel)]="txtClasificacion" readonly="true" />
+          <input [ngClass]="{'error': submitted && !txtClasificacion}" type="text" pInputText id="txtClasificacion" [(ngModel)]="txtClasificacion" [readOnly]="read" />
         </div>
       </div>
 
@@ -200,51 +219,40 @@
 
     <label for="name">Ejes:</label><br><br>
 
-    <div class="custom-row">
+    <div style="padding: 5px;" class="custom-row">
+      <div>
+        <input type="checkbox" id="academico" [(ngModel)]="btnAcademico" [disabled]="EstadoEjes">
+        <label for="academico">Académico</label>
+      </div>
 
-        <p-table [tableStyle]="{'min-width': '50rem'}">
-          <ng-template pTemplate="header">
-            <tr>
-              <th>
+      <div>
+        <input type="checkbox" id="investigacion" [(ngModel)]="btnInvestigacion" [disabled]="EstadoEjes">
+        <label for="investigacion">Investigación</label>
+      </div>
 
-                  <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': btnAcademico === true, 'text-red-500 pi-times-circle': btnAcademico === false }">Académico</i>
+      <div>
+        <input type="checkbox" id="practicas" [(ngModel)]="btnPracticas" [disabled]="EstadoEjes">
+        <label for="practicas">Prácticas</label>
+      </div>
 
-              </th>
-              <th>
-                <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': btnInvestigacion === true, 'text-red-500 pi-times-circle': btnInvestigacion === false }">Investigación</i>
-              </th>
-              <th>
-                <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': btnPracticas === true, 'text-red-500 pi-times-circle': btnPracticas === false }">Prácticas</i>
-              </th>
-              <th>
-                <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': btnVinculacion === true, 'text-red-500 pi-times-circle': btnVinculacion === false }">Vinculación</i>
-              </th>
-            </tr>
-          </ng-template>
-
-        </p-table>
-
+      <div>
+        <input type="checkbox" id="vinculacion" [(ngModel)]="btnVinculacion" [disabled]="EstadoEjes">
+        <label for="vinculacion">Vinculación</label>
+      </div>
     </div>
 
-    <div class="custom-row">
 
-      <div class ="custom-col">
-        <div class="p-field">
-          <br>
-          <label for="name">Instituciones Participantes:</label>
-          <input [ngClass]="{'error': submitted && !txtEspoch}" type="text" pInputText id="txtEspoch" [(ngModel)]="txtEspoch" readonly="true" />
-        </div>
+    <div>
+      <div class="campo" style="width: 50%;">
+        <label for="name">Instituciones Participantes:</label>
+        <input [ngClass]="{'error': submitted && !txtEspoch}" type="text" pInputText id="txtEspoch" [(ngModel)]="txtEspoch" [readOnly]="read" />
       </div>
+      <div class="campo" style="width: 50%;">
 
-      <div class ="custom-col">
-        <div class="p-field">
-          <br>
-          <label for="name" style="visibility: hidden;" >____</label>
-          <input [ngClass]="{'error': submitted && !txtInstitucion}" type="text" pInputText id="txtInstitucion" [(ngModel)]="txtInstitucion" readonly="true" />
-        </div>
+        <input [ngClass]="{'error': submitted && !txtInstitucion}" type="text" pInputText id="txtInstitucion" [(ngModel)]="txtInstitucion" [readOnly]="read"/>
       </div>
+    </div>
 
-    </div><br>
 
     <h3>Vigencia del convenio y periodo de ejecución</h3>
 
@@ -253,28 +261,28 @@
       <div class = "custom-col">
         <div class="p-field">
           <label for="name">Fecha Inicio:</label>
-          <input [ngClass]="{'error': submitted && !txtFechaInicio}" type="text" pInputText id="txtFechaInicio" [(ngModel)]="txtFechaInicio" readonly="true" />
+          <input [ngClass]="{'error': submitted && !txtFechaInicio}" type="text" pInputText id="txtFechaInicio" [(ngModel)]="txtFechaInicio" readonly />
         </div>
       </div>
 
       <div class="custom-col">
         <div class="p-field">
           <label for="name">Fecha Fin:</label>
-          <input [ngClass]="{'error': submitted && !txtFechaFin}" type="text" pInputText id="txtFechaFin" [(ngModel)]="txtFechaFin" readonly="true" />
+          <input [ngClass]="{'error': submitted && !txtFechaFin}" type="text" pInputText id="txtFechaFin" [(ngModel)]="txtFechaFin" readonly />
         </div>
       </div>
 
       <div class="custom-col">
         <div class="p-field">
-          <label for="name">Vigencia:</label>
-          <input [ngClass]="{'error': submitted && !txtVigencia}" type="text" pInputText id="txtVigencia" [(ngModel)]="txtVigencia" readonly="true" />
+          <label for="name">Vigencia (años):</label>
+          <input [ngClass]="{'error': submitted && !txtVigencia}" type="text" pInputText id="txtVigencia" [(ngModel)]="txtVigencia" [readOnly]="read" />
         </div>
       </div>
 
       <div class="custom-col">
         <div class="p-field">
-          <label for="name">Razón:</label>
-          <input [ngClass]="{'error': submitted && !txtRazon}" type="text" pInputText id=" txtRazon" [(ngModel)]=" txtRazon" readonly="true" />
+          <label for="name">Razón Informes:</label>
+          <input [ngClass]="{'error': submitted && !txtRazon}" type="text" pInputText id=" txtRazon" [(ngModel)]=" txtRazon" readonly />
         </div>
       </div>
 
@@ -290,6 +298,8 @@
           </a>
         </div>
       </div>
+
+
     </div>
 
   </ng-template>
@@ -298,6 +308,7 @@
     <button pButton pRipple label="Cerrar" icon="pi pi-times" class="p-button-text"  (click)="modalVerConvenio=false"></button>
 
   </ng-template>
+
 
 </p-dialog>
 

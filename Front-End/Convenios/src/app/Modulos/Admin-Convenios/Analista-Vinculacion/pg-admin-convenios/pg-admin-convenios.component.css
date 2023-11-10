@@ -13,3 +13,12 @@
   flex: 0 0 calc(33.333% - 16px); /* 33.333% dividido en 3 columnas con margen de 8px */
   margin: 8px; /* Ajusta el margen según sea necesario */
 }
+
+.campo {
+  display: inline-block; /* Para que los elementos se muestren en línea */
+  padding: 5px;
+}
+
+input {
+  margin-right: 10px; /* Agrega un margen entre los input */
+}
