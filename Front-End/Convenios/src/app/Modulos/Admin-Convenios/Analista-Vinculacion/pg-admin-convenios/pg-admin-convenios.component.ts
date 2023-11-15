@@ -2,8 +2,14 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { MensajesConvenios } from 'src/herramientas/Mensajes/MensajesConvenios';
 import { NgModel } from '@angular/forms';
-import { SConvenioService } from '../../Clases/cConvenio/s-convenio.service';
 import { IConvenio} from '../../Clases/cConvenio/i-convenio';
+import { ICoordinador } from '../../Clases/cCoordinador/i-coordinador';
+import { IInstitucion } from '../../Clases/cInstitucion/i-institucion';
+import { SConvenioService } from '../../Clases/cConvenio/s-convenio.service';
+import { SCoordinadorService } from '../../Clases/cCoordinador/s-coordinador.service';
+import { SInstitucionService } from '../../Clases/cInstitucion/s-institucion.service';
+import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
+
 
 @Component({
   selector: 'app-pg-admin-convenios',
@@ -23,6 +29,9 @@ export class PgAdminConveniosComponent {
   submitted!: boolean;
   readonlyMode:boolean= false;
   tablaConvenios!:IConvenio[];
+  datosCoordinador!:ICoordinador[];
+  filtroCoordinador!: any[];
+  datosInstitucion!:IInstitucion[];
   //convenioFull!:IConvenioFull[];
   nuevoModal:boolean=false;
   modalVerConvenio:boolean=false;
@@ -33,6 +42,7 @@ export class PgAdminConveniosComponent {
   vigente!:boolean;
   mostrarToolbar!:boolean;
   EstadoEjes!:boolean;
+  intIdInstitucion!:number;
   read!:boolean;
 
 
@@ -41,6 +51,7 @@ export class PgAdminConveniosComponent {
   txtNombreCoordinador:string="";
   txtResolucion:string="";
   txtCedula:string="";
+  txtCedulaFiltro!:string;
   txtEmail:string="";
   txtTelefono:string="";
   txtDependencia:string="";
@@ -57,20 +68,43 @@ export class PgAdminConveniosComponent {
   txtObjetivo:string="";
   txtVigencia!:number;
   txtRazon!:string;
+  txtSetRazon!:number
 
   //txtArchivo:string="";
   txtVigente!:boolean;
   txtAvance!:string;
 
+    opcionesNaturaleza =[//probablemente clase
+
+       { naturaleza:"Marco"},
+       { naturaleza:"Especifico"},
+  ];
+
+    opcionesClasificacion =[//probablemente clase
+
+    { clasificacion:"Nacional"},
+    { clasificacion:"Internacional"},
+  ];
+
+    opcionesRazon=[
+        {razon:"Bimestral"},
+        {razon:"Trimestral"},
+        {razon:"Cuatrimestral"},
+        {razon:"Semestral"},
+        {razon:"Anual"},
+    ];
 
   constructor(
     private convenioTablaService:SConvenioService,
     private messageService:MessageService,
-    private changeDetectorRef:ChangeDetectorRef
+    private changeDetectorRef:ChangeDetectorRef,
+    private sCoordinadorService:SCoordinadorService,
+    private sInstitucionService:SInstitucionService
   ){}
 
     ngOnInit(){
       this.listarTablaConvenios();
+      this.getInstituciones();
     }
 
    listarTablaConvenios(){
@@ -93,6 +127,8 @@ export class PgAdminConveniosComponent {
     }
 
 
+
+
     verConvenio(id: IConvenio) {
       this.modalVerConvenio = true;
       this.mostrarToolbar=true;
@@ -103,26 +139,27 @@ export class PgAdminConveniosComponent {
       this.txtTituloConvenio = id.strtituloconvenio;
       this.txtNombreCoordinador = id.strnombrescoordinador;
       this.txtResolucion = id.stridconvenio;
+      this.txtObjetivo= id.strobjetivoconvenio;
       this.txtCedula = id.strcicoordinador;
       this.txtEmail = id.strcorreocoordinador;
       this.txtTelefono = id.strtelefonocoordinador;
       this.txtDependencia= id.strnombredependencia;
-      this.txtNaturaleza= id.strclasificacionconvenio;
+      this.txtNaturaleza= id.strnaturalezaconvenio;
       this.txtClasificacion= id.strclasificacionconvenio;
       this.btnAcademico= id.blnacademico;
       this.btnInvestigacion= id.blninvestigacion;
       this.btnPracticas = id.blnpracticas;
       this.btnVinculacion= id.blnvinculacion;
       this.txtInstitucion = id.strinstitucion;
-      this.txtFechaInicio= id.dtfechainicioconvenio;
-      this.txtFechaFin= id.dtfechafinconvenio;
+      this.txtFechaInicio= new Date(id.dtfechainicioconvenio);
+      this.txtFechaFin=  new Date(id.dtfechafinconvenio);
       this.txtVigencia= id.strvigencia;
       this.txtRazon= this.calcularRazon(id.intrazonconvenio);
       this.txtVigente = id.vigente;
       this.txtAvance = id.fltavanceconvenio.toString()+'%';
 
       //this.txtarchivo= id.strarchivoconvenio
-
+      console.log(this.txtCedula)
     }
 
     nuevo(){
@@ -132,6 +169,9 @@ export class PgAdminConveniosComponent {
       this.read=false;
       this.titulo= "Agregar Convenio";
       this.limpiarVariables();
+      this.getCoordinadores();
+
+
     }
 
     calcularVigencia() {//mandar a clase
@@ -148,6 +188,38 @@ export class PgAdminConveniosComponent {
          this.vigente= true;
          return true;
       }
+    }
+
+    asignarRazon( opcion:{razon: string}) {
+      const razon=opcion.razon
+     // console.log(razon)
+      switch (razon) {
+        case 'Bimestral':
+          this.txtSetRazon = 2;
+          break;
+
+        case 'Trimestral':
+          this.txtSetRazon = 3;
+          break;
+
+        case 'Cuatrimestral':
+          this.txtSetRazon = 4;
+          break;
+
+        case 'Semestral':
+          this.txtSetRazon = 6;
+          break;
+
+        case 'Anual':
+          this.txtSetRazon = 12;
+          break;
+
+        default:
+          this.txtSetRazon = 1;
+      }
+
+
+      //console.log(this.txtSetRazon);
     }
 
 
@@ -192,8 +264,60 @@ export class PgAdminConveniosComponent {
       this.txtInstitucion="";
       this.txtObjetivo="";
       this.txtRazon="";
+      this.txtFechaInicio=new Date()
+      this.txtFechaFin= new Date()
     }
 
+    getCoordinadores(){// trae un objeto con los datos de los coordinadores
+      this.sCoordinadorService.getAllCoordinador().subscribe(
+        datosCord=>{
+          this.datosCoordinador=datosCord;
+
+        }
+      )
+    }
+
+    getInstituciones(){
+      this.sInstitucionService.getAllI().subscribe(
+        datosInst=>{
+          this.datosInstitucion=datosInst;
+          this.changeDetectorRef.detectChanges();
+        }
+      )
+    }
+
+    filtrarCedula(event: AutoCompleteCompleteEvent) {// funcion que despliega todas las cedulas como opciones
+      let filtered: any[] = [];
+      let query = event.query;
+
+      for (let i = 0; i < this.datosCoordinador.length; i++) {
+        let coordinador = this.datosCoordinador[i];
+        if (coordinador.strcicoordinador.indexOf(query) === 0) {
+          filtered.push(coordinador);
+        }
+      }
+
+      this.filtroCoordinador = filtered;
+    }
+
+    onCoordinadorSelect(event: any) {//funcion que asigna valores automaticamente dependiendo del numero de cedula
+
+      if (event) {
+        this.txtNombreCoordinador = event.strnombrescoordinador;
+        this.txtEmail = event.strcorreocoordinador;
+        this.txtTelefono = event.strtelefonocoordinador;
+        this.txtDependencia = event.strnombredependencia;
+
+      }
+    }
+
+    getIdInstitucion(event:any){
+      const objetoSeleccionado = this.datosInstitucion.find(datosInst=>datosInst.strinstitucion===this.txtInstitucion);
+      if(objetoSeleccionado){
+        this.intIdInstitucion=objetoSeleccionado.intidinstitucion
+        console.log(this.intIdInstitucion)
+      }
+    }
 
 
 

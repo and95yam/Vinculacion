@@ -8,7 +8,7 @@ export interface ICoordinador {
 
 export interface ICoordinador2 {
   strcicoordinador:string;
- intiddependencia:number;
+  intiddependencia:number;
   strnombrescoordinador:string;
   strcorreocoordinador:string;
   strtelefonocoordinador:string;

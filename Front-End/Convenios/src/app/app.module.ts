@@ -48,8 +48,7 @@ import {DialogModule} from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { CheckboxModule } from 'primeng/checkbox';
-
-
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 
 import { PgConveniosComponent } from './Modulos/Admin-Convenios/Analista-Vinculacion/pg-convenios/pg-convenios.component';
@@ -106,7 +105,8 @@ import { PgAdminConveniosComponent } from './Modulos/Admin-Convenios/Analista-Vi
     MessageModule,
     //ConfirmationService,
     InputTextareaModule,
-    CheckboxModule
+    CheckboxModule,
+    AutoCompleteModule
 
 
 

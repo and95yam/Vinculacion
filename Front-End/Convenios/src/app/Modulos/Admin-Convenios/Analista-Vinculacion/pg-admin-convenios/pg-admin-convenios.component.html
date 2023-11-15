@@ -7,41 +7,51 @@
         <button type="button" pButton pRipple icon="pi pi-file-excel"  class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom" ></button><!--(click)="generarXlsx()"-->
             <button type="button" pButton pRipple icon="pi pi-file-pdf"  class="p-button-danger p-button mr-2" pTooltip="PDF" tooltipPosition="bottom"  ></button><!--(click)=" generarPDF()"-->
           <button pButton pRipple label="Nuevo" icon="pi pi-pencil" class="p-button mr-2" pTooltip="Crear nuevo convenio" (click)="nuevo()" ></button><!--(click)="nuevo()"-->
+
           <span class="p-input-icon-right">
-               <i class="pi pi-search"></i>
-              <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." style="padding: 4%;" />
           </span>
+
       </ng-template>
   </p-toolbar>
 
-  <p-table #dt [value]="tablaConvenios" [rows]="10" [paginator]="true" [globalFilterFields]="['c_stridconvenio','c_strtituloconvenio','c_strnombrescoordinador']"
+  <p-table #dt [value]="tablaConvenios" [rows]="10" [paginator]="true" [globalFilterFields]="['stridconvenio','strtituloconvenio','strnombrescoordinador','strnombredependencia','strnaturalezaconvenio','strcicoordinador','strclasificacionconvenio']"
              styleClass="p-datatable-gridlines p-datatable-sm" [rowHover]="true" dataKey="id" [rowsPerPageOptions]="[10,25,50]" responsiveLayout="scroll" [responsive]="true"
              currentPageReportTemplate="Mostrando {first} hasta {last} de {totalRecords} registros" [showCurrentPageReport]="true">
 
+
+
+
+
+
         <ng-template pTemplate="header">
+
             <tr>
 
-                <th pSortableColumn="c_stridconvenio" style="width:4% ; font-size: 10px;">ID CONVENIO <p-sortIcon field="code"></p-sortIcon></th>
-                <th pSortableColumn="c_strtituloconvenio" style="width:15% ; font-size: 10px;">TÍTULO <p-sortIcon field="name"></p-sortIcon></th>
-                <th pSortableColumn="c_strnombrescoordinador" style="width:10% ; font-size: 10px;">COORDINADOR <p-sortIcon field="name"></p-sortIcon></th>
-                <th pSortableColumn="c_strnaturalezaconvenio" style="width:4%; font-size: 10px; ">NATURALEZA <p-sortIcon field="name"></p-sortIcon></th>
-                <th pSortableColumn="c_strclasificacionconvenio" style=" font-size: 10px; width:4%;">CLASIFICACIÓN <p-sortIcon field="name"></p-sortIcon></th>
-                <th pSortableColumn="c_strnombredependencia" style="width:5%; font-size: 10px;"> DEPENDENCIA<p-sortIcon field="name"></p-sortIcon></th>
-                <th pSortableColumn="c_blnacademico"style="width:0.5% ; font-size: 5px;" pTooltip="Eje Académico"> ACADÉMICO<p-sortIcon field="name"></p-sortIcon></th>
-                <th pSortableColumn="c_blninvestigacion" style="width:0.5%; font-size: 5px;" pTooltip="Eje Investigacion"> INVESTIGACIÓN<p-sortIcon field="name"></p-sortIcon></th>
-                <th pSortableColumn="c_blnpracticas" style="width:0.5%; font-size: 5px;" pTooltip="Eje Prácticas">PRÁCTICAS<p-sortIcon field="name"></p-sortIcon></th>
-                <th pSortableColumn="c_blnvinculacion" style="width:0.5%; font-size: 5px;" pTooltip="Eje Vinculación">VINCULACIÓN<p-sortIcon field="name"></p-sortIcon></th>
-                <th pSortableColumn="c_strinstitucion" style="width:10% ; font-size: 9px;">INSTITUCIÓN<p-sortIcon field="name"></p-sortIcon></th>
-                <th pSortableColumn="c_dtfechainicioconvenio"style="width:3%; font-size: 10px;">INICIO<p-sortIcon field="name"></p-sortIcon></th>
-                <th pSortableColumn="c_strvigencia" style="width:0.5%; font-size: 8px;">VIGENCIA (Años)<p-sortIcon field="name"></p-sortIcon></th>
-                <th pSortableColumn="c_fltavanceconvenio" style="width:0.5%; font-size: 8px;">AVANCE<p-sortIcon field="name"></p-sortIcon></th>
-                <th class="text-center">Vigente</th>
+                <th pSortableColumn="stridconvenio" style="width:4% ; font-size: 10px;">ID CONVENIO <p-sortIcon field="code"></p-sortIcon></th>
+                <th pSortableColumn="strtituloconvenio" style="width:15% ; font-size: 10px;">TÍTULO <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="strnombrescoordinador" style="width:10% ; font-size: 10px;">COORDINADOR <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="strnaturalezaconvenio" style="width:4%; font-size: 10px; ">NATURALEZA <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="strclasificacionconvenio" style=" font-size: 10px; width:4%;">CLASIFICACIÓN <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="strnombredependencia" style="width:5%; font-size: 10px;"> DEPENDENCIA<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="blnacademico"style="width:0.5% ; font-size: 5px;" pTooltip="Eje Académico"> ACADÉMICO<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="blninvestigacion" style="width:0.5%; font-size: 5px;" pTooltip="Eje Investigacion"> INVESTIGACIÓN<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="blnpracticas" style="width:0.5%; font-size: 5px;" pTooltip="Eje Prácticas">PRÁCTICAS<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="blnvinculacion" style="width:0.5%; font-size: 5px;" pTooltip="Eje Vinculación">VINCULACIÓN<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="strinstitucion" style="width:10% ; font-size: 9px;">INSTITUCIÓN<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="dtfechainicioconvenio"style="width:3%; font-size: 10px;">INICIO<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="strvigencia" style="width:0.5%; font-size: 8px;">VIGENCIA (Años)<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="fltavanceconvenio" style="width:0.5%; font-size: 8px;">AVANCE<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="strvigencia" class="text-center">Vigente</th>
 
 
                 <th class="text-center">Archivo</th>
                 <th class="text-center">Acción</th>
 
             </tr>
+
+
         </ng-template>
 
         <ng-template pTemplate="body" let-item>
@@ -150,28 +160,47 @@
 
   <ng-template pTemplate="content" class="custom-grid" >
     <h3>Información General</h3>
+    <div class="campo" style="width: 20%;">
+      <label for="name">Resolución N:</label>
+      <input [ngClass]="{'error': submitted && !txtResolucion}" type="text" pInputText id="txtResolucion" [(ngModel)]="txtResolucion" [readOnly]="read"/>
+    </div><br>
     <div class="p-field">
       <label for="name">Título Convenio:</label>
-      <input [ngClass]="{'error': submitted && !txtTituloConvenio}" type="text" pInputText id="strnombrescoordinador" [(ngModel)]="txtTituloConvenio" [readOnly]="read" class="width: 100%;"/>
+      <input [ngClass]="{'error': submitted && !txtTituloConvenio}" type="text" pInputText id="strnombrescoordinador" [(ngModel)]="txtTituloConvenio" [readOnly]="read" class="width: 100%;" />
 
     </div><br>
-    <div>
-      <div class="custom-col">
-        <div class="custom-row">
-          <div class="p-field">
-            <label for="name">CI:</label>
-            <input [ngClass]="{'error': submitted && !txtCedula}" type="text" pInputText id="txtCedula" [(ngModel)]="txtCedula" [readOnly]="read"/>        </div>
-        </div><br>
-        </div>
+    <div class="p-field">
+      <label for="name">Objetivo Convenio:</label>
+      <textarea rows="5" cols="30" pInputTextarea [(ngModel)]="txtObjetivo" [readOnly]="read"></textarea>
+    </div><br>
 
-      <div class="campo" style="width: 80%;">
-        <label for="name">Nombre Coordinador/a:</label>
-        <input [ngClass]="{'error': submitted && !txtNombreCoordinador}" type="text" pInputText id="txtNombreCoordinador" [(ngModel)]="txtNombreCoordinador" [readOnly]="read" />
+    <div>
+     <div class="campo" style="width: 20%;">
+      <label for="name">CI:</label>
+      <div *ngIf="!read">
+        <p-autoComplete
+        [ngClass]="{'error': submitted && !txtCedula}"
+        [(ngModel)]="txtCedula"
+        [suggestions]="filtroCoordinador"
+        field="strcicoordinador"
+        (completeMethod)="filtrarCedula($event)"
+        (onSelect)="onCoordinadorSelect($event)"
+        [disabled]="read"
+        type="text"
+        ></p-autoComplete>
       </div>
-      <div class="campo" style="width: 20%;">
-        <label for="name">Resolución N:</label>
-        <input [ngClass]="{'error': submitted && !txtResolucion}" type="text" pInputText id="txtResolucion" [(ngModel)]="txtResolucion" [readOnly]="read"/>
+      <div *ngIf="read">
+        <input [ngClass]="{'error': submitted && !txtCedula}" type="text" pInputText id="txtCedula" [(ngModel)]="txtCedula" [readOnly]="read" />
+
       </div>
+
+
+
+     </div>
+     <div class="campo" style="width: 80%;">
+      <label for="name">Nombre Coordinador/a:</label>
+      <input [ngClass]="{'error': submitted && !txtNombreCoordinador}" type="text" pInputText id="txtNombreCoordinador" [(ngModel)]="txtNombreCoordinador" [readOnly]="read" />
+     </div>
     </div>
 
     <div class="custom-row">
@@ -190,28 +219,39 @@
           <input [ngClass]="{'error': submitted && !txtTelefono}" type="text" pInputText id="txtTelefono" [(ngModel)]="txtTelefono" [readOnly]="read" />
         </div>
       </div>
-
-    </div>
-
-    <div class="custom-row">
       <div class="custom-col">
         <div class="p-field">
           <label for="name">Dependencia:</label>
           <input [ngClass]="{'error': submitted && !txtDependencia}" type="text" pInputText id="txtDependencia" [(ngModel)]="txtDependencia" [readOnly]="read" />
         </div>
       </div>
+    </div>
+
+    <div class="custom-row">
 
       <div class="custom-col">
         <div class="p-field">
           <label for="name">Naturaleza:</label>
-          <input [ngClass]="{'error': submitted && !txtNaturaleza}" type="text" pInputText id="txtNaturaleza" [(ngModel)]="txtNaturaleza" [readOnly]="read" />
+          <div *ngIf="!read">
+            <p-dropdown [options]="opcionesNaturaleza" [(ngModel)]="txtNaturaleza" optionLabel="naturaleza"  placeholder="Naturaleza"></p-dropdown>
+
+          </div>
+          <div *ngIf="read">
+            <input [ngClass]="{'error': submitted && !txtNaturaleza}" type="text" pInputText id="txtNaturaleza" [(ngModel)]="txtNaturaleza" [readOnly]="read" />
+          </div>
+
         </div>
       </div>
 
       <div class="custom-col">
         <div class="p-field">
           <label for="name">Clasificación:</label>
-          <input [ngClass]="{'error': submitted && !txtClasificacion}" type="text" pInputText id="txtClasificacion" [(ngModel)]="txtClasificacion" [readOnly]="read" />
+          <div *ngIf="!read">
+              <p-dropdown [options]="opcionesClasificacion" [(ngModel)]="txtClasificacion" optionLabel="clasificacion"  placeholder="Clasificación"></p-dropdown>
+          </div>
+          <div *ngIf="read">
+            <input [ngClass]="{'error': submitted && !txtClasificacion}" type="text" pInputText id="txtClasificacion" [(ngModel)]="txtClasificacion" [readOnly]="read" />
+          </div>
         </div>
       </div>
 
@@ -219,7 +259,7 @@
 
     <label for="name">Ejes:</label><br><br>
 
-    <div style="padding: 5px;" class="custom-row">
+    <div style="padding: 10px;" class="custom-row">
       <div>
         <input type="checkbox" id="academico" [(ngModel)]="btnAcademico" [disabled]="EstadoEjes">
         <label for="academico">Académico</label>
@@ -239,17 +279,23 @@
         <input type="checkbox" id="vinculacion" [(ngModel)]="btnVinculacion" [disabled]="EstadoEjes">
         <label for="vinculacion">Vinculación</label>
       </div>
-    </div>
+    </div><br>
 
 
     <div>
-      <div class="campo" style="width: 50%;">
+      <div class="campo" style="width: 30%;">
         <label for="name">Instituciones Participantes:</label>
         <input [ngClass]="{'error': submitted && !txtEspoch}" type="text" pInputText id="txtEspoch" [(ngModel)]="txtEspoch" [readOnly]="read" />
       </div>
-      <div class="campo" style="width: 50%;">
+      <div class="campo" style="width: 70%;">
 
-        <input [ngClass]="{'error': submitted && !txtInstitucion}" type="text" pInputText id="txtInstitucion" [(ngModel)]="txtInstitucion" [readOnly]="read"/>
+        <div *ngIf="!read">
+          <p-dropdown [(ngModel)]="txtInstitucion"[options]="datosInstitucion" optionLabel="strinstitucion" optionValue="strinstitucion" placeholder="Institucion Participante"  (onChange)="getIdInstitucion($event)"></p-dropdown>
+        </div>
+        <div *ngIf="read">
+          <input [ngClass]="{'error': submitted && !txtInstitucion}" type="text" pInputText id="txtInstitucion" [(ngModel)]="txtInstitucion" [readOnly]="read" />
+        </div>
+
       </div>
     </div>
 
@@ -261,14 +307,14 @@
       <div class = "custom-col">
         <div class="p-field">
           <label for="name">Fecha Inicio:</label>
-          <input [ngClass]="{'error': submitted && !txtFechaInicio}" type="text" pInputText id="txtFechaInicio" [(ngModel)]="txtFechaInicio" readonly />
+          <p-calendar [(ngModel)]="txtFechaInicio" dateFormat="dd.mm.yy" [disabled]="read"></p-calendar>
         </div>
       </div>
 
       <div class="custom-col">
         <div class="p-field">
           <label for="name">Fecha Fin:</label>
-          <input [ngClass]="{'error': submitted && !txtFechaFin}" type="text" pInputText id="txtFechaFin" [(ngModel)]="txtFechaFin" readonly />
+          <p-calendar [(ngModel)]="txtFechaFin" dateFormat="dd.mm.yy" [disabled]="read"></p-calendar>
         </div>
       </div>
 
@@ -282,7 +328,14 @@
       <div class="custom-col">
         <div class="p-field">
           <label for="name">Razón Informes:</label>
-          <input [ngClass]="{'error': submitted && !txtRazon}" type="text" pInputText id=" txtRazon" [(ngModel)]=" txtRazon" readonly />
+          <div *ngIf="!read">
+            <p-dropdown [(ngModel)]="txtRazon" [options]="opcionesRazon" optionLabel="razon"  placeholder="Razón" (onChange)="asignarRazon($event.value)" ></p-dropdown>
+
+          </div>
+          <div *ngIf="read">
+            <input [ngClass]="{'error': submitted && !txtRazon}" type="text" pInputText id=" txtRazon" [(ngModel)]=" txtRazon" readonly />
+
+          </div>
         </div>
       </div>
 
@@ -297,6 +350,12 @@
             </div>
           </a>
         </div>
+
+
+      </div>
+      <div class="custom-col">
+        <p-fileUpload *ngIf="!read" mode="basic" chooseLabel="Subir Informe" name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*"></p-fileUpload>
+
       </div>
 
 
