@@ -24,8 +24,8 @@ export class SConvenioService {
   }
 
   // crear convenio
-  createConvenio(datosConvenio:addConvenio):Observable<addConvenio>{
-    return this.http.post<addConvenio>(this.url,datosConvenio);
+  createConvenio(convenio:addConvenio):Observable<addConvenio>{
+    return this.http.post<addConvenio>(this.url,convenio);
   }
 
   //Actualizar convenio

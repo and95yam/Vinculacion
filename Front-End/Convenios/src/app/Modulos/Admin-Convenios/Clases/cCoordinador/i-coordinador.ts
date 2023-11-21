@@ -1,5 +1,6 @@
 export interface ICoordinador {
    strcicoordinador:string;
+   intiddependencia:number;
    strnombredependencia:string;
    strnombrescoordinador:string;
    strcorreocoordinador:string;

@@ -122,7 +122,7 @@
 </div>
 
 <p-toast></p-toast>
-<p-dialog  [(visible)]="modalVerConvenio"  [modal]="true" styleClass="p-fluid"  [style]="{width: '900px'}" [contentStyle]="{ 'height': '1500px' }" >
+<p-dialog  [(visible)]="modalVerConvenio" header="{{titulo}}" [modal]="true" styleClass="p-fluid"  [style]="{width: '900px'}" [contentStyle]="{ 'height': '1500px' }" >
 
   <p-toolbar styleClass="p-mb-4" *ngIf="mostrarToolbar">
     <ng-template pTemplate="left" >
@@ -180,14 +180,17 @@
       <div *ngIf="!read">
         <p-autoComplete
         [ngClass]="{'error': submitted && !txtCedula}"
-        [(ngModel)]="txtCedula"
+        [(ngModel)]="txtCedulaFiltro"
         [suggestions]="filtroCoordinador"
         field="strcicoordinador"
         (completeMethod)="filtrarCedula($event)"
         (onSelect)="onCoordinadorSelect($event)"
         [disabled]="read"
+        (input)="controlCadenaCedula($event)"
         type="text"
         ></p-autoComplete>
+
+
       </div>
       <div *ngIf="read">
         <input [ngClass]="{'error': submitted && !txtCedula}" type="text" pInputText id="txtCedula" [(ngModel)]="txtCedula" [readOnly]="read" />
@@ -199,7 +202,7 @@
      </div>
      <div class="campo" style="width: 80%;">
       <label for="name">Nombre Coordinador/a:</label>
-      <input [ngClass]="{'error': submitted && !txtNombreCoordinador}" type="text" pInputText id="txtNombreCoordinador" [(ngModel)]="txtNombreCoordinador" [readOnly]="read" />
+      <input [ngClass]="{'error': submitted && !txtNombreCoordinador}" type="text" pInputText id="txtNombreCoordinador" [(ngModel)]="txtNombreCoordinador" [readOnly]="read2" />
      </div>
     </div>
 
@@ -209,20 +212,20 @@
       <div class="custom-col">
         <div class="p-field">
           <label for="name">Email:</label>
-          <input [ngClass]="{'error': submitted && !txtEmail}" type="text" pInputText id="txtEmail" [(ngModel)]="txtEmail" [readOnly]="read" />
+          <input [ngClass]="{'error': submitted && !txtEmail}" type="text" pInputText id="txtEmail" [(ngModel)]="txtEmail" [readOnly]="read2" />
         </div>
       </div>
 
       <div class="custom-col">
         <div class="p-field">
           <label for="name">Teléfono:</label>
-          <input [ngClass]="{'error': submitted && !txtTelefono}" type="text" pInputText id="txtTelefono" [(ngModel)]="txtTelefono" [readOnly]="read" />
+          <input [ngClass]="{'error': submitted && !txtTelefono}" type="text" pInputText id="txtTelefono" [(ngModel)]="txtTelefono" [readOnly]="read2" />
         </div>
       </div>
       <div class="custom-col">
         <div class="p-field">
           <label for="name">Dependencia:</label>
-          <input [ngClass]="{'error': submitted && !txtDependencia}" type="text" pInputText id="txtDependencia" [(ngModel)]="txtDependencia" [readOnly]="read" />
+          <input [ngClass]="{'error': submitted && !txtDependencia}" type="text" pInputText id="txtDependencia" [(ngModel)]="txtDependencia" [readOnly]="read2" />
         </div>
       </div>
     </div>
@@ -233,21 +236,20 @@
         <div class="p-field">
           <label for="name">Naturaleza:</label>
           <div *ngIf="!read">
-            <p-dropdown [options]="opcionesNaturaleza" [(ngModel)]="txtNaturaleza" optionLabel="naturaleza"  placeholder="Naturaleza"></p-dropdown>
-
+            <p-dropdown [options]="opcionesNaturaleza" [(ngModel)]="txtNaturaleza" placeholder="Naturaleza"></p-dropdown>
           </div>
           <div *ngIf="read">
             <input [ngClass]="{'error': submitted && !txtNaturaleza}" type="text" pInputText id="txtNaturaleza" [(ngModel)]="txtNaturaleza" [readOnly]="read" />
           </div>
-
         </div>
+
       </div>
 
       <div class="custom-col">
         <div class="p-field">
           <label for="name">Clasificación:</label>
           <div *ngIf="!read">
-              <p-dropdown [options]="opcionesClasificacion" [(ngModel)]="txtClasificacion" optionLabel="clasificacion"  placeholder="Clasificación"></p-dropdown>
+              <p-dropdown [options]="opcionesClasificacion" [(ngModel)]="txtClasificacion"  placeholder="Clasificación"></p-dropdown>
           </div>
           <div *ngIf="read">
             <input [ngClass]="{'error': submitted && !txtClasificacion}" type="text" pInputText id="txtClasificacion" [(ngModel)]="txtClasificacion" [readOnly]="read" />
@@ -307,18 +309,18 @@
       <div class = "custom-col">
         <div class="p-field">
           <label for="name">Fecha Inicio:</label>
-          <p-calendar [(ngModel)]="txtFechaInicio" dateFormat="dd.mm.yy" [disabled]="read"></p-calendar>
+          <p-calendar [(ngModel)]="txtFechaInicio" dateFormat="dd/mm/yy" [disabled]="read">{{txtFechaInicio|date:'EEEE,MMMM d, y'}}</p-calendar>
         </div>
       </div>
 
       <div class="custom-col">
         <div class="p-field">
           <label for="name">Fecha Fin:</label>
-          <p-calendar [(ngModel)]="txtFechaFin" dateFormat="dd.mm.yy" [disabled]="read"></p-calendar>
+          <p-calendar [(ngModel)]="txtFechaFin" dateFormat="dd/mm/yy" [disabled]="read"></p-calendar>
         </div>
       </div>
 
-      <div class="custom-col">
+      <div class="custom-col" *ngIf="read">
         <div class="p-field">
           <label for="name">Vigencia (años):</label>
           <input [ngClass]="{'error': submitted && !txtVigencia}" type="text" pInputText id="txtVigencia" [(ngModel)]="txtVigencia" [readOnly]="read" />
@@ -329,7 +331,7 @@
         <div class="p-field">
           <label for="name">Razón Informes:</label>
           <div *ngIf="!read">
-            <p-dropdown [(ngModel)]="txtRazon" [options]="opcionesRazon" optionLabel="razon"  placeholder="Razón" (onChange)="asignarRazon($event.value)" ></p-dropdown>
+            <p-dropdown [(ngModel)]="txtRazon" [options]="opcionesRazon" placeholder="Razón" (onChange)="asignarRazon($event.value)" ></p-dropdown>
 
           </div>
           <div *ngIf="read">
@@ -339,7 +341,7 @@
         </div>
       </div>
 
-      <div class="custom-col">
+      <div class="custom-col" *ngIf="read">
         <div class="p-field">
           <label for="name">Documento:</label>
           <a   class="button hover rounded" >
@@ -364,6 +366,7 @@
   </ng-template>
 
   <ng-template pTemplate="footer">
+    <button *ngIf="!read" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text"  (click)="GuardarConvenio()"></button>
     <button pButton pRipple label="Cerrar" icon="pi pi-times" class="p-button-text"  (click)="modalVerConvenio=false"></button>
 
   </ng-template>

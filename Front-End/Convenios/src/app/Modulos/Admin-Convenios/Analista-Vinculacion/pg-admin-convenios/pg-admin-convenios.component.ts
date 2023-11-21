@@ -3,12 +3,14 @@ import { MessageService } from 'primeng/api';
 import { MensajesConvenios } from 'src/herramientas/Mensajes/MensajesConvenios';
 import { NgModel } from '@angular/forms';
 import { IConvenio} from '../../Clases/cConvenio/i-convenio';
+import { addConvenio } from '../../Clases/cConvenio/i-convenio';
 import { ICoordinador } from '../../Clases/cCoordinador/i-coordinador';
 import { IInstitucion } from '../../Clases/cInstitucion/i-institucion';
 import { SConvenioService } from '../../Clases/cConvenio/s-convenio.service';
 import { SCoordinadorService } from '../../Clases/cCoordinador/s-coordinador.service';
 import { SInstitucionService } from '../../Clases/cInstitucion/s-institucion.service';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
+
 
 
 @Component({
@@ -20,7 +22,7 @@ import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 })
 export class PgAdminConveniosComponent {
 
-  mesaje:MensajesConvenios= new MensajesConvenios;
+  mensaje:MensajesConvenios= new MensajesConvenios;
 
   ejes: boolean[] = [true, false, true, false];
   labels: string[] = ['Académico', 'Investigación', 'Prácticas', 'Vinculación'];
@@ -32,6 +34,7 @@ export class PgAdminConveniosComponent {
   datosCoordinador!:ICoordinador[];
   filtroCoordinador!: any[];
   datosInstitucion!:IInstitucion[];
+  datosConvenio!:addConvenio[];
   //convenioFull!:IConvenioFull[];
   nuevoModal:boolean=false;
   modalVerConvenio:boolean=false;
@@ -44,6 +47,7 @@ export class PgAdminConveniosComponent {
   EstadoEjes!:boolean;
   intIdInstitucion!:number;
   read!:boolean;
+  read2!:boolean;
 
 
   //Pendientes poner los txt de datos a ingresar//
@@ -55,6 +59,7 @@ export class PgAdminConveniosComponent {
   txtEmail:string="";
   txtTelefono:string="";
   txtDependencia:string="";
+  txtIdDependencia!:number
   txtNaturaleza:string="";
   txtClasificacion:string="";
   btnAcademico:boolean=false;
@@ -70,36 +75,24 @@ export class PgAdminConveniosComponent {
   txtRazon!:string;
   txtSetRazon!:number
 
-  //txtArchivo:string="";
+  txtArchivo:string="aqui va el link";
   txtVigente!:boolean;
   txtAvance!:string;
+  txtAvanceNum!:number;
 
-    opcionesNaturaleza =[//probablemente clase
+  opcionesNaturaleza = ['Marco', 'Especifico'];
 
-       { naturaleza:"Marco"},
-       { naturaleza:"Especifico"},
-  ];
+    opcionesClasificacion =['Nacional','Internacional'];
 
-    opcionesClasificacion =[//probablemente clase
-
-    { clasificacion:"Nacional"},
-    { clasificacion:"Internacional"},
-  ];
-
-    opcionesRazon=[
-        {razon:"Bimestral"},
-        {razon:"Trimestral"},
-        {razon:"Cuatrimestral"},
-        {razon:"Semestral"},
-        {razon:"Anual"},
-    ];
+    opcionesRazon=[ 'Bimestral','Trimestral','Cuatrimestral', 'Semestral','Anual'];
 
   constructor(
-    private convenioTablaService:SConvenioService,
+    private convenioService:SConvenioService,
     private messageService:MessageService,
     private changeDetectorRef:ChangeDetectorRef,
     private sCoordinadorService:SCoordinadorService,
-    private sInstitucionService:SInstitucionService
+    private sInstitucionService:SInstitucionService,
+    //private datepipe:DatePipe
   ){}
 
     ngOnInit(){
@@ -108,7 +101,7 @@ export class PgAdminConveniosComponent {
     }
 
    listarTablaConvenios(){
-      this.convenioTablaService.getConvenioTabla().subscribe(
+      this.convenioService.getConvenioTabla().subscribe(
         convenioTbl=>{
           this.tablaConvenios=convenioTbl;
           console.log(convenioTbl)
@@ -117,7 +110,7 @@ export class PgAdminConveniosComponent {
             this.tiempo=convenioTbl.dtfechainicioconvenio
             this.vigencia=convenioTbl.strvigencia
             this.calcularVigencia()
-            console.log(this.vigente)
+           // console.log(this.vigente)
             convenioTbl.vigente=this.vigente;
 
           })
@@ -135,6 +128,7 @@ export class PgAdminConveniosComponent {
       this.titulo = " Información Convenios";
       this.EstadoEjes=true;
       this.read=true;
+      this.read2=true;// no permite editar datos coordinador
 
       this.txtTituloConvenio = id.strtituloconvenio;
       this.txtNombreCoordinador = id.strnombrescoordinador;
@@ -159,7 +153,7 @@ export class PgAdminConveniosComponent {
       this.txtAvance = id.fltavanceconvenio.toString()+'%';
 
       //this.txtarchivo= id.strarchivoconvenio
-      console.log(this.txtCedula)
+      //console.log(this.txtCedula)
     }
 
     nuevo(){
@@ -167,10 +161,31 @@ export class PgAdminConveniosComponent {
       this.mostrarToolbar = false;
       this.EstadoEjes=false;
       this.read=false;
-      this.titulo= "Agregar Convenio";
-      this.limpiarVariables();
+      this.read2=true;
+      // this.limpiarVariables();
+      this.txtTituloConvenio="";
+      this.txtNombreCoordinador="";
+      this.txtResolucion="";
+      this.txtCedulaFiltro="";
+      this.txtEmail="";
+      this.txtTelefono="";
+      this.txtDependencia="";
+      this.txtNaturaleza="";
+      this.txtClasificacion="";
+      this.btnAcademico=false;
+      this.btnInvestigacion=false;
+      this.btnPracticas=false;
+      this.btnVinculacion=false;
+      this.txtEspoch="ESPOCH";
+      this.txtInstitucion="";
+      this.txtObjetivo="";
+      this.txtRazon="";
+      this.intIdInstitucion=0;
+      this.txtIdDependencia=0;
+      this.txtFechaInicio=new Date()
+      this.txtFechaFin= new Date()
       this.getCoordinadores();
-
+      this.titulo= "Agregar Convenio";
 
     }
 
@@ -272,7 +287,7 @@ export class PgAdminConveniosComponent {
       this.sCoordinadorService.getAllCoordinador().subscribe(
         datosCord=>{
           this.datosCoordinador=datosCord;
-
+         // console.log(datosCord);
         }
       )
     }
@@ -307,6 +322,11 @@ export class PgAdminConveniosComponent {
         this.txtEmail = event.strcorreocoordinador;
         this.txtTelefono = event.strtelefonocoordinador;
         this.txtDependencia = event.strnombredependencia;
+        this.txtIdDependencia= event.intiddependencia;
+        this.txtCedula= event.strcicoordinador;
+       console.log(this.txtIdDependencia);
+       console.log('Valor de txtCedula:', this.txtCedula);
+
 
       }
     }
@@ -319,7 +339,111 @@ export class PgAdminConveniosComponent {
       }
     }
 
+    controlCadenaCedula(event: any) {//controla que no se ingresen mas de 10 digitos
+      if (event.target.value.length > 10) {
+        this.txtCedula = event.target.value.slice(0, 10);
+      }
+    }
 
+
+
+    checkAccion(text:string){//verificar accion si es agregar o modificar
+      if(text==="Agregar Convenio"){
+
+        return true;
+
+      }else{
+        console.log('Mod convenio');
+        return false;
+      }
+    }
+
+
+
+    async GuardarConvenio(){
+      this.nombre = "Convenio";
+      const resp = this.checkAccion(this.titulo);
+       console.log(this.txtFechaInicio)
+       console.log('fecha fin')
+       console.log(this.txtFechaFin)
+
+      const fi = new Date(this.txtFechaInicio);
+      const ff = new Date(this.txtFechaFin);
+      const fechaInicioFormateada = fi.toLocaleDateString('es-ES');
+      const fechaFinFormateada = ff.toLocaleDateString('es-ES');
+
+
+      console.log( fechaInicioFormateada)
+
+      const dateparts = fechaInicioFormateada.split('/')
+
+      const dateObject = new Date(+dateparts[2],+dateparts[1]-1,+dateparts[0])
+
+      const day = dateObject.getDate().toString().padStart(2, '0');
+      const month = (dateObject.getMonth() + 1).toString().padStart(2, '0'); // Ten en cuenta que el mes comienza desde 0
+      const year = dateObject.getFullYear().toString();
+
+      // Formatea la fecha según tu requisito (dd-mm-yyyy)
+      const formattedDate = `${day}-${month}-${year}`;
+
+      console.log(formattedDate)
+
+      if (resp === true) {
+        if (!this.txtResolucion || !this.txtCedula || !this.txtTituloConvenio || !this.txtNaturaleza || !this.txtClasificacion || !this.txtObjetivo ||
+          !this.txtFechaInicio || !this.txtFechaFin || !this.txtSetRazon || !this.txtAvanceNum || !this.txtArchivo || !this.txtIdDependencia || !this.intIdInstitucion ||
+          !this.btnAcademico || !this.btnInvestigacion || !this.btnPracticas || !this.btnVinculacion) {
+          this.submitted=true;
+
+            console.log(this.txtFechaInicio)
+            console.log(this.txtFechaFin)
+          return;
+
+        }
+
+        const nuevoConvenio={
+          stridconvenio:this.txtResolucion,
+          strcicoordinador:this.txtCedula,
+          strtituloconvenio:this.txtTituloConvenio,
+          strnaturalezaconvenio:this.txtNaturaleza,
+          strclasificacionconvenio:this.txtClasificacion,
+          strobjetivoconvenio:this.txtObjetivo,
+          dtfechainicioconvenio:this.txtFechaInicio,
+          dtfechafinconvenio: this.txtFechaFin,
+          intrazonconvenio:this.txtSetRazon,
+          fltavanceconvenio:this.txtAvanceNum,
+          strarchivoconvenio:this.txtArchivo,
+          intiddependencia:this.txtIdDependencia,
+          intidinstitucion:this.intIdInstitucion,
+          blnacademico:this.btnAcademico,
+          blninvestigacion:this.btnInvestigacion,
+          blnpracticas:this.btnPracticas,
+          blnvinculacion:this.btnVinculacion
+
+         };
+
+
+        this.convenioService.createConvenio(nuevoConvenio).subscribe(
+          (response: any) => {
+            console.log('Imprimiendo convenios')
+            console.log(nuevoConvenio)
+            console.log(response.message);
+            console.log("respuesta");
+            console.log(response);
+            if (response.message == "convenio ingresado") {
+              this.messageService.add({ severity: 'success', summary: this.nombre + ' ' + this.mensaje.IngresadoCorrectamente });
+              console.log("convenio Agregado");  // quitar cuadno termine
+              this.modalVerConvenio = false;
+              this.listarTablaConvenios();
+            } else {
+              this.messageService.add({ severity: 'error', summary: this.nombre + ' ' + this.mensaje.ErrorProceso });
+            }
+          },
+          (error) => {
+            console.error('Error de la solicitud HTTP:', error);
+          }
+        );
+      }
+    }
 
 }
 
