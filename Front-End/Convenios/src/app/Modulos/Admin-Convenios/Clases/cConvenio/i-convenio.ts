@@ -31,8 +31,8 @@ export interface addConvenio{
   strnaturalezaconvenio:string;
   strclasificacionconvenio:string;
   strobjetivoconvenio:string;
-  dtfechainicioconvenio:Date;
-  dtfechafinconvenio:Date;
+  dtfechainicioconvenio:string;
+  dtfechafinconvenio:string;
   intrazonconvenio:number;
   fltavanceconvenio:number;
   strarchivoconvenio:string;

@@ -10,7 +10,7 @@ import { SConvenioService } from '../../Clases/cConvenio/s-convenio.service';
 import { SCoordinadorService } from '../../Clases/cCoordinador/s-coordinador.service';
 import { SInstitucionService } from '../../Clases/cInstitucion/s-institucion.service';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
-
+import { format } from 'date-fns';
 
 
 @Component({
@@ -78,7 +78,7 @@ export class PgAdminConveniosComponent {
   txtArchivo:string="aqui va el link";
   txtVigente!:boolean;
   txtAvance!:string;
-  txtAvanceNum!:number;
+  txtAvanceNum:number=0;
 
   opcionesNaturaleza = ['Marco', 'Especifico'];
 
@@ -145,8 +145,8 @@ export class PgAdminConveniosComponent {
       this.btnPracticas = id.blnpracticas;
       this.btnVinculacion= id.blnvinculacion;
       this.txtInstitucion = id.strinstitucion;
-      this.txtFechaInicio= new Date(id.dtfechainicioconvenio);
-      this.txtFechaFin=  new Date(id.dtfechafinconvenio);
+      this.txtFechaInicio= new Date(id.dtfechainicioconvenio)
+      this.txtFechaFin=  new Date(id.dtfechafinconvenio)
       this.txtVigencia= id.strvigencia;
       this.txtRazon= this.calcularRazon(id.intrazonconvenio);
       this.txtVigente = id.vigente;
@@ -157,6 +157,8 @@ export class PgAdminConveniosComponent {
     }
 
     nuevo(){
+      this.titulo= 'Agregar Convenio';
+
       this.modalVerConvenio= true;
       this.mostrarToolbar = false;
       this.EstadoEjes=false;
@@ -185,7 +187,6 @@ export class PgAdminConveniosComponent {
       this.txtFechaInicio=new Date()
       this.txtFechaFin= new Date()
       this.getCoordinadores();
-      this.titulo= "Agregar Convenio";
 
     }
 
@@ -205,8 +206,8 @@ export class PgAdminConveniosComponent {
       }
     }
 
-    asignarRazon( opcion:{razon: string}) {
-      const razon=opcion.razon
+    asignarRazon( opcionesRazon: string) {
+      const razon=opcionesRazon
      // console.log(razon)
       switch (razon) {
         case 'Bimestral':
@@ -234,7 +235,7 @@ export class PgAdminConveniosComponent {
       }
 
 
-      //console.log(this.txtSetRazon);
+      console.log(this.txtSetRazon);
     }
 
 
@@ -324,6 +325,7 @@ export class PgAdminConveniosComponent {
         this.txtDependencia = event.strnombredependencia;
         this.txtIdDependencia= event.intiddependencia;
         this.txtCedula= event.strcicoordinador;
+        
        console.log(this.txtIdDependencia);
        console.log('Valor de txtCedula:', this.txtCedula);
 
@@ -358,48 +360,30 @@ export class PgAdminConveniosComponent {
       }
     }
 
-
+    formatoDeseado(fecha: string): string {
+      // Aquí puedes realizar cualquier manipulación adicional si es necesario
+      // Por ejemplo, podrías dividir la cadena y volver a formatearla si es necesario
+      const partes = fecha.split('/');
+      return `${partes[0]}-${partes[1]}-${partes[2]}`;
+    }
 
     async GuardarConvenio(){
       this.nombre = "Convenio";
       const resp = this.checkAccion(this.titulo);
-       console.log(this.txtFechaInicio)
-       console.log('fecha fin')
-       console.log(this.txtFechaFin)
-
-      const fi = new Date(this.txtFechaInicio);
-      const ff = new Date(this.txtFechaFin);
-      const fechaInicioFormateada = fi.toLocaleDateString('es-ES');
-      const fechaFinFormateada = ff.toLocaleDateString('es-ES');
-
-
-      console.log( fechaInicioFormateada)
-
-      const dateparts = fechaInicioFormateada.split('/')
-
-      const dateObject = new Date(+dateparts[2],+dateparts[1]-1,+dateparts[0])
-
-      const day = dateObject.getDate().toString().padStart(2, '0');
-      const month = (dateObject.getMonth() + 1).toString().padStart(2, '0'); // Ten en cuenta que el mes comienza desde 0
-      const year = dateObject.getFullYear().toString();
-
-      // Formatea la fecha según tu requisito (dd-mm-yyyy)
-      const formattedDate = `${day}-${month}-${year}`;
-
-      console.log(formattedDate)
-
+    
+      const fechaInicio = format(this.txtFechaInicio, 'dd-MM-yyyy');
+      const fechaFin = format(this.txtFechaFin, 'dd-MM-yyyy');  
+      
       if (resp === true) {
-        if (!this.txtResolucion || !this.txtCedula || !this.txtTituloConvenio || !this.txtNaturaleza || !this.txtClasificacion || !this.txtObjetivo ||
-          !this.txtFechaInicio || !this.txtFechaFin || !this.txtSetRazon || !this.txtAvanceNum || !this.txtArchivo || !this.txtIdDependencia || !this.intIdInstitucion ||
-          !this.btnAcademico || !this.btnInvestigacion || !this.btnPracticas || !this.btnVinculacion) {
-          this.submitted=true;
 
-            console.log(this.txtFechaInicio)
-            console.log(this.txtFechaFin)
+        /*if (!this.txtResolucion || !this.txtCedula || !this.txtTituloConvenio || !this.txtNaturaleza || !this.txtClasificacion || !this.txtObjetivo ||!fechaInicio || !fechaFin || !this.txtSetRazon || !this.txtAvanceNum || !this.txtArchivo || !this.txtIdDependencia || !this.intIdInstitucion ||!this.btnAcademico || !this.btnInvestigacion || !this.btnPracticas || !this.btnVinculacion) {
+
+          this.submitted=true;
+          console.log(this.submitted)
           return;
 
-        }
-
+        }*/
+        
         const nuevoConvenio={
           stridconvenio:this.txtResolucion,
           strcicoordinador:this.txtCedula,
@@ -407,8 +391,8 @@ export class PgAdminConveniosComponent {
           strnaturalezaconvenio:this.txtNaturaleza,
           strclasificacionconvenio:this.txtClasificacion,
           strobjetivoconvenio:this.txtObjetivo,
-          dtfechainicioconvenio:this.txtFechaInicio,
-          dtfechafinconvenio: this.txtFechaFin,
+          dtfechainicioconvenio: fechaInicio,
+          dtfechafinconvenio: fechaFin,
           intrazonconvenio:this.txtSetRazon,
           fltavanceconvenio:this.txtAvanceNum,
           strarchivoconvenio:this.txtArchivo,
@@ -442,6 +426,8 @@ export class PgAdminConveniosComponent {
             console.error('Error de la solicitud HTTP:', error);
           }
         );
+      }else{
+        console.log('parte 2')
       }
     }
 

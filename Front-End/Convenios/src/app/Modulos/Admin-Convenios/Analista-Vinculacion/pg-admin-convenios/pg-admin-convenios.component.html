@@ -309,14 +309,14 @@
       <div class = "custom-col">
         <div class="p-field">
           <label for="name">Fecha Inicio:</label>
-          <p-calendar [(ngModel)]="txtFechaInicio" dateFormat="dd/mm/yy" [disabled]="read">{{txtFechaInicio|date:'EEEE,MMMM d, y'}}</p-calendar>
+          <p-calendar [(ngModel)]="txtFechaInicio" dateFormat="dd-mm-yy" [disabled]="read">{{txtFechaInicio|date:'EEEE,MMMM d, y'}}</p-calendar>
         </div>
       </div>
 
       <div class="custom-col">
         <div class="p-field">
           <label for="name">Fecha Fin:</label>
-          <p-calendar [(ngModel)]="txtFechaFin" dateFormat="dd/mm/yy" [disabled]="read"></p-calendar>
+          <p-calendar [(ngModel)]="txtFechaFin" dateFormat="dd-mm-yy" [disabled]="read"></p-calendar>
         </div>
       </div>
 
