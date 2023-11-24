@@ -206,7 +206,7 @@ const modConvenio = async( req, res )=>{
 
          const responseEjes = await con.query('CALL smaconvenios.modejes($1,$2,$3,$4,$5)',[id,blnacademico,blninvestigacion,blnpracticas,blnvinculacion])
          console.log(responseEjes.rows);
-         res.json('Convenio{$id} Actualizado');
+         res.json('Convenio Actualizado');
 
          //res.json('ejes {$id} Actualizados');
 

@@ -48,6 +48,8 @@ export class PgAdminConveniosComponent {
   intIdInstitucion!:number;
   read!:boolean;
   read2!:boolean;
+  visibleEditar!:boolean;
+  activarResolucion!:boolean;
 
 
   //Pendientes poner los txt de datos a ingresar//
@@ -79,6 +81,9 @@ export class PgAdminConveniosComponent {
   txtVigente!:boolean;
   txtAvance!:string;
   txtAvanceNum:number=0;
+  txtFechaInicioFormat:string="";
+  txtfechaFinFormat:string ="";
+
 
   opcionesNaturaleza = ['Marco', 'Especifico'];
 
@@ -119,8 +124,23 @@ export class PgAdminConveniosComponent {
 
     }
 
+    getCoordinadores(){// trae un objeto con los datos de los coordinadores
+      this.sCoordinadorService.getAllCoordinador().subscribe(
+        datosCord=>{
+          this.datosCoordinador=datosCord;
+         // console.log(datosCord);
+        }
+      )
+    }
 
-
+    getInstituciones(){
+      this.sInstitucionService.getAllI().subscribe(
+        datosInst=>{
+          this.datosInstitucion=datosInst;
+          this.changeDetectorRef.detectChanges();
+        }
+      )
+    }
 
     verConvenio(id: IConvenio) {
       this.modalVerConvenio = true;
@@ -129,6 +149,8 @@ export class PgAdminConveniosComponent {
       this.EstadoEjes=true;
       this.read=true;
       this.read2=true;// no permite editar datos coordinador
+      this.visibleEditar=true;
+      this.activarResolucion=true;
 
       this.txtTituloConvenio = id.strtituloconvenio;
       this.txtNombreCoordinador = id.strnombrescoordinador;
@@ -145,8 +167,8 @@ export class PgAdminConveniosComponent {
       this.btnPracticas = id.blnpracticas;
       this.btnVinculacion= id.blnvinculacion;
       this.txtInstitucion = id.strinstitucion;
-      this.txtFechaInicio= new Date(id.dtfechainicioconvenio)
-      this.txtFechaFin=  new Date(id.dtfechafinconvenio)
+      this.txtFechaInicio= id.dtfechainicioconvenio
+      this.txtFechaFin=  id.dtfechafinconvenio
       this.txtVigencia= id.strvigencia;
       this.txtRazon= this.calcularRazon(id.intrazonconvenio);
       this.txtVigente = id.vigente;
@@ -154,6 +176,8 @@ export class PgAdminConveniosComponent {
 
       //this.txtarchivo= id.strarchivoconvenio
       //console.log(this.txtCedula)
+      //this.txtFechaInicioFormat = format(this.txtFechaInicio, 'dd-MM-yyyy');
+
     }
 
     nuevo(){
@@ -163,32 +187,208 @@ export class PgAdminConveniosComponent {
       this.mostrarToolbar = false;
       this.EstadoEjes=false;
       this.read=false;
-      this.read2=true;
-      // this.limpiarVariables();
-      this.txtTituloConvenio="";
-      this.txtNombreCoordinador="";
-      this.txtResolucion="";
-      this.txtCedulaFiltro="";
-      this.txtEmail="";
-      this.txtTelefono="";
-      this.txtDependencia="";
-      this.txtNaturaleza="";
-      this.txtClasificacion="";
-      this.btnAcademico=false;
-      this.btnInvestigacion=false;
-      this.btnPracticas=false;
-      this.btnVinculacion=false;
-      this.txtEspoch="ESPOCH";
-      this.txtInstitucion="";
-      this.txtObjetivo="";
-      this.txtRazon="";
-      this.intIdInstitucion=0;
-      this.txtIdDependencia=0;
-      this.txtFechaInicio=new Date()
-      this.txtFechaFin= new Date()
+      this.read2=true;// para que los datos del coordinador sean de solo lectura
+      this.visibleEditar=true;
+      this.activarResolucion=false;
+
+      this.limpiarVariables();// reemplaza a poner todas las variables XD
       this.getCoordinadores();
 
     }
+
+    modificarConvenio(id: IConvenio){
+      this.titulo='Modificar Convenio';
+
+      this.modalVerConvenio=true;
+      this.mostrarToolbar = false;
+      this.EstadoEjes=false;
+      this.read=false;
+      this.read2=true;//para que los datos del coordinador sean de solo lectura
+      this.visibleEditar=false;
+      this.activarResolucion=true;
+
+      this.txtTituloConvenio = id.strtituloconvenio;
+      this.txtNombreCoordinador = id.strnombrescoordinador;
+      this.txtResolucion = id.stridconvenio;
+      this.txtObjetivo= id.strobjetivoconvenio;
+      this.txtCedula = id.strcicoordinador;
+      this.txtEmail = id.strcorreocoordinador;
+      this.txtTelefono = id.strtelefonocoordinador;
+      this.txtDependencia= id.strnombredependencia;
+      this.txtNaturaleza= id.strnaturalezaconvenio;
+      this.txtClasificacion= id.strclasificacionconvenio;
+      this.btnAcademico= id.blnacademico;
+      this.btnInvestigacion= id.blninvestigacion;
+      this.btnPracticas = id.blnpracticas;
+      this.btnVinculacion= id.blnvinculacion;
+      this.txtInstitucion = id.strinstitucion;
+      //this.txtFechaInicio= id.dtfechainicioconvenio
+      //this.txtFechaFin=  id.dtfechafinconvenio
+      //this.txtVigencia= id.strvigencia;
+      this.txtRazon= this.calcularRazon(id.intrazonconvenio);
+      //this.txtCedulaFiltro=id.strcicoordinador;
+      this.getCoordinadores();
+
+      console.log(this.txtCedulaFiltro)
+    }
+
+
+    async GuardarConvenio(){
+      this.nombre = "Convenio";
+      const resp = this.checkAccion(this.titulo);
+
+
+
+
+      if (resp === true) {
+
+        this.txtFechaInicioFormat = format(this.txtFechaInicio, 'dd-MM-yyyy');
+        this.txtfechaFinFormat = format(this.txtFechaFin, 'dd-MM-yyyy');
+
+        if (!this.txtResolucion ||  !this.txtTituloConvenio || !this.txtNaturaleza || !this.txtClasificacion || !this.txtObjetivo || !this.txtSetRazon ) {
+
+          this.submitted=true;
+          console.log(this.submitted)
+          return;
+
+        }
+
+        const nuevoConvenio={
+          stridconvenio:this.txtResolucion,
+          strcicoordinador:this.txtCedula,
+          strtituloconvenio:this.txtTituloConvenio,
+          strnaturalezaconvenio:this.txtNaturaleza,
+          strclasificacionconvenio:this.txtClasificacion,
+          strobjetivoconvenio:this.txtObjetivo,
+          dtfechainicioconvenio: this.txtFechaInicioFormat,
+          dtfechafinconvenio: this.txtfechaFinFormat,
+          intrazonconvenio:this.txtSetRazon,
+          fltavanceconvenio:this.txtAvanceNum,
+          strarchivoconvenio:this.txtArchivo,
+          intiddependencia:this.txtIdDependencia,
+          intidinstitucion:this.intIdInstitucion,
+          blnacademico:this.btnAcademico,
+          blninvestigacion:this.btnInvestigacion,
+          blnpracticas:this.btnPracticas,
+          blnvinculacion:this.btnVinculacion
+
+         };
+
+
+        this.convenioService.createConvenio(nuevoConvenio).subscribe(
+          (response: any) => {
+            console.log('Imprimiendo convenios')
+            console.log(nuevoConvenio)
+            console.log(response.message);
+            console.log("respuesta");
+            console.log(response);
+            if (response.message == "convenio ingresado") {
+              this.messageService.add({ severity: 'success', summary: this.nombre + ' ' + this.mensaje.IngresadoCorrectamente });
+              console.log("convenio Agregado");  // quitar cuadno termine
+              this.modalVerConvenio = false;
+              this.listarTablaConvenios();
+            } else {
+              this.messageService.add({ severity: 'error', summary: this.nombre + ' ' + this.mensaje.ErrorProceso });
+            }
+          },
+          (error) => {
+            console.error('Error de la solicitud HTTP:', error);
+          }
+        );
+      }else{
+        console.log('parte 2')
+
+        if(resp===false){
+
+          if ( !this.txtTituloConvenio || !this.txtNaturaleza || !this.txtClasificacion || !this.txtObjetivo || !this.txtSetRazon ) {
+
+            this.submitted=true;
+            console.log(this.submitted)
+            return;
+          }
+
+          const editConvenio={
+
+            strcicoordinador:this.txtCedula,
+            strtituloconvenio:this.txtTituloConvenio,
+            strnaturalezaconvenio:this.txtNaturaleza,
+            strclasificacionconvenio:this.txtClasificacion,
+            strobjetivoconvenio:this.txtObjetivo,
+            strarchivoconvenio:this.txtArchivo,
+            intiddependencia:this.txtIdDependencia,
+            intidinstitucion:this.intIdInstitucion,
+            blnacademico:this.btnAcademico,
+            blninvestigacion:this.btnInvestigacion,
+            blnpracticas:this.btnPracticas,
+            blnvinculacion:this.btnVinculacion
+
+          };
+
+        }
+      }
+    }
+
+
+    filtrarCedula(event: AutoCompleteCompleteEvent) {// funcion que despliega todas las cedulas como opciones
+      let filtered: any[] = [];
+      let query = event.query;
+
+      for (let i = 0; i < this.datosCoordinador.length; i++) {
+        let coordinador = this.datosCoordinador[i];
+        if (coordinador.strcicoordinador.indexOf(query) === 0) {
+          filtered.push(coordinador);
+        }
+      }
+
+      this.filtroCoordinador = filtered;
+    }
+
+    controlCadenaCedula(event: any) {//controla que no se ingresen mas de 10 digitos
+      if (event.target.value.length > 10) {
+        this.txtCedula = event.target.value.slice(0, 10);
+      }
+    }
+
+    onCoordinadorSelect(event: any) {//funcion que asigna valores automaticamente dependiendo del numero de cedula
+
+      if (event) {
+        this.txtNombreCoordinador = event.strnombrescoordinador;
+        this.txtEmail = event.strcorreocoordinador;
+        this.txtTelefono = event.strtelefonocoordinador;
+        this.txtDependencia = event.strnombredependencia;
+        this.txtIdDependencia= event.intiddependencia;
+        this.txtCedula= event.strcicoordinador;
+
+       console.log(this.txtIdDependencia);
+       console.log('Valor de txtCedula:', this.txtCedula);
+
+
+      }
+    }
+
+    getIdInstitucion(event:any){
+      const objetoSeleccionado = this.datosInstitucion.find(datosInst=>datosInst.strinstitucion===this.txtInstitucion);
+      if(objetoSeleccionado){
+        this.intIdInstitucion=objetoSeleccionado.intidinstitucion
+        console.log(this.intIdInstitucion)
+      }
+    }
+
+
+
+
+
+    checkAccion(text:string){//verificar accion si es agregar o modificar
+      if(text==="Agregar Convenio"){
+
+        return true;
+
+      }else{
+        console.log('Mod convenio');
+        return false;
+      }
+    }
+
 
     calcularVigencia() {//mandar a clase
       this.vigente!=null
@@ -266,7 +466,7 @@ export class PgAdminConveniosComponent {
       this.txtTituloConvenio="";
       this.txtNombreCoordinador="";
       this.txtResolucion="";
-      this.txtCedula="";
+      this.txtCedulaFiltro="";
       this.txtEmail="";
       this.txtTelefono="";
       this.txtDependencia="";
@@ -280,156 +480,14 @@ export class PgAdminConveniosComponent {
       this.txtInstitucion="";
       this.txtObjetivo="";
       this.txtRazon="";
+      this.intIdInstitucion=0;
+      this.txtIdDependencia=0
+      this.submitted=false;
       this.txtFechaInicio=new Date()
       this.txtFechaFin= new Date()
     }
 
-    getCoordinadores(){// trae un objeto con los datos de los coordinadores
-      this.sCoordinadorService.getAllCoordinador().subscribe(
-        datosCord=>{
-          this.datosCoordinador=datosCord;
-         // console.log(datosCord);
-        }
-      )
-    }
 
-    getInstituciones(){
-      this.sInstitucionService.getAllI().subscribe(
-        datosInst=>{
-          this.datosInstitucion=datosInst;
-          this.changeDetectorRef.detectChanges();
-        }
-      )
-    }
-
-    filtrarCedula(event: AutoCompleteCompleteEvent) {// funcion que despliega todas las cedulas como opciones
-      let filtered: any[] = [];
-      let query = event.query;
-
-      for (let i = 0; i < this.datosCoordinador.length; i++) {
-        let coordinador = this.datosCoordinador[i];
-        if (coordinador.strcicoordinador.indexOf(query) === 0) {
-          filtered.push(coordinador);
-        }
-      }
-
-      this.filtroCoordinador = filtered;
-    }
-
-    onCoordinadorSelect(event: any) {//funcion que asigna valores automaticamente dependiendo del numero de cedula
-
-      if (event) {
-        this.txtNombreCoordinador = event.strnombrescoordinador;
-        this.txtEmail = event.strcorreocoordinador;
-        this.txtTelefono = event.strtelefonocoordinador;
-        this.txtDependencia = event.strnombredependencia;
-        this.txtIdDependencia= event.intiddependencia;
-        this.txtCedula= event.strcicoordinador;
-        
-       console.log(this.txtIdDependencia);
-       console.log('Valor de txtCedula:', this.txtCedula);
-
-
-      }
-    }
-
-    getIdInstitucion(event:any){
-      const objetoSeleccionado = this.datosInstitucion.find(datosInst=>datosInst.strinstitucion===this.txtInstitucion);
-      if(objetoSeleccionado){
-        this.intIdInstitucion=objetoSeleccionado.intidinstitucion
-        console.log(this.intIdInstitucion)
-      }
-    }
-
-    controlCadenaCedula(event: any) {//controla que no se ingresen mas de 10 digitos
-      if (event.target.value.length > 10) {
-        this.txtCedula = event.target.value.slice(0, 10);
-      }
-    }
-
-
-
-    checkAccion(text:string){//verificar accion si es agregar o modificar
-      if(text==="Agregar Convenio"){
-
-        return true;
-
-      }else{
-        console.log('Mod convenio');
-        return false;
-      }
-    }
-
-    formatoDeseado(fecha: string): string {
-      // Aquí puedes realizar cualquier manipulación adicional si es necesario
-      // Por ejemplo, podrías dividir la cadena y volver a formatearla si es necesario
-      const partes = fecha.split('/');
-      return `${partes[0]}-${partes[1]}-${partes[2]}`;
-    }
-
-    async GuardarConvenio(){
-      this.nombre = "Convenio";
-      const resp = this.checkAccion(this.titulo);
-    
-      const fechaInicio = format(this.txtFechaInicio, 'dd-MM-yyyy');
-      const fechaFin = format(this.txtFechaFin, 'dd-MM-yyyy');  
-      
-      if (resp === true) {
-
-        /*if (!this.txtResolucion || !this.txtCedula || !this.txtTituloConvenio || !this.txtNaturaleza || !this.txtClasificacion || !this.txtObjetivo ||!fechaInicio || !fechaFin || !this.txtSetRazon || !this.txtAvanceNum || !this.txtArchivo || !this.txtIdDependencia || !this.intIdInstitucion ||!this.btnAcademico || !this.btnInvestigacion || !this.btnPracticas || !this.btnVinculacion) {
-
-          this.submitted=true;
-          console.log(this.submitted)
-          return;
-
-        }*/
-        
-        const nuevoConvenio={
-          stridconvenio:this.txtResolucion,
-          strcicoordinador:this.txtCedula,
-          strtituloconvenio:this.txtTituloConvenio,
-          strnaturalezaconvenio:this.txtNaturaleza,
-          strclasificacionconvenio:this.txtClasificacion,
-          strobjetivoconvenio:this.txtObjetivo,
-          dtfechainicioconvenio: fechaInicio,
-          dtfechafinconvenio: fechaFin,
-          intrazonconvenio:this.txtSetRazon,
-          fltavanceconvenio:this.txtAvanceNum,
-          strarchivoconvenio:this.txtArchivo,
-          intiddependencia:this.txtIdDependencia,
-          intidinstitucion:this.intIdInstitucion,
-          blnacademico:this.btnAcademico,
-          blninvestigacion:this.btnInvestigacion,
-          blnpracticas:this.btnPracticas,
-          blnvinculacion:this.btnVinculacion
-
-         };
-
-
-        this.convenioService.createConvenio(nuevoConvenio).subscribe(
-          (response: any) => {
-            console.log('Imprimiendo convenios')
-            console.log(nuevoConvenio)
-            console.log(response.message);
-            console.log("respuesta");
-            console.log(response);
-            if (response.message == "convenio ingresado") {
-              this.messageService.add({ severity: 'success', summary: this.nombre + ' ' + this.mensaje.IngresadoCorrectamente });
-              console.log("convenio Agregado");  // quitar cuadno termine
-              this.modalVerConvenio = false;
-              this.listarTablaConvenios();
-            } else {
-              this.messageService.add({ severity: 'error', summary: this.nombre + ' ' + this.mensaje.ErrorProceso });
-            }
-          },
-          (error) => {
-            console.error('Error de la solicitud HTTP:', error);
-          }
-        );
-      }else{
-        console.log('parte 2')
-      }
-    }
 
 }
 
