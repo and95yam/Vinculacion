@@ -242,8 +242,14 @@ export class PgAdminConveniosComponent {
 
       if (resp === true) {
 
-        this.txtFechaInicioFormat = format(this.txtFechaInicio, 'dd-MM-yyyy');
-        this.txtfechaFinFormat = format(this.txtFechaFin, 'dd-MM-yyyy');
+        this.txtFechaInicioFormat = format(this.txtFechaInicio, 'yyyy-MM-dd');
+        this.txtfechaFinFormat = format(this.txtFechaFin, 'yyyy-MM-dd');
+
+        console.log(this.txtFechaInicioFormat);
+        console.log(this.txtfechaFinFormat);
+
+        console.log(this.txtFechaInicioFormat);
+        console.log(this.txtfechaFinFormat);
 
         if (!this.txtResolucion ||  !this.txtTituloConvenio || !this.txtNaturaleza || !this.txtClasificacion || !this.txtObjetivo || !this.txtSetRazon ) {
 
@@ -300,12 +306,13 @@ export class PgAdminConveniosComponent {
 
         if(resp===false){
 
-          if ( !this.txtTituloConvenio || !this.txtNaturaleza || !this.txtClasificacion || !this.txtObjetivo || !this.txtSetRazon ) {
+          /*if (!this.txtResolucion ||  !this.txtTituloConvenio || !this.txtNaturaleza || !this.txtClasificacion || !this.txtObjetivo || !this.txtSetRazon ) {
 
             this.submitted=true;
             console.log(this.submitted)
             return;
-          }
+
+          }*/
 
           const editConvenio={
 
@@ -324,6 +331,27 @@ export class PgAdminConveniosComponent {
 
           };
 
+          this.convenioService.updateConvenio(editConvenio,this.txtResolucion).subscribe(
+            (response:any)=>{
+                console.log(response)
+                console.log('convenio')
+                console.log(editConvenio)
+
+              if (response=="Convenio Actualizado"){
+                this.messageService.add({severity:'success',summary:this.nombre+' '+this.mensaje.ModificadoCorrectamente});
+                this.modalVerConvenio=false;
+                this.listarTablaConvenios();
+              }else{
+                this.messageService.add({severity:'error',summary: this.nombre+' '+this.mensaje.ErrorProceso});
+
+              }
+
+            },
+              (error)=>{
+                console.error('Error de la solicitud HTTP:' , error);
+
+              }
+          );
         }
       }
     }

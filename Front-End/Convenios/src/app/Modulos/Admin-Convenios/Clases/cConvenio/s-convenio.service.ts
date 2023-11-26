@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { DireccionesApi } from 'src/herramientas/direcciones/Direcciones';
 import { IConvenio} from './i-convenio';
 import { addConvenio } from './i-convenio';
+import { modConvenio } from './i-convenio';
 
 
 @Injectable({
@@ -29,8 +30,10 @@ export class SConvenioService {
   }
 
   //Actualizar convenio
-  updateConvenio(datosconvenio:addConvenio, id:string):Observable<addConvenio>{
-    return this.http.put<addConvenio>(this.url+'/'+id,datosconvenio);
+  updateConvenio(datosconvenio:modConvenio, id:string):Observable<modConvenio>{
+    console.log(this.url+'/'+id)
+    return this.http.put<modConvenio>(this.url+'/'+id,datosconvenio);
+
   }
 
 

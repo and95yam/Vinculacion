@@ -45,3 +45,20 @@ export interface addConvenio{
 
 }
 
+export interface modConvenio{
+
+  strcicoordinador:string;
+  strtituloconvenio:string;
+  strnaturalezaconvenio:string;
+  strclasificacionconvenio:string;
+  strobjetivoconvenio:string;
+  strarchivoconvenio:string;
+  intiddependencia:number;
+  intidinstitucion:number;
+  blnacademico:boolean;
+  blninvestigacion:boolean;
+  blnpracticas:boolean;
+  blnvinculacion:boolean;
+
+}
+

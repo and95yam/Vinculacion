@@ -33,12 +33,17 @@ const addConvenio = async(req,res)=>{// INGRESA EL CONVENIO COMPLETO MAS LA PLAN
 
         while(fechaActual!==null){
             const strperiodo =calcularFechaSiguiente(fechaActual, (intrazonconvenio*30), dtfechafinconvenio);
+            console.log('entrada bucle');
+            console.log(strperiodo)
             if(strperiodo!==null){
+                console.log('entrada 2');
                 const objfecha= new Date(strperiodo);
                 const datoperiodo = format(objfecha,'yyyy-MM');
                 fecha1 = new Date(fechaActual);// se actualiza la cadena  
                 let fecha2 = format(fecha1,'yyyy-MM');// se formatea la cadena 1
-                const periodo = fecha2+' - '+datoperiodo;// se concatena    
+                const periodo = fecha2+'/'+datoperiodo;// se concatena    
+                console.log('periodo: '+periodo)
+                console.log('id convenio: '+stridconvenio)
                 const responsePlanificacion = await con.query('CALL smaconvenios.addplanificacion($1,$2)',[periodo,stridconvenio]);
 
                 fechaActual=strperiodo;

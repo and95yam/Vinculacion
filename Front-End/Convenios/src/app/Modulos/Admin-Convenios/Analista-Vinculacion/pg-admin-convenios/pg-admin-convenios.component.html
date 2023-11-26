@@ -319,7 +319,7 @@
       <div class = "custom-col">
         <div class="p-field" *ngIf="visibleEditar">
           <label for="name">Fecha Inicio:</label>
-          <p-calendar [ngClass]="{'error': submitted && !txtFechaInicio}" *ngIf="!read"  [(ngModel)]="txtFechaInicio" dateFormat="dd-mm-yy" [disabled]="read"></p-calendar>
+          <p-calendar [ngClass]="{'error': submitted && !txtFechaInicio}" *ngIf="!read"  [(ngModel)]="txtFechaInicio" dateFormat="yy-mm-dd" [disabled]="read"></p-calendar>
           <input  *ngIf="read" [ngClass]="{'error': submitted && !txtFechaInicio}" type="text" pInputText id="txtFechaInicio" [(ngModel)]="txtFechaInicio" [readOnly]="read"/>
           <small class="p-invalid" *ngIf="submitted && !txtFechaInicio">Fecha Inicio  Necesaria</small>
 
@@ -329,7 +329,7 @@
       <div class="custom-col">
         <div class="p-field" *ngIf="visibleEditar">
           <label for="name">Fecha Fin:</label>
-          <p-calendar [ngClass]="{'error': submitted && !txtFechaFin}"  *ngIf="!read" [(ngModel)]="txtFechaFin" dateFormat="dd-mm-yy" [disabled]="read"></p-calendar>
+          <p-calendar [ngClass]="{'error': submitted && !txtFechaFin}"  *ngIf="!read" [(ngModel)]="txtFechaFin" dateFormat="yy-mm-dd" [disabled]="read"></p-calendar>
           <input *ngIf="read" [ngClass]="{'error': submitted && !txtFechaFin}" type="text" pInputText id="txtFechaFin" [(ngModel)]="txtFechaFin" [readOnly]="read"/>
           <small class="p-invalid" *ngIf="submitted && !txtFechaFin">Fecha Fin  Necesaria</small>
 
