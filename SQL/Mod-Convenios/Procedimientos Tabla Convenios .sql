@@ -43,6 +43,7 @@ RETURNS TABLE (
    strcicoordinador     varchar(10),         
    strcorreocoordinador varchar(256),
    strtelefonocoordinador varchar(256),
+   intiddependencia int,
    strnombredependencia varchar(32),         
    strnaturalezaconvenio varchar(16),         
    strclasificacionconvenio varchar(16),
@@ -50,6 +51,7 @@ RETURNS TABLE (
    blninvestigacion  boolean,
    blnpracticas boolean,
    blnvinculacion boolean,
+   intidinstitucion int,
    strinstitucion varchar(256),	
    strobjetivoconvenio  varchar(1024),        
    dtfechainicioconvenio date,                
@@ -63,8 +65,8 @@ RETURNS TABLE (
 AS $$
 BEGIN 
 Return Query
-	        SELECT conv.strtituloconvenio, coord.strnombrescoordinador, conv.stridconvenio,coord.strcicoordinador,coord.strcorreocoordinador,coord.strtelefonocoordinador,
-           dep.strnombredependencia, conv.strnaturalezaconvenio,conv.strclasificacionconvenio, ej.blnacademico, ej.blninvestigacion, ej.blnpracticas, ej.blnvinculacion,
+	       SELECT conv.strtituloconvenio, coord.strnombrescoordinador, conv.stridconvenio,coord.strcicoordinador,coord.strcorreocoordinador,coord.strtelefonocoordinador, dep.intiddependencia,
+           dep.strnombredependencia, conv.strnaturalezaconvenio,conv.strclasificacionconvenio, ej.blnacademico, ej.blninvestigacion, ej.blnpracticas, ej.blnvinculacion, inst.intidinstitucion,
            inst.strinstitucion, conv.strobjetivoconvenio, conv.dtfechainicioconvenio, conv.dtfechafinconvenio, AGE(conv.dtfechafinconvenio, conv.dtfechainicioconvenio),
            conv.intrazonconvenio,conv.fltavanceconvenio,conv.strarchivoconvenio
       FROM smaconvenios.convenio AS conv 

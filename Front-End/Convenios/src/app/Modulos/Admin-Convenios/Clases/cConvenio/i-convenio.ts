@@ -5,6 +5,7 @@ export interface IConvenio {
   strcicoordinador:string;
   strcorreocoordinador:string;
   strtelefonocoordinador:string;
+  intiddependencia:number;
   strnombredependencia:string;
   strnaturalezaconvenio:string;
   strclasificacionconvenio:string;
@@ -12,6 +13,7 @@ export interface IConvenio {
   blninvestigacion:boolean;
   blnpracticas:boolean;
   blnvinculacion:boolean;
+  intidinstitucion:number
   strinstitucion:string;
   strobjetivoconvenio:string;
   dtfechainicioconvenio:Date;

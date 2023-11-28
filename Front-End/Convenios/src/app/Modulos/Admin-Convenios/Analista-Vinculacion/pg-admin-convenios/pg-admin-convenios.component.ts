@@ -76,6 +76,7 @@ export class PgAdminConveniosComponent {
   txtVigencia!:number;
   txtRazon!:string;
   txtSetRazon!:number
+  txtIdInstitucion!:number;
 
   txtArchivo:string="aqui va el link";
   txtVigente!:boolean;
@@ -166,6 +167,7 @@ export class PgAdminConveniosComponent {
       this.btnInvestigacion= id.blninvestigacion;
       this.btnPracticas = id.blnpracticas;
       this.btnVinculacion= id.blnvinculacion;
+
       this.txtInstitucion = id.strinstitucion;
       this.txtFechaInicio= id.dtfechainicioconvenio
       this.txtFechaFin=  id.dtfechafinconvenio
@@ -174,9 +176,11 @@ export class PgAdminConveniosComponent {
       this.txtVigente = id.vigente;
       this.txtAvance = id.fltavanceconvenio.toString()+'%';
 
+
       //this.txtarchivo= id.strarchivoconvenio
       //console.log(this.txtCedula)
       //this.txtFechaInicioFormat = format(this.txtFechaInicio, 'dd-MM-yyyy');
+
 
     }
 
@@ -214,6 +218,7 @@ export class PgAdminConveniosComponent {
       this.txtCedula = id.strcicoordinador;
       this.txtEmail = id.strcorreocoordinador;
       this.txtTelefono = id.strtelefonocoordinador;
+      this.txtIdDependencia=id.intiddependencia//id dependencia
       this.txtDependencia= id.strnombredependencia;
       this.txtNaturaleza= id.strnaturalezaconvenio;
       this.txtClasificacion= id.strclasificacionconvenio;
@@ -221,13 +226,18 @@ export class PgAdminConveniosComponent {
       this.btnInvestigacion= id.blninvestigacion;
       this.btnPracticas = id.blnpracticas;
       this.btnVinculacion= id.blnvinculacion;
+      this.txtIdInstitucion=id.intidinstitucion;//id institucion
       this.txtInstitucion = id.strinstitucion;
+
       //this.txtFechaInicio= id.dtfechainicioconvenio
       //this.txtFechaFin=  id.dtfechafinconvenio
       //this.txtVigencia= id.strvigencia;
       this.txtRazon= this.calcularRazon(id.intrazonconvenio);
       //this.txtCedulaFiltro=id.strcicoordinador;
       this.getCoordinadores();
+
+      console.log('id dependencia',this.txtIdDependencia);
+      console.log('id institucion',this.txtIdInstitucion);
 
       console.log(this.txtCedulaFiltro)
     }
@@ -323,7 +333,7 @@ export class PgAdminConveniosComponent {
             strobjetivoconvenio:this.txtObjetivo,
             strarchivoconvenio:this.txtArchivo,
             intiddependencia:this.txtIdDependencia,
-            intidinstitucion:this.intIdInstitucion,
+            intidinstitucion:this.txtIdInstitucion,
             blnacademico:this.btnAcademico,
             blninvestigacion:this.btnInvestigacion,
             blnpracticas:this.btnPracticas,
