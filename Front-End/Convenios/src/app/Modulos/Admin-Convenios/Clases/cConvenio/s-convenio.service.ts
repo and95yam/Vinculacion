@@ -15,7 +15,7 @@ export class SConvenioService {
   //para convenios tabla
   link:DireccionesApi =  new DireccionesApi;
   url:string=this.link.datosConvenio;
-
+  url2:string=this.link.convenioCordinador;
 
   constructor(private http:HttpClient) { }
 
@@ -24,6 +24,9 @@ export class SConvenioService {
     return this.http.get<IConvenio[]>(this.url);
   }
 
+  getConvenioCord(id:string):Observable<IConvenio[]>{
+    return this.http.get<IConvenio[]>(this.url2+'/'+id);
+  }
   // crear convenio
   createConvenio(convenio:addConvenio):Observable<addConvenio>{
     return this.http.post<addConvenio>(this.url,convenio);

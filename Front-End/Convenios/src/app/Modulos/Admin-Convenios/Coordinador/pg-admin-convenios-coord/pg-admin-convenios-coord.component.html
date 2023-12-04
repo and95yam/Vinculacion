@@ -1,0 +1,54 @@
+
+<app-pg-header></app-pg-header>
+<app-pg-linea></app-pg-linea>
+
+
+    <div class="bread flex flex-row"><p-breadcrumb [model]="items" [home]="home" ></p-breadcrumb></div>
+    <div>
+      <h3>Datos Coordinador</h3>
+      <div class="custom-col">
+        <label for="name"><strong>CI:</strong></label>
+        <label for="name" >{{txtCiCoordinador}}</label>
+      </div>
+      <div class="custom-col">
+        <label for="name"><strong>Nombres:</strong></label>
+        <label for="name" >{{txtNombre}}</label>
+      </div>
+      <div class="custom-col">
+        <label for="name"><strong>Correo:</strong></label>
+        <label for="name" >{{txtCorreo}}</label>
+      </div>
+
+      <div class="custom-col">
+        <label for="name"><strong>Telefono:</strong></label>
+        <label for="name" >{{txtTelefono}}</label>
+      </div>
+
+      <div class="custom-col">
+        <label for="name"><strong>Dependencia:</strong></label>
+        <label for="name" >{{txtDependencia}}</label>
+      </div>
+
+    </div>
+
+
+    <div class="titulo2">
+        <div class="col-12"><h1>Administración de Convenios</h1></div>
+     </div>
+
+     <div class="tab-menu align-items-center" style="padding-left: 25px; padding-right: 25px;">
+        <p-tabView styleClass="tabview-custom" (onChange)="cambiarSelector($event)"  >
+            <p-tabPanel header="CONVENIOS">
+              <app-pg-lista-convenios-coord></app-pg-lista-convenios-coord>
+            </p-tabPanel>
+            <p-tabPanel header="INFORMES">
+
+            </p-tabPanel>
+
+         </p-tabView>
+     </div>
+
+
+
+
+<app-pg-footer></app-pg-footer>

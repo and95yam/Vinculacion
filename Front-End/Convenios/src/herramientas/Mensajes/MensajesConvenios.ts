@@ -24,5 +24,6 @@ export class MensajesConvenios {
     ArchivoIngresadoCorrectamente: string = 'Ingresado correctamente.';
     ErrorProcesoArchivoIncompleto: string = 'Error la carga de información es incorrecta.';
     CedularIncorrecta:string='La cédula ingresada es incorrecta.';
+    ErrorLink: string='El url ingresado ya ha sido ingresado antes. ingrese uno diferente';
 
 }

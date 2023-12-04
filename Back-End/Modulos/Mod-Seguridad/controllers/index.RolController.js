@@ -12,7 +12,7 @@ const addRol =async (req,res)=>{
 
        //RESPUESTA
         res.json({
-            message: 'Rol Creado',
+            message: 'Creado',
             body:{
                 rol:{strcodigo,strnombre,strdescripcion,blnactivo,intorden}
             }
@@ -59,7 +59,7 @@ const modRol = async (req,res)=>{
 
         //RESPUESTA
         console.log(response);
-        res.json('Rol {$id} acutualizado')
+        res.json('acutualizado')
         
     }catch(error){
         res.status(500).send({success:false,message: error.message});

@@ -56,6 +56,14 @@ import { PgDependenciaComponent } from './Modulos/Admin-Convenios/Analista-Vincu
 import { PgDatosCoordinadorComponent } from './Modulos/Admin-Convenios/Analista-Vinculacion/pg-datos-coordinador/pg-datos-coordinador.component';
 import { PgInstitucionComponent } from './Modulos/Admin-Convenios/Analista-Vinculacion/pg-institucion/pg-institucion.component';
 import { PgAdminConveniosComponent } from './Modulos/Admin-Convenios/Analista-Vinculacion/pg-admin-convenios/pg-admin-convenios.component';
+import { AppSeguridadComponent } from './Modulos/Mod-Seguridad/app-seguridad/app-seguridad.component';
+import { PgRolComponent } from './Modulos/Mod-Seguridad/pg-rol/pg-rol.component';
+import { PgAccionComponent } from './Modulos/Mod-Seguridad/pg-accion/pg-accion.component';
+import { PgFuncionComponent } from './Modulos/Mod-Seguridad/pg-funcion/pg-funcion.component';
+import { PgPerfilComponent } from './Modulos/Mod-Seguridad/pg-perfil/pg-perfil.component';
+import { PgGrupoComponent } from './Modulos/Mod-Seguridad/pg-grupo/pg-grupo.component';
+import { PgAdminConveniosCoordComponent } from './Modulos/Admin-Convenios/Coordinador/pg-admin-convenios-coord/pg-admin-convenios-coord.component';
+import { PgListaConveniosCoordComponent } from './Modulos/Admin-Convenios/Coordinador/pg-lista-convenios-coord/pg-lista-convenios-coord.component';
 
 
 @NgModule({
@@ -71,6 +79,14 @@ import { PgAdminConveniosComponent } from './Modulos/Admin-Convenios/Analista-Vi
     PgDatosCoordinadorComponent,
     PgInstitucionComponent,
     PgAdminConveniosComponent,
+    AppSeguridadComponent,
+    PgRolComponent,
+    PgAccionComponent,
+    PgFuncionComponent,
+    PgPerfilComponent,
+    PgGrupoComponent,
+    PgAdminConveniosCoordComponent,
+    PgListaConveniosCoordComponent,
 
   ],
   imports: [

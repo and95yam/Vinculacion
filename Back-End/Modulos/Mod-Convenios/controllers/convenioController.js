@@ -109,7 +109,9 @@ const buscConvenio = async(req,res)=>{// Muestra todos los datos de un convenio 
     try{
         const id= req.params.id;
         const response = await con.query('SELECT * FROM smaconvenios.VerDatosConvenio($1)',[id])
+
         res.json(response.rows);
+    
     }catch(error){
         res.status(500).send({success:false, message:error.message});
     }

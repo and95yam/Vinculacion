@@ -1,0 +1,4 @@
+.custom-col {
+  flex: 0 0 calc(33.333% - 16px); /* 33.333% dividido en 3 columnas con margen de 8px */
+  margin: 8px; /* Ajusta el margen según sea necesario */
+}

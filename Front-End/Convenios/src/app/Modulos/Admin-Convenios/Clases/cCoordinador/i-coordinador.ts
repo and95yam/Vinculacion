@@ -14,3 +14,12 @@ export interface ICoordinador2 {
   strcorreocoordinador:string;
   strtelefonocoordinador:string;
 }
+
+export interface ICoordinador3 {
+  c_strcicoordinador:string;
+  c_intiddependencia:number;
+  c_strnombredependencia:string;
+  c_strnombrescoordinador:string;
+  c_strcorreocoordinador:string;
+  c_strtelefonocoordinador:string;
+}

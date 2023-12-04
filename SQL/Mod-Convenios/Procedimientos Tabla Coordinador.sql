@@ -76,6 +76,7 @@ RETURNS TABLE (
 
    		c_strcicoordinador VARCHAR(10),
 	    c_intiddependencia INT,
+		c_strnombredependencia VARCHAR(32),
         c_strnombrescoordinador VARCHAR(256),
         c_strcorreocoordinador VARCHAR(256),
         c_strtelefonocoordinador VARCHAR(256)
@@ -83,7 +84,11 @@ RETURNS TABLE (
 AS $$
 BEGIN
     
-    RETURN QUERY SELECT * FROM smaconvenios.coordinador WHERE codigo = strcicoordinador;
+    RETURN QUERY 
+	SELECT cord.strcicoordinador, cord.intiddependencia, dep.strnombredependencia, cord.strnombrescoordinador, cord.strcorreocoordinador, cord.strtelefonocoordinador
+	FROM smaconvenios.coordinador AS cord
+	JOIN smaconvenios.dependencia AS dep ON dep.intiddependencia = cord.intiddependencia
+	WHERE codigo = strcicoordinador;
 END;
 $$ LANGUAGE plpgsql;
 
