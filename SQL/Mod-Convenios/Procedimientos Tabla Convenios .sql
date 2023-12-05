@@ -158,18 +158,27 @@ CREATE OR REPLACE FUNCTION smaconvenios.BuscarConvenioCordinador(codigo VARCHAR(
 RETURNS TABLE (
 
    
-   c_stridconvenio        varchar(16),
-   c_strtituloconvenio    varchar(256),          
+   c_strtituloconvenio    varchar(256),
+   c_strnombrescoordinador varchar(256),
+   c_stridconvenio        varchar(16),          
+   c_strcicoordinador     varchar(10),         
+   c_strcorreocoordinador varchar(256),
+   c_strtelefonocoordinador varchar(256),
+   c_intiddependencia int,
+   c_strnombredependencia varchar(32),         
    c_strnaturalezaconvenio varchar(16),         
    c_strclasificacionconvenio varchar(16),
-   c_strnombredependencia varchar(32),         
    c_blnacademico boolean,
    c_blninvestigacion  boolean,
    c_blnpracticas boolean,
    c_blnvinculacion boolean,
-   c_strinstitucion varchar(256),	       
+   c_intidinstitucion int,
+   c_strinstitucion varchar(256),	
+   c_strobjetivoconvenio  varchar(1024),        
    c_dtfechainicioconvenio date,                
-   c_strvigencia INTERVAL,                                   
+   c_dtfechafinconvenio   date,
+   c_strvigencia INTERVAL,                 
+   c_intrazonconvenio     int,                  
    c_fltavanceconvenio    decimal,              
    c_strarchivoconvenio   varchar(256)
 )
@@ -177,24 +186,25 @@ AS $$
 BEGIN
  
 	RETURN QUERY
-   SELECT conv.stridconvenio, conv.strtituloconvenio, conv.strnaturalezaconvenio,conv.strclasificacionconvenio, 
-       dep.strnombredependencia,  ej.blnacademico, ej.blninvestigacion, ej.blnpracticas, ej.blnvinculacion,
-       inst.strinstitucion, conv.dtfechainicioconvenio,  AGE(conv.dtfechafinconvenio, conv.dtfechainicioconvenio),
-       conv.fltavanceconvenio, conv.strarchivoconvenio
-   FROM smaconvenios.convenio AS conv 
-   JOIN smaconvenios.coordinador AS coord 
-   ON conv.strcicoordinador = coord.strcicoordinador
-   JOIN smaconvenios.convenio_dependencia AS cd
-   ON conv.stridconvenio = cd.stridconvenio
-   JOIN smaconvenios.dependencia AS dep 
-   ON cd.intiddependencia = dep.intiddependencia
-   JOIN smaconvenios.convenio_institucion AS ci
-   ON conv.stridconvenio=ci.stridconvenio
-   JOIN smaconvenios.institucion AS inst
-   ON ci.intidinstitucion = inst.intidinstitucion
-   JOIN smaconvenios.ejes AS ej
-   ON conv.stridconvenio = ej.stridconvenio
-   WHERE coord.strcicoordinador = codigo;
+   SELECT conv.strtituloconvenio, coord.strnombrescoordinador, conv.stridconvenio,coord.strcicoordinador,coord.strcorreocoordinador,coord.strtelefonocoordinador, dep.intiddependencia,
+           dep.strnombredependencia, conv.strnaturalezaconvenio,conv.strclasificacionconvenio, ej.blnacademico, ej.blninvestigacion, ej.blnpracticas, ej.blnvinculacion, inst.intidinstitucion,
+           inst.strinstitucion, conv.strobjetivoconvenio, conv.dtfechainicioconvenio, conv.dtfechafinconvenio, AGE(conv.dtfechafinconvenio, conv.dtfechainicioconvenio),
+           conv.intrazonconvenio,conv.fltavanceconvenio,conv.strarchivoconvenio
+      FROM smaconvenios.convenio AS conv 
+      JOIN smaconvenios.coordinador AS coord 
+      ON conv.strcicoordinador = coord.strcicoordinador
+      JOIN smaconvenios.convenio_dependencia AS cd
+      ON conv.stridconvenio = cd.stridconvenio
+      JOIN smaconvenios.dependencia AS dep 
+      ON cd.intiddependencia = dep.intiddependencia
+      JOIN smaconvenios.convenio_institucion AS ci
+      ON conv.stridconvenio=ci.stridconvenio
+      JOIN smaconvenios.institucion AS inst
+      ON ci.intidinstitucion = inst.intidinstitucion
+      JOIN smaconvenios.ejes AS ej
+      ON conv.stridconvenio = ej.stridconvenio
+	  
+   WHERE conv.strcicoordinador = codigo;
     
 END;
 $$ LANGUAGE plpgsql;

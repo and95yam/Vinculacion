@@ -30,11 +30,14 @@ const addConvenio = async(req,res)=>{// INGRESA EL CONVENIO COMPLETO MAS LA PLAN
         let  fechaActual = dtfechainicioconvenio;
         let objfecha1 = new Date(dtfechainicioconvenio);// cadena 1 para obtener periodo de planificacion 
 
-
+        
         while(fechaActual!==null){
             const strperiodo =calcularFechaSiguiente(fechaActual, (intrazonconvenio*30), dtfechafinconvenio);
             console.log('entrada bucle');
             console.log(strperiodo)
+            
+            
+            console.log(idinforme)
             if(strperiodo!==null){
                 console.log('entrada 2');
                 const objfecha= new Date(strperiodo);
@@ -48,6 +51,7 @@ const addConvenio = async(req,res)=>{// INGRESA EL CONVENIO COMPLETO MAS LA PLAN
 
                 fechaActual=strperiodo;
                 console.log(periodo);
+
                
             }else{
                 console.log('saliendo');
@@ -147,8 +151,26 @@ const verTablaConvenios = async (req, res) => {
 const verConveniosCoordinador = async(req,res)=>{
     try{
             const id = req.params.id;
-             const response = await con.query('SELECT * FROM smaconvenios.BuscarConvenioCordinador($1)',[id]);
-             res.status(200).json(response.rows);
+            const response = await con.query('SELECT * FROM smaconvenios.BuscarConvenioCordinador($1)',[id]);
+            const vig= response.rows; 
+
+            vig.forEach(item=>{
+                if(item.c_strvigencia && item.c_dtfechainicioconvenio){
+                    if(typeof item.c_strvigencia == 'object' && item.c_strvigencia.years !== undefined){
+                        item.c_strvigencia =item.c_strvigencia.years;
+                    }
+
+                    const fechaInicioOriginal2 = new Date (item.c_dtfechainicioconvenio);
+                    const fechaFinOriginal2= new Date (item.c_dtfechafinconvenio);
+                    item.c_dtfechainicioconvenio = fechaInicioOriginal2.toLocaleDateString('es-ES');
+                    item.c_dtfechafinconvenio = fechaFinOriginal2.toLocaleDateString('es-ES');
+                } 
+            });
+
+            res.status(200).json(vig);
+
+              
+
     }catch(error){
         res.status(500).send({success:false, message:error.message});
     }

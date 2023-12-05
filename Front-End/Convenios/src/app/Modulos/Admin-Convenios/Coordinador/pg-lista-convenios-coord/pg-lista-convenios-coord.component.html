@@ -90,8 +90,10 @@
 
 
               <td style="width: 1%;">
-                  <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded mr-2" ></button>
-
+                <div style="display: flex;">
+                <button pButton pRipple icon="pi pi-eye" class="p-button-rounded mr-2 p-button-success" pTooltip="Información" (click)="verConvenio(item)"  ></button>
+                <button pButton pRipple icon="pi pi-info-circle" class="p-button-rounded " pTooltip="Planificación"></button>
+                </div>
 
               </td>
           </tr>
@@ -105,3 +107,235 @@
   </p-table>
   <br><br>
 </div>
+
+<!-- <p-toast></p-toast> -->
+
+<p-dialog  [(visible)]="modalVerConvenio" header="{{titulo}}" [modal]="true" styleClass="p-fluid"  [style]="{width: '900px'}" [contentStyle]="{ 'height': '1500px' }" >
+
+  <p-toolbar styleClass="p-mb-4" >
+    <ng-template pTemplate="left" >
+        <strong> <h3> {{titulo}}</h3>  </strong>
+     </ng-template>
+    <ng-template pTemplate="right">
+
+      <div class="custom-col">
+        <div class="p-field">
+          <label for="name" >
+            <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': txtVigente === true, 'text-red-500 pi-times-circle': txtVigente === false }">Vigente</i>
+          </label>
+        </div>
+      </div>
+      <div class="custom-col">
+        <div class="p-field">
+          <label for="name">Avance:</label>
+          <input  type="text" pInputText id="txtAvance" [(ngModel)]="txtAvance" readonly="true" />
+
+        </div>
+      </div>
+      <div class="custom-col">
+          <div class="p-field">
+            <label for="name"></label><br>
+
+            <button type="button" pButton pRipple icon="pi pi-file-pdf"  class="p-button-danger p-button mr-2" pTooltip="PDF" tooltipPosition="bottom"  ></button>
+
+
+          </div>
+
+      </div>
+
+    </ng-template>
+  </p-toolbar>
+
+  <ng-template pTemplate="content" class="custom-grid" >
+    <h3>Información General</h3>
+    <div class="campo" style="width: 20%;">
+      <label  for="name">Resolución N:</label>
+      <input  type="text" pInputText id="c_stridconvenio" [(ngModel)]="txtResolucion" [readOnly]="true"/>
+    </div><br>
+
+    <div class="p-field">
+      <label for="name">Título Convenio:</label>
+      <input  type="text" pInputText id="c_strnombrescoordinador" [(ngModel)]="txtTituloConvenio" [readOnly]="true" class="width: 100%;" />
+
+    </div><br>
+    <div class="p-field">
+      <label for="name">Objetivo Convenio:</label>
+      <textarea rows="5" cols="30" pInputTextarea [(ngModel)]="txtObjetivo" [readOnly]="true"></textarea>
+
+    </div><br>
+
+    <div>
+     <div class="campo" style="width: 20%;">
+      <label for="name">CI :<label for="name" ></label></label>
+
+      <div >
+        <input  type="text" pInputText id="txtCedula" [(ngModel)]="txtCedula" [readOnly]="true" />
+      </div>
+
+     </div>
+     <div class="campo" style="width: 80%;">
+      <label for="name">Nombre Coordinador/a:</label>
+      <input  type="text" pInputText id="txtNombreCoordinador" [(ngModel)]="txtNombreCoordinador" [readOnly]="true" />
+     </div>
+    </div>
+
+    <div class="custom-row">
+
+
+      <div class="custom-col">
+        <div class="p-field">
+          <label for="name">Email:</label>
+          <input  type="text" pInputText id="txtEmail" [(ngModel)]="txtEmail" [readOnly]="true" />
+        </div>
+      </div>
+
+      <div class="custom-col">
+        <div class="p-field">
+          <label for="name">Teléfono:</label>
+          <input  type="text" pInputText id="txtTelefono" [(ngModel)]="txtTelefono" [readOnly]="true" />
+        </div>
+      </div>
+      <div class="custom-col">
+        <div class="p-field">
+          <label for="name">Dependencia:</label>
+          <input  type="text" pInputText id="txtDependencia" [(ngModel)]="txtDependencia" [readOnly]="true" />
+        </div>
+      </div>
+    </div>
+
+    <div class="custom-row">
+
+      <div class="custom-col">
+        <div class="p-field">
+          <label for="name">Naturaleza:</label>
+
+          <div>
+            <input  type="text" pInputText id="txtNaturaleza" [(ngModel)]="txtNaturaleza" [readOnly]="true" />
+          </div>
+        </div>
+
+      </div>
+
+      <div class="custom-col">
+        <div class="p-field">
+          <label for="name">Clasificación:</label>
+
+          <div >
+            <input  type="text" pInputText id="txtClasificacion" [(ngModel)]="txtClasificacion" [readOnly]="true" />
+          </div>
+        </div>
+      </div>
+
+    </div><br>
+
+    <label for="name">Ejes:</label><br><br>
+
+    <div style="padding: 10px;" class="custom-row">
+      <div>
+        <input type="checkbox" id="academico"  [(ngModel)]="btnAcademico" [disabled]="true">
+        <label for="academico">Académico</label>
+
+      </div>
+
+      <div>
+        <input type="checkbox" id="investigacion"  [(ngModel)]="btnInvestigacion" [disabled]="true">
+        <label for="investigacion">Investigación</label>
+      </div>
+
+      <div>
+        <input type="checkbox" id="practicas"  [(ngModel)]="btnPracticas" [disabled]="true">
+        <label for="practicas">Prácticas</label>
+      </div>
+
+      <div>
+        <input type="checkbox" id="vinculacion"  [(ngModel)]="btnVinculacion" [disabled]="true">
+        <label for="vinculacion">Vinculación</label>
+      </div>
+
+    </div><br>
+
+
+    <div>
+      <div class="campo" style="width: 30%;">
+        <label for="name">Instituciones Participantes:</label>
+        <input  type="text" pInputText id="txtEspoch" [(ngModel)]="txtEspoch" [readOnly]="true" />
+      </div>
+      <div class="campo" style="width: 70%;">
+
+        <div>
+          <input  type="text" pInputText id="txtInstitucion" [(ngModel)]="txtInstitucion" [readOnly]="true" />
+        </div>
+
+      </div>
+    </div>
+
+
+    <h3>Vigencia del convenio y periodo de ejecución</h3>
+
+    <div class="custom-row">
+
+      <div class = "custom-col">
+        <div class="p-field" >
+          <label for="name">Fecha Inicio:</label>
+          <input   type="text" pInputText id="txtFechaInicio" [(ngModel)]="txtFechaInicio" [readOnly]="true"/>
+        </div>
+      </div>
+
+      <div class="custom-col">
+        <div class="p-field" >
+          <label for="name">Fecha Fin:</label>
+          <input  type="text" pInputText id="txtFechaFin" [(ngModel)]="txtFechaFin" [readOnly]="true"/>
+
+        </div>
+      </div>
+
+      <div class="custom-col" >
+        <div class="p-field" >
+          <label for="name">Vigencia (años):</label>
+          <input  type="text" pInputText id="txtVigencia" [(ngModel)]="txtVigencia" [readOnly]="true" />
+
+        </div>
+      </div>
+
+      <div class="custom-col">
+        <div class="p-field" >
+          <label for="name">Razón Informes:</label>
+
+          <div >
+            <input type="text" pInputText id=" txtRazon" [(ngModel)]=" txtRazon" readonly />
+
+          </div>
+        </div>
+      </div>
+
+      <div class="custom-col">
+        <div class="p-field">
+          <label for="name">Documento:</label>
+          <a   class="button hover rounded" >
+            <div class="icono-svg">
+              <ng-container >
+                  <img  src="../../../../../assets//imagenes/Download.png" class="icono">
+              </ng-container>
+            </div>
+          </a>
+        </div>
+
+
+      </div>
+
+
+
+    </div>
+
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+
+    <button pButton pRipple label="Cerrar" icon="pi pi-times" class="p-button-text"  (click)="modalVerConvenio=false"></button>
+
+
+  </ng-template>
+
+
+
+</p-dialog>
