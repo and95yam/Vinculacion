@@ -37,7 +37,7 @@ const addConvenio = async(req,res)=>{// INGRESA EL CONVENIO COMPLETO MAS LA PLAN
             console.log(strperiodo)
             
             
-            console.log(idinforme)
+            
             if(strperiodo!==null){
                 console.log('entrada 2');
                 const objfecha= new Date(strperiodo);

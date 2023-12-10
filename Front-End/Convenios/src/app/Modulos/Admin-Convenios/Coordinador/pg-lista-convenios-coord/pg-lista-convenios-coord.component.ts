@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { DireccionesApi } from 'src/herramientas/direcciones/Direcciones';//Temporal
 import { SConvenioService } from '../../Clases/cConvenio/s-convenio.service';
+import { SPlanificacionService } from '../../Clases/cPlanificacion/s-planificacion.service';
 import { IConvenio2 } from '../../Clases/cConvenio/i-convenio';
+import { IPlanificacion } from '../../Clases/cPlanificacion/i-planificacion';
 
 @Component({
   selector: 'app-pg-lista-convenios-coord',
@@ -14,10 +16,12 @@ export class PgListaConveniosCoordComponent {
   ced:string=this.dir.cedula1
 
   convenios!:IConvenio2[]
+  planificacion!:IPlanificacion[]
   vigente!:boolean;
   tiempo!:Date;
   vigencia!:number;
   modalVerConvenio:boolean=false;
+  modalVerPlanificacion:boolean=false;
   titulo:string=""
   txtVigente:boolean=false
 
@@ -43,16 +47,19 @@ export class PgListaConveniosCoordComponent {
   txtVigencia!:number;
   txtRazon!:string;
   txtSetRazon!:number
-
+  idConvenio!:string;
 
 
   constructor(
-    private convenioService:SConvenioService
+    private convenioService:SConvenioService,
+    private planificacionService:SPlanificacionService,
+
   ){}
 
   ngOnInit():void{
     this.listaConvenios()
-    console.log(this.ced)
+
+
   }
 
   listaConvenios() {
@@ -66,10 +73,33 @@ export class PgListaConveniosCoordComponent {
           this.calcularVigencia();
           console.log(this.vigente);
           conv.vigente = this.vigente;
+          this.idConvenio= conv.c_stridconvenio;
+
         });
       }
     );
+
+
+
   }
+
+  listarPlanificacion(id:IConvenio2){
+    this.titulo='Planificación Informes'
+    this.modalVerPlanificacion=true;
+
+    this.idConvenio=id.c_stridconvenio;
+    console.log(this.idConvenio);
+    this.planificacionService.getPlanificaciones(this.idConvenio).subscribe(
+      plan =>{
+        this.planificacion = plan;
+        console.log('imprimiendo Planificacion')
+
+        console.log(plan);
+      }
+    )
+  }
+
+
 
   verConvenio(id: IConvenio2) {
     this.modalVerConvenio = true;
@@ -105,6 +135,8 @@ export class PgListaConveniosCoordComponent {
 
 
   }
+
+
 
   calcularVigencia() {
     this.vigente != null;

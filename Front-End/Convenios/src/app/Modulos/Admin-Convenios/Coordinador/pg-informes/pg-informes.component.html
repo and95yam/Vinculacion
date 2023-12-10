@@ -1,0 +1,84 @@
+<div class="card">
+  <p-toolbar styleClass="p-mb-4">
+      <ng-template pTemplate="left">
+          <strong> Lista Informes</strong>
+       </ng-template>
+      <ng-template pTemplate="right">
+          <span class="p-input-icon-right">
+               <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
+          </span>
+
+
+      </ng-template>
+
+  </p-toolbar>
+
+  <p-table #dt [value]="informe" [rows]="10" [paginator]="true" [globalFilterFields]="['c_stridconvenio','c_strestadoinforme']"
+           styleClass="p-datatable-gridlines p-datatable-sm" [rowHover]="true" dataKey="id" [rowsPerPageOptions]="[10,25,50]" responsiveLayout="scroll" [responsive]="true"
+           currentPageReportTemplate="Mostrando {first} hasta {last} de {totalRecords} registros" [showCurrentPageReport]="true">
+
+      <ng-template pTemplate="header">
+          <tr>
+
+            <th pSortableColumn="c_stridinforme" style="width:5% ; font-size: 10px;">ID INFORME <p-sortIcon field="code"></p-sortIcon></th>
+            <th pSortableColumn="c_strtituloconvenio" style="width:10%; font-size: 10px; ">NOMBRE CONVENIO <p-sortIcon field="name"></p-sortIcon></th>
+            <th pSortableColumn="c_strperiodo" style="width:5% ; font-size: 10px;">PERIODO <p-sortIcon field="name"></p-sortIcon></th>
+            <th pSortableColumn="c_strresultados" style=" font-size: 10px; width:15%;">RESULTADOS <p-sortIcon field="name"></p-sortIcon></th>
+            <th pSortableColumn="c_strobservaciones"style="width:15% ; font-size: 10px;"> OBSERVACIONES<p-sortIcon field="name"></p-sortIcon></th>
+            <th pSortableColumn="c_dtfechacreacion" style="width:5%; font-size: 10px;" >FFECHA CREACIÓN/EDICIÓN<p-sortIcon field="name"></p-sortIcon></th>
+            <th pSortableColumn="c_strestadoinforme" style="width:3%; font-size: 10px;" >ESTADO <p-sortIcon field="name"></p-sortIcon></th>
+            <th pSortableColumn="c_blnfirmado" style="width:1% ; font-size: 10px;">FIRMADO<p-sortIcon field="name"></p-sortIcon></th>
+            <th pSortableColumn="c_stranexo" style="width:0.5%; font-size: 10px;"> ANEXO<p-sortIcon field="name"></p-sortIcon></th>
+
+              <th class="text-center" style="width:2.5%;">Acción</th>
+
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+          <tr>
+
+            <td >{{ item.c_stridinforme}}</td>
+            <td >{{ item.c_strtituloconvenio }}</td>
+            <td >{{ item.c_strperiodo }}</td>
+            <td >{{ item.c_strresultados }}</td>
+            <td >{{ item.c_strobservaciones }}</td>
+            <td >{{ item.c_dtfechacreacion }}</td>
+            <td class="text-center">{{ item.c_strestadoinforme }}</td>
+
+            <td style="width: 1%;" class="text-center">
+              <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': item.c_blnfirmado === true, 'text-red-500 pi-times-circle': item.c_blnfirmado === false }" ></i>
+            </td>
+
+              <td style="width: 0.8%;">
+                <a   class="button hover rounded" >
+                  <div class="icono-svg">
+                    <ng-container >
+                        <img  src="../../../../../assets//imagenes/Download.png" class="icono">
+                    </ng-container>
+                  </div>
+                </a>
+              </td>
+
+
+
+
+              <td style="width: 1%;">
+                <div style="display: flex;">
+                <button pButton pRipple icon="pi pi-eye" class="p-button-rounded mr-2 p-button-success" pTooltip="Información"   ></button>
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded  " pTooltip="Editar"  ></button>
+                <button pButton pRipple icon="pi pi-trash" class="p-button-roundedmr-2 btn-rojo" pTooltip="Eliminar"  ></button>
+                </div>
+
+              </td>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+          <div class="p-d-flex p-ai-center p-jc-between">
+            <!-- In total there are {{products ? products.length : 0 }} products.-->
+          </div>
+
+      </ng-template>
+  </p-table>
+  <br><br>
+</div>

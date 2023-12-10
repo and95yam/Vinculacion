@@ -92,7 +92,7 @@
               <td style="width: 1%;">
                 <div style="display: flex;">
                 <button pButton pRipple icon="pi pi-eye" class="p-button-rounded mr-2 p-button-success" pTooltip="Información" (click)="verConvenio(item)"  ></button>
-                <button pButton pRipple icon="pi pi-info-circle" class="p-button-rounded " pTooltip="Planificación"></button>
+                <button pButton pRipple icon="pi pi-info-circle" class="p-button-rounded " pTooltip="Planificación" (click)="listarPlanificacion(item)"></button>
                 </div>
 
               </td>
@@ -338,4 +338,38 @@
 
 
 
+</p-dialog>
+
+<p-dialog  [(visible)]="modalVerPlanificacion" header="{{titulo}}" [modal]="true" styleClass="p-fluid"  [style]="{width: '500px'}" [contentStyle]="{ 'height': 'flex' }" >
+
+  <p-table #dt [value]="planificacion" [rows]="10" [paginator]="true" [globalFilterFields]="['']"
+  styleClass="p-datatable-gridlines p-datatable-sm" [rowHover]="true" dataKey="id" [rowsPerPageOptions]="[10,25,50]" responsiveLayout="scroll" [responsive]="true">
+
+<ng-template pTemplate="header">
+  <div style="display: flex;">
+    <label><strong>Convenio :</strong></label>
+    <label>{{idConvenio}}</label>
+  </div><br>
+
+ <tr>
+
+   <th  style="width:4% ; font-size: 10px;">ID PLANIFICACIÓN </th>
+   <th  style="width:15% ; font-size: 10px;">PERIODO </th>
+
+ </tr>
+</ng-template>
+<ng-template pTemplate="body" let-item>
+ <tr>
+
+   <td >{{ item.c_intidplanificacion}}</td>
+   <td >{{ item.c_strperiodo }}</td>
+
+ </tr>
+</ng-template>
+
+</p-table>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cerrar" icon="pi pi-times" class="p-button-text"  (click)="modalVerPlanificacion=false"></button>
+  </ng-template>
 </p-dialog>

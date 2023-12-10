@@ -87,6 +87,81 @@ $$ LANGUAGE plpgsql;
 
 SELECT * FROM smaconvenios.BuscarInforme('d');
 
+/* BUSCAR INFORME POR ID DE CONVENIOS*/
+
+CREATE OR REPLACE FUNCTION smaconvenios.getInformeCoordinador (codigo VARCHAR(32))
+RETURNS TABLE (
+
+   c_stridinforme         varchar(64),
+   c_intidplanificacion   int,
+   c_strperiodo           varchar(64),
+   c_stridconvenio        varchar(16),
+   c_strbeneficiariodirecto varchar(512),
+   c_strbeneficiodirecto  varchar(1024),
+   c_strbeneficiarioindirecto varchar(512),
+   c_strbeneficioindirecto varchar(1024),
+   c_strresultados        varchar(1024),
+   c_strobservaciones     varchar(1024),
+   c_stranexo             varchar(256),
+   c_dtfechacreacion	  date	
+   
+)
+AS $$
+BEGIN
+    
+    RETURN QUERY SELECT * FROM smaconvenios.informe WHERE codigo = stridconvenio;
+END;
+$$ LANGUAGE plpgsql;
+
+/*LLAMADO*/
+
+select * from smaconvenios.getInformeCoordinador('cp.01')
+
+/*Ver Datos informe ingresando cedula de coordinador*/
+
+
+CREATE OR REPLACE FUNCTION smaconvenios.GetDatosInforme(codigo VARCHAR(64))
+RETURNS TABLE (
+
+    c_stridinforme         varchar(64),
+    c_intidplanificacion   int,
+    c_strperiodo           varchar(64),
+    c_stridconvenio        varchar(16),
+    c_strtituloconvenio     varchar(256),
+	c_strcicoordinador	   varchar(10),	
+    c_strbeneficiariodirecto varchar(512),
+    c_strbeneficiodirecto  varchar(1024),
+    c_strbeneficiarioindirecto varchar(512),
+    c_strbeneficioindirecto varchar(1024),
+    c_strresultados        varchar(1024),
+    c_strobservaciones     varchar(1024),
+    c_stranexo             varchar(256),
+    c_dtfechacreacion      date,
+   	c_strestadoinforme	   varchar(16),
+	c_blnfirmado		   bool
+)
+AS $$
+BEGIN 
+	RETURN QUERY 
+	select inf.stridinforme, inf.intidplanificacion, inf.strperiodo, inf.stridconvenio, conv.strtituloconvenio, conv.strcicoordinador, inf.strbeneficiariodirecto,
+	inf.strbeneficiodirecto, inf.strbeneficiarioindirecto, inf.strbeneficioindirecto, inf.strresultados, inf.strobservaciones,
+	inf.stranexo, inf.dtfechacreacion, estinf.strestadoinforme, estinf.blnfirmado
+	   
+	FROM smaconvenios.informe AS inf
+	JOIN smaconvenios.convenio AS conv
+	ON inf.stridconvenio = conv.stridconvenio
+	JOIN smaconvenios.estadoinforme AS estinf
+	ON estinf.stridinforme = inf.stridinforme 
+	WHERE conv.strcicoordinador= codigo;
+END; 
+$$ LANGUAGE plpgsql;
+
+/*LLAMADO*/
+
+SELECT * FROM  smaconvenios.getdatosinforme(
+	'0955416755'
+)
+
 /*MODIFICAR INFORME*/
 
 CREATE OR REPLACE PROCEDURE smaconvenios.ModInforme 

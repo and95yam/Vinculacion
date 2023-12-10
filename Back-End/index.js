@@ -32,6 +32,7 @@ app.use(require(rutasConvenio.rutaDependencia));
 app.use(require(rutasConvenio.rutaInstitucion));
 app.use(require(rutasConvenio.rutaCoordinador));
 app.use(require(rutasConvenio.rutaConvenio));
+app.use(require(rutasConvenio.rutaPlanificacion));
 
 //MOD SEGUIMIENTO//
 

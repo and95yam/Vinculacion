@@ -64,6 +64,7 @@ import { PgPerfilComponent } from './Modulos/Mod-Seguridad/pg-perfil/pg-perfil.c
 import { PgGrupoComponent } from './Modulos/Mod-Seguridad/pg-grupo/pg-grupo.component';
 import { PgAdminConveniosCoordComponent } from './Modulos/Admin-Convenios/Coordinador/pg-admin-convenios-coord/pg-admin-convenios-coord.component';
 import { PgListaConveniosCoordComponent } from './Modulos/Admin-Convenios/Coordinador/pg-lista-convenios-coord/pg-lista-convenios-coord.component';
+import { PgInformesComponent } from './Modulos/Admin-Convenios/Coordinador/pg-informes/pg-informes.component';
 
 
 @NgModule({
@@ -87,6 +88,7 @@ import { PgListaConveniosCoordComponent } from './Modulos/Admin-Convenios/Coordi
     PgGrupoComponent,
     PgAdminConveniosCoordComponent,
     PgListaConveniosCoordComponent,
+    PgInformesComponent,
 
   ],
   imports: [

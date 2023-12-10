@@ -9,7 +9,11 @@ export class DireccionesApi{
   insititucion: string="http://localhost:3000/convenio/institucion";
   convenioTabla: string="http://localhost:3000/convenio_tabla";
   datosConvenio:string="http://localhost:3000/convenio";
-  convenioCordinador:string="http://localhost:3000/convenio_coordinador"
+  convenioCordinador:string="http://localhost:3000/convenio_coordinador";
+  planificacion:string="http://localhost:3000/planificacion";
+  informe:string="http://localhost:3000/informe";
+  informeCoordinador:string="http://localhost:3000/informe_coordinador"
+  informeDatos:string="http://localhost:3000/informe_datos"
   //Modulo seguridad
   rol: string ="http://localhost:3000/rol";
   accion: string="http://localhost:3000/accion"
