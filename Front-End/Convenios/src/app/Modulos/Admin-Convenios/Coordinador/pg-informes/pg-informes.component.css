@@ -3,3 +3,186 @@
   color: white;
 
 }
+
+.custom-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.custom-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -8px; /* Ajusta el margen según sea necesario */
+}
+
+.custom-col {
+  flex: 0 0 calc(33.333% - 16px); /* 33.333% dividido en 3 columnas con margen de 8px */
+  margin: 8px; /* Ajusta el margen según sea necesario */
+}
+
+.campo {
+  display: inline-block; /* Para que los elementos se muestren en línea */
+  padding: 5px;
+}
+
+input {
+  margin-right: 10px; /* Agrega un margen entre los input */
+}
+
+:host ::ng-deep {
+  .p-paginator {
+      .p-paginator-current {
+          margin-left: auto;
+      }
+  }
+
+  .p-progressbar {
+      height: .5rem;
+      background-color: #D8DADC;
+
+      .p-progressbar-value {
+          background-color: #607D8B;
+      }
+  }
+
+  .table-header {
+      display: flex;
+      justify-content: space-between;
+  }
+
+  .p-calendar .p-datepicker {
+      min-width: 25rem;
+
+      td {
+          font-weight: 400;
+      }
+  }
+
+  .p-datatable.p-datatable-customers {
+      .p-datatable-header {
+          padding: 1rem;
+          text-align: left;
+          font-size: 1.5rem;
+      }
+
+      .p-paginator {
+          padding: 1rem;
+      }
+
+      .p-datatable-thead > tr > th {
+          text-align: left;
+      }
+
+      .p-datatable-tbody > tr > td {
+          cursor: auto;
+      }
+
+      .p-dropdown-label:not(.p-placeholder) {
+          text-transform: uppercase;
+      }
+  }
+
+  /* Responsive */
+  .p-datatable-customers .p-datatable-tbody > tr > td .p-column-title {
+      display: none;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  :host ::ng-deep {
+      .p-datatable {
+          &.p-datatable-customers {
+              .p-datatable-thead > tr > th,
+              .p-datatable-tfoot > tr > td {
+                  display: none !important;
+              }
+
+              .p-datatable-tbody > tr {
+                  border-bottom: 1px solid var(--layer-2);
+
+                  > td {
+                      text-align: left;
+                      display: block;
+                      border: 0 none !important;
+                      width: 100% !important;
+                      float: left;
+                      clear: left;
+                      border: 0 none;
+
+                      .p-column-title {
+                          padding: .4rem;
+                          min-width: 30%;
+                          display: inline-block;
+                          margin: -.4rem 1rem -.4rem -.4rem;
+                          font-weight: bold;
+                      }
+
+                      .p-progressbar {
+                          margin-top: .5rem;
+                      }
+                  }
+              }
+          }
+      }
+  }
+
+}
+
+.p-flex-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .p-flex-container {
+    flex-direction: row;
+  }
+}
+
+
+.card-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Alinea verticalmente en el centro, opcional */
+}
+
+.p-input-icon-right {
+  display: flex;
+  flex-direction: row-reverse; /* Invierte la dirección de los elementos dentro del span */
+  align-items: center; /* Alinea verticalmente en el centro, opcional */
+}
+
+/* Opcional: Estilos para el input */
+.p-inputtext {
+  width: 100%; /* Ocupa todo el espacio disponible en el span */
+}
+
+.caja {
+  flex: 1 ;
+  margin: 10px;
+  text-align: center;
+
+  padding: 20px;
+
+  width: auto;
+  height: 260px;
+  font-family: var(--font-family-roboto);
+
+}
+
+
+.error {
+  border: 1px solid red;
+  color: red;
+}
+
+.p-invalid{
+  color: red;
+
+}
+
+.cedula-error .p-autocomplete-input {
+  border-color: #ff0000; /* Puedes ajustar el color según tus preferencias */
+}

@@ -104,6 +104,231 @@
     </ng-template>
   </p-toolbar>
 
+  <ng-template pTemplate="content" class="custom-grid" >
+    <h3>Información General</h3>
+    <div class="p-field">
+      <label for="name">Título Convenio:</label>
+      <input  type="text" pInputText id="strnombrescoordinador" [(ngModel)]="txtTituloConvenio" [readOnly]=true class="width: 100%;" />
+    </div><br>
+
+    <div>
+      
+      <div class="campo" style="width: 80%;">
+       <label for="name">Nombre Coordinador/a:</label>
+       <input  type="text" pInputText id="txtNombreCoordinador" [(ngModel)]="txtCoordinador" [readOnly]=true />
+      </div>
+
+      <div class="campo" style="width: 20%;">
+        <div >
+          <label  for="name">Resolución N:</label>
+          <input  type="text" pInputText id="stridconvenio" [(ngModel)]="txtIdConvenio" [readOnly]=true/>
+        </div>
+       </div>
+     </div>
+
+      <div class="p-field">
+        <label for="name">Objetivo Convenio:</label>
+        <textarea  rows="5" cols="30" pInputTextarea [(ngModel)]="txtObjetivo" [readOnly]=true></textarea>
+      </div><br>
+
+      <div class="custom-row">
+        <div class="custom-col">
+          <label for="name">Cédula:</label>
+          <input  type="text" pInputText id="txtCedula" [(ngModel)]="txtCiCoordinador" [readOnly]=true />
+        </div>
+        <div class="custom-col">
+          <div class="p-field">
+            <label for="name">Email:</label>
+            <input  type="text" pInputText id="txtEmail" [(ngModel)]="txtEmail" [readOnly]=true />
+          </div>
+        </div>
+  
+        <div class="custom-col">
+          <div class="p-field">
+            <label for="name">Teléfono:</label>
+            <input  type="text" pInputText id="txtTelefono" [(ngModel)]="txtTelefono" [readOnly]=true />
+          </div>
+        </div>
+     </div>
+
+    
+
+    <div class="custom-row">
+      <div class="custom-col">
+        <div class="p-field">
+          <label for="name">Dependencia:</label>
+          <input  type="text" pInputText id="txtDependencia" [(ngModel)]="txtDependencia" [readOnly]=true />
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="campo" style="width: 30%;">
+        <label for="name">Instituciones Participantes:</label>
+        <input  type="text" pInputText id="txtEspoch" [(ngModel)]="txtEspoch" [readOnly]=true />
+      </div>
+      <div class="campo" style="width: 70%;">
+        <div>
+          <input type="text" pInputText id="txtInstitucion" [(ngModel)]="txtInstitucion" [readOnly]=true />
+        </div>
+      </div>
+    </div>
+
+
+    <h3 >Vigencia del convenio y periodo de ejecución</h3>
+
+    <div class="custom-row">
+
+      <div class = "custom-col">
+        <div class="p-field" >
+          <label for="name">Fecha Inicio:</label>
+          <input   type="text" pInputText id="txtFechaInicio" [(ngModel)]="txtFechaInicio" [readOnly]=true/>
+
+        </div>
+      </div>
+
+      <div class="custom-col">
+        <div class="p-field" >
+          <label for="name">Fecha Fin:</label>
+          <input  type="text" pInputText id="txtFechaFin" [(ngModel)]="txtFechaFin" [readOnly]=true/>
+
+        </div>
+      </div>
+
+      <div class="custom-col" >
+        <div class="p-field" >
+          <label for="name">Vigencia (años):</label>
+          <input  type="text" pInputText id="txtVigencia" [(ngModel)]="txtVigencia" [readOnly]=true />
+
+        </div>
+      </div>
+    </div>
+    
+    <div class="custom-row">
+
+      <div class = "custom-col">
+        <div class="p-field" >
+          <label for="name">ID Informe:</label>
+          <input   type="text" pInputText id="txtFechaInicio" [(ngModel)]="txtIdInforme" [readOnly]=true/>
+        </div>
+      </div>
+
+      <div class="custom-col">
+        <div class="p-field" >
+          <label for="name">Periodo:</label>
+          <input  type="text" pInputText id="txtFechaFin" [(ngModel)]="txtPeriodo" [readOnly]=true/>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h3>Equipo</h3>
+
+      <p-table #dt [value]="informe" [rows]="10" [paginator]="false" [globalFilterFields]="['']"
+       styleClass="p-datatable-gridlines p-datatable-sm" [rowHover]="true" dataKey="id"  responsiveLayout="scroll" [responsive]="true">
+        <ng-template pTemplate="header">
+
+          <div style="display: flex;">
+           
+            <label></label>
+          </div><br>
+        
+          <tr>
+          
+            <th  style="width:4% ; font-size: 10px;">ID INFORME </th>
+            <th  style="width:15% ; font-size: 10px;">DEPENDENCIA </th>
+            <th  style="width:15% ; font-size: 10px;">CI </th>
+            <th  style="width:15% ; font-size: 10px;">NOMBRES </th>
+            <th  style="width:15% ; font-size: 10px;">ACTIVIDAD </th>
+          
+          </tr>
+        </ng-template>
+          <ng-template pTemplate="body" let-item>
+          <tr>
+          
+        
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <h3>BENEFICIARIOS</h3>
+    <div>
+      <div class="campo" style="width: 50%;">
+        <label for="name">DIRECTOS:</label>
+        <textarea  rows="5" cols="30" pInputTextarea [(ngModel)]="txtBeneficiarioDirecto" [readOnly]=true></textarea>
+      </div>
+      <div class="campo" style="width: 50%;">
+        <div>
+          <label for="name">BENEFICIO DIRECTO:</label>
+          <textarea  rows="5" cols="30" pInputTextarea [(ngModel)]="txtBeneficioDirecto" [readOnly]=true></textarea>        </div>
+      </div>
+    </div>
+    <div>
+      <div class="campo" style="width: 50%;">
+        <label for="name">INDIRECTOS:</label>
+        <textarea  rows="5" cols="30" pInputTextarea [(ngModel)]="txtBeneficiarioIndirecto" [readOnly]=true></textarea>
+      </div>
+      <div class="campo" style="width: 50%;">
+        <div>
+          <label for="name">BENEFICIO INDIRECTO:</label>
+          <textarea  rows="5" cols="30" pInputTextarea [(ngModel)]="txtBeneficioIndirecto" [readOnly]=true></textarea>        </div>
+      </div>
+    </div>
+
+    <div>
+      <h3>ACTIVIDADES</h3>
+
+      <p-table #dt [value]="informe" [rows]="10" [paginator]="false" [globalFilterFields]="['']"
+       styleClass="p-datatable-gridlines p-datatable-sm" [rowHover]="true" dataKey="id"  responsiveLayout="scroll" [responsive]="true">
+        <ng-template pTemplate="header">
+
+          <div style="display: flex;">
+           
+            <label></label>
+          </div><br>
+        
+          <tr>
+          
+            
+            <th  style="width:15% ; font-size: 10px;">NUM ACTIVIDAD </th>
+            <th  style="width:15% ; font-size: 10px;">ACTIVIDAD </th>
+            <th  style="width:15% ; font-size: 10px;">FECHA INICIO  </th>
+            <th  style="width:15% ; font-size: 10px;">FECHA FIN  </th>
+          
+          </tr>
+        </ng-template>
+          <ng-template pTemplate="body" let-item>
+          <tr>
+          
+        
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div class="p-field">
+      <label for="name">Resultados:</label>
+      <textarea  rows="5" cols="30" pInputTextarea [(ngModel)]="txtResultados" [readOnly]=true></textarea>
+    </div><br>
+    <div class="p-field">
+      <label for="name">Observaciones:</label>
+      <textarea  rows="5" cols="30" pInputTextarea [(ngModel)]="txtObservaciones" [readOnly]=true></textarea>
+    </div><br>
+
+    <div class="custom-col">
+      <label for="name">Anexos:</label>
+      <p-fileUpload   mode="basic" chooseLabel="Subir Anexo" name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*"></p-fileUpload>
+
+    </div>
+
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+
+    <button pButton pRipple label="Cerrar" icon="pi pi-times" class="p-button-text"  (click)="modalVerInforme=false"></button>
+    <button   pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text"   ></button>
+
+
+  </ng-template>
 
 
 </p-dialog>

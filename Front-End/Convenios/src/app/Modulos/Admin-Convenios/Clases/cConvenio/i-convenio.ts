@@ -91,3 +91,25 @@ export interface modConvenio{
 
 }
 
+export interface IConvenioInforme {
+  strtituloconvenio:string;
+  strnombrescoordinador:string;
+  stridconvenio:string;
+  strcicoordinador:string;
+  strcorreocoordinador:string;
+  strtelefonocoordinador:string;
+  intiddependencia:number;
+  strnombredependencia:string;
+  strnaturalezaconvenio:string;
+  strclasificacionconvenio:string;
+  blnacademico:boolean;
+  blninvestigacion:boolean;
+  blnpracticas:boolean;
+  blnvinculacion:boolean;
+  intidinstitucion:number
+  strinstitucion:string;
+  strobjetivoconvenio:string;
+  dtfechainicioconvenio:Date;
+  dtfechafinconvenio:Date;
+  
+};

@@ -178,6 +178,32 @@ const verConveniosCoordinador = async(req,res)=>{
     }
 }
 
+const verConveniosInforme = async(req,res)=>{
+    try{
+        const id = req.params.id;
+        const response = await con.query('select * from smaconvenios.GetConvenioParaInforme($1)',[id]);
+        
+        const vig= response.rows; 
+
+            vig.forEach(item=>{
+
+                
+
+                    const fechaInicioOriginal2 = new Date (item.dtfechainicioconvenio);
+                    const fechaFinOriginal2= new Date (item.dtfechafinconvenio);
+                    item.dtfechainicioconvenio = fechaInicioOriginal2.toLocaleDateString('es-ES').replace(/\//g, '-');
+                    item.dtfechafinconvenio = fechaFinOriginal2.toLocaleDateString('es-ES').replace(/\//g, '-');
+                
+            });
+
+            res.status(200).json(vig);
+          
+
+}catch(error){
+    res.status(500).send({success:false, message:error.message});
+}
+}
+
 const verConveniosInvitado= async(req,res)=>{
 
     try{
@@ -262,6 +288,7 @@ getConvenio,
 buscConvenio,
 verTablaConvenios,
 verConveniosCoordinador,
+verConveniosInforme,
 verConveniosInvitado,
 modConvenio
 }

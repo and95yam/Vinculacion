@@ -14,6 +14,7 @@ export class DireccionesApi{
   informe:string="http://localhost:3000/informe";
   informeCoordinador:string="http://localhost:3000/informe_coordinador"
   informeDatos:string="http://localhost:3000/informe_datos"
+  convenioInforme:string="http://localhost:3000/convenio_informe"
   //Modulo seguridad
   rol: string ="http://localhost:3000/rol";
   accion: string="http://localhost:3000/accion"
