@@ -119,6 +119,57 @@ $$ LANGUAGE plpgsql;
 
 SELECT * FROM smaconvenios.BuscarConvenio('o');
 
+
+/*PROCEDIMIENTO QUE MUESTRA CONVENIO PARA INFORME*/
+
+CREATE OR REPLACE FUNCTION smaconvenios.GetConvenioParaInforme(codigo VARCHAR(16))
+RETURNS TABLE (
+   
+   strtituloconvenio    varchar(256),
+   strnombrescoordinador varchar(256),
+   stridconvenio        varchar(16),          
+   strcicoordinador     varchar(10),         
+   strcorreocoordinador varchar(256),
+   strtelefonocoordinador varchar(256),
+   intiddependencia int,
+   strnombredependencia varchar(32),         
+   strnaturalezaconvenio varchar(16),         
+   strclasificacionconvenio varchar(16),
+   blnacademico boolean,
+   blninvestigacion  boolean,
+   blnpracticas boolean,
+   blnvinculacion boolean,
+   intidinstitucion int,
+   strinstitucion varchar(256),	
+   strobjetivoconvenio  varchar(1024),        
+   dtfechainicioconvenio date,                
+   dtfechafinconvenio   date
+   
+					
+)
+AS $$
+BEGIN 
+Return Query
+	      SELECT conv.strtituloconvenio, coord.strnombrescoordinador, conv.stridconvenio,coord.strcicoordinador,coord.strcorreocoordinador,coord.strtelefonocoordinador, dep.intiddependencia,
+           dep.strnombredependencia, conv.strnaturalezaconvenio,conv.strclasificacionconvenio, ej.blnacademico, ej.blninvestigacion, ej.blnpracticas, ej.blnvinculacion, inst.intidinstitucion,
+           inst.strinstitucion, conv.strobjetivoconvenio, conv.dtfechainicioconvenio, conv.dtfechafinconvenio
+      FROM smaconvenios.convenio AS conv 
+      JOIN smaconvenios.coordinador AS coord 
+      ON conv.strcicoordinador = coord.strcicoordinador
+      JOIN smaconvenios.convenio_dependencia AS cd
+      ON conv.stridconvenio = cd.stridconvenio
+      JOIN smaconvenios.dependencia AS dep 
+      ON cd.intiddependencia = dep.intiddependencia
+      JOIN smaconvenios.convenio_institucion AS ci
+      ON conv.stridconvenio=ci.stridconvenio
+      JOIN smaconvenios.institucion AS inst
+      ON ci.intidinstitucion = inst.intidinstitucion
+      JOIN smaconvenios.ejes AS ej
+      ON conv.stridconvenio = ej.stridconvenio
+	  Where conv.stridconvenio= codigo;
+END; 
+$$ LANGUAGE plpgsql;
+
 /*MODIFICAR CONVENIO */
 
 CREATE OR REPLACE PROCEDURE smaconvenios.ModConvenio

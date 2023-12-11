@@ -36,9 +36,10 @@ export class PgInformesComponent {
       )
   }
 
-  VerInforme(){
+  VerInforme(id:IInforme){
     this.modalVerInforme=true;
     this.titulo="Informe"
+    console.log(id.c_stridconvenio)
   }
 
 }
