@@ -28,7 +28,7 @@ export class PgInformesComponent {
       this.informeService.getInformeCoord(this.ced).subscribe(
         inf=>{
           this.informe= inf
-          console.log(inf)
+          //console.log(inf)
         }
       )
   }

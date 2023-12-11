@@ -4,6 +4,8 @@
           <strong> Lista Informes</strong>
        </ng-template>
       <ng-template pTemplate="right">
+        <button pButton pRipple label="Nuevo" icon="pi pi-pencil" class="p-button mr-2" pTooltip="Crear nueva acción" ></button>
+
           <span class="p-input-icon-right">
                <i class="pi pi-search"></i>
               <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
