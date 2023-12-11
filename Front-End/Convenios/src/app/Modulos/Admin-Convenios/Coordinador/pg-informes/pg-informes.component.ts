@@ -16,6 +16,9 @@ export class PgInformesComponent {
 
   informe!:IInforme[];
 
+  modalVerInforme:boolean=false;
+  titulo:string="";
+
   constructor(
     private informeService:SInformeService
   ){}
@@ -28,11 +31,14 @@ export class PgInformesComponent {
       this.informeService.getInformeCoord(this.ced).subscribe(
         inf=>{
           this.informe= inf
-          //console.log(inf)
+          console.log(inf)
         }
       )
   }
 
-
+  VerInforme(){
+    this.modalVerInforme=true;
+    this.titulo="Informe"
+  }
 
 }

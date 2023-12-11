@@ -10,7 +10,10 @@ const addInforme = async(req,res)=>{
            
             const{strPeriodo,strBeneficiarioDirecto,strBeneficioDirecto,strBeneficiarioIndirecto,strBeneficioIndirecto,strResultados,strObservaciones,strAnexo}=req.body;
             const strIdInforme=(id+'#'+strPeriodo)//concatenacion de id convenio+periodo para codigo de informe 
-      
+            console.log(strIdInforme)
+            console.log('id',id)
+            console.log('periodo',strPeriodo)
+
             const intIdplanificacion = await con.query ('select intidplanificacion from smaconvenios.planificacion Where stridconvenio = $1 And strperiodo = $2',[id,strPeriodo])//consulta sql para tener el id de la fila determinada para la planificacion (hacer procedimiento)
             console.log(intIdplanificacion.rows)
             const intIdplanificacion2 = intIdplanificacion.rows;// manda las filas de la consulta 
