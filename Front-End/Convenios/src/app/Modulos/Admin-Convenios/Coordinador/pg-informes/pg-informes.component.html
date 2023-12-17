@@ -263,11 +263,11 @@
       </div>
     </div>
     <div>
-      <div class="campo" style="width: 50%;">
+      <div *ngIf="false" class="campo" style="width: 50%;">
         <label for="name">INDIRECTOS:</label>
         <textarea  rows="5" cols="30" pInputTextarea [(ngModel)]="txtBeneficiarioIndirecto" [readOnly]=true></textarea>
       </div>
-      <div class="campo" style="width: 50%;">
+      <div  *ngIf="false"class="campo" style="width: 50%;">
         <div>
           <label for="name">BENEFICIO INDIRECTO:</label>
           <textarea  rows="5" cols="30" pInputTextarea [(ngModel)]="txtBeneficioIndirecto" [readOnly]=true></textarea>        </div>
