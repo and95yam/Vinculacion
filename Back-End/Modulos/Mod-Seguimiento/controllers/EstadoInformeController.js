@@ -32,6 +32,8 @@ const evaluarInforme = async (req,res) => {
     }
 }
 
+
+
 module.exports ={
     verEstadoInforme,
     evaluarInforme

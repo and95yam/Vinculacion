@@ -19,6 +19,9 @@ export class PgInformesComponent {
 
   informe!:IInforme[];
   convenioInf!:IConvenioInforme[];
+  idSelectedInforme:string="";// da el id del informe seleccionado
+
+
 
   modalVerInforme:boolean=false;
   titulo:string="";
@@ -84,7 +87,7 @@ export class PgInformesComponent {
         this.txtFechaFin=conv[0].dtfechafinconvenio
         this.txtObjetivo=conv[0].strobjetivoconvenio;
 
-        
+
       }
     )
   }
@@ -95,7 +98,9 @@ export class PgInformesComponent {
     this.idInforme=id.c_stridconvenio;
     console.log(this.idInforme)//borrar
     this.listarConvenioInforme();
-    
+    this.idSelectedInforme=id.c_stridinforme
+    console.log(this.idSelectedInforme);
+
     this.txtTituloInforme=id.c_stridinforme;
    // this.txtCoordinador=id2.strnombrescoordinador;
     this.txtIdConvenio=id.c_stridconvenio;
@@ -117,7 +122,7 @@ export class PgInformesComponent {
     this.txtResultados=id.c_strresultados;
     this.txtObservaciones=id.c_strobservaciones;
 
-    
+
   }
 
 }
