@@ -9,7 +9,7 @@ const addInforme = async(req,res)=>{
            const id = req.params.id;
            
             const{strPeriodo,strBeneficiarioDirecto,strBeneficioDirecto,strBeneficiarioIndirecto,strBeneficioIndirecto,strResultados,strObservaciones,strAnexo}=req.body;
-            const strIdInforme=(id+'#'+strPeriodo)//concatenacion de id convenio+periodo para codigo de informe 
+            const strIdInforme=(id+'_'+strPeriodo)//concatenacion de id convenio+periodo para codigo de informe 
             console.log(strIdInforme)
             console.log('id',id)
             console.log('periodo',strPeriodo)

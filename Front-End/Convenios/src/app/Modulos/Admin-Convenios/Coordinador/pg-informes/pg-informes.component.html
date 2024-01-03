@@ -223,7 +223,7 @@
     <div>
       <h3>Equipo</h3>
 
-      <p-table #dt [value]="informe" [rows]="10" [paginator]="false" [globalFilterFields]="['']"
+      <p-table #dt [value]="miembroInforme" [rows]="10" [paginator]="false" [globalFilterFields]="['']"
        styleClass="p-datatable-gridlines p-datatable-sm" [rowHover]="true" dataKey="id"  responsiveLayout="scroll" [responsive]="true">
         <ng-template pTemplate="header">
 
@@ -234,7 +234,6 @@
         
           <tr>
           
-            <th  style="width:4% ; font-size: 10px;">ID INFORME </th>
             <th  style="width:15% ; font-size: 10px;">DEPENDENCIA </th>
             <th  style="width:15% ; font-size: 10px;">CI </th>
             <th  style="width:15% ; font-size: 10px;">NOMBRES </th>
@@ -244,7 +243,10 @@
         </ng-template>
           <ng-template pTemplate="body" let-item>
           <tr>
-          
+            <td >{{ item.c_strnombredependencia}}</td>
+            <td >{{ item.c_strciequipo}}</td>
+            <td >{{ item.c_strnombreequipo}}</td>
+            <td >{{ item.c_stractividadequipo}}</td>
         
           </tr>
         </ng-template>
@@ -277,7 +279,7 @@
     <div>
       <h3>ACTIVIDADES</h3>
 
-      <p-table #dt [value]="informe" [rows]="10" [paginator]="false" [globalFilterFields]="['']"
+      <p-table #dt [value]="actividadInforme" [rows]="10" [paginator]="false" [globalFilterFields]="['']"
        styleClass="p-datatable-gridlines p-datatable-sm" [rowHover]="true" dataKey="id"  responsiveLayout="scroll" [responsive]="true">
         <ng-template pTemplate="header">
 
@@ -298,7 +300,10 @@
         </ng-template>
           <ng-template pTemplate="body" let-item>
           <tr>
-          
+            <td >{{ item.c_intnumactividad}}</td>
+            <td >{{ item.c_stractividad}}</td>
+            <td >{{ item.c_dtfechainicioactividad}}</td>
+            <td >{{ item.c_dtfechafinactividad}}</td>
         
           </tr>
         </ng-template>

@@ -12,9 +12,12 @@ export class DireccionesApi{
   convenioCordinador:string="http://localhost:3000/convenio_coordinador";
   planificacion:string="http://localhost:3000/planificacion";
   informe:string="http://localhost:3000/informe";
-  informeCoordinador:string="http://localhost:3000/informe_coordinador"
-  informeDatos:string="http://localhost:3000/informe_datos"
-  convenioInforme:string="http://localhost:3000/convenio_informe"
+  informeCoordinador:string="http://localhost:3000/informe_coordinador";
+  informeDatos:string="http://localhost:3000/informe_datos";
+  convenioInforme:string="http://localhost:3000/convenio_informe";
+  miembroInforme:string="http://localhost:3000/miembro";
+  actividadInforme:string='http://localhost:3000/actividad';
+
   //Modulo seguridad
   rol: string ="http://localhost:3000/rol";
   accion: string="http://localhost:3000/accion"

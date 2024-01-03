@@ -30,7 +30,7 @@ const getEqInforme = async (req, res) =>{
 
         const id = req.params.id;
         const response = await con.query('select * from   smaconvenios.buscareqinforme($1)',[id]);
-
+        
         res.status(200).send(response.rows);
 
     }catch(error){

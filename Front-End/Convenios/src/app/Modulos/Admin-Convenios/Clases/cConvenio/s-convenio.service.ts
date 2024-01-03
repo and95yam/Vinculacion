@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DireccionesApi } from 'src/herramientas/direcciones/Direcciones';
-import { IConvenio, IConvenio2,IConvenioInforme} from './i-convenio';
+import { IConvenio, IConvenio2,IConvenioInforme, IConvenio3} from './i-convenio';
 import { addConvenio } from './i-convenio';
 import { modConvenio } from './i-convenio';
 
@@ -34,6 +34,12 @@ export class SConvenioService {
   getConvenioInforme(id:string):Observable<IConvenioInforme[]>{
     return this.http.get<IConvenioInforme[]>(this.url3+'/'+id)
   }
+
+  //para ver los datos del convenio por id convenio
+  getConvenioId(id:string):Observable<IConvenio3[]>{
+    return this.http.get<IConvenio3[]>(this.url+'/'+id)
+  }
+ 
 
   // crear convenio
   createConvenio(convenio:addConvenio):Observable<addConvenio>{

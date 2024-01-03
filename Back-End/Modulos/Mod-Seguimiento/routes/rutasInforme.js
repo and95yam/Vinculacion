@@ -6,7 +6,7 @@ const {addInforme,getInforme,getInformeCoord,getDatosInformeCoord}= require('../
 router.post('/informe/:id',addInforme);
 router.get('/informe',getInforme);
 router.get('/informe_coordinador/:id',getInformeCoord);
-router.get('/informe_datos/:id',getDatosInformeCoord)
+router.get('/informe_datos/:id',getDatosInformeCoord)//id coordinador
 
 
 module.exports = router;

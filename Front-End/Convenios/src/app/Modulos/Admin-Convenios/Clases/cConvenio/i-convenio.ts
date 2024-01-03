@@ -52,6 +52,31 @@ export interface IConvenio2 {
   vigente:boolean;
 };
 
+export interface IConvenio3 {
+  c_strtituloconvenio:string;
+  c_strnombrescoordinador:string;
+  c_stridconvenio:string;
+  c_strcicoordinador:string;
+  c_strcorreocoordinador:string;
+  c_strtelefonocoordinador:string;
+  c_intiddependencia:number;
+  c_strnombredependencia:string;
+  c_strnaturalezaconvenio:string;
+  c_strclasificacionconvenio:string;
+  c_blnacademico:boolean;
+  c_blninvestigacion:boolean;
+  c_blnpracticas:boolean;
+  c_blnvinculacion:boolean;
+  c_strinstitucion:string;
+  c_strobjetivoconvenio:string;
+  c_dtfechainicioconvenio:Date;
+  c_dtfechafinconvenio:Date;
+  c_strvigencia:number;
+  c_intrazonconvenio:number;
+  c_fltavanceconvenio:number;
+  c_strarchivoconvenio:string;
+  vigente:boolean;
+};
 
 export interface addConvenio{
   stridconvenio:string;

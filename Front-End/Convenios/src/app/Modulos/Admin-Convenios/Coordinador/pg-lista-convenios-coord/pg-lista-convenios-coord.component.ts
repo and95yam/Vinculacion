@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { DireccionesApi } from 'src/herramientas/direcciones/Direcciones';//Temporal
 import { SConvenioService } from '../../Clases/cConvenio/s-convenio.service';
 import { SPlanificacionService } from '../../Clases/cPlanificacion/s-planificacion.service';
@@ -53,6 +54,7 @@ export class PgListaConveniosCoordComponent {
   constructor(
     private convenioService:SConvenioService,
     private planificacionService:SPlanificacionService,
+    private router: Router,
 
   ){}
 
@@ -176,6 +178,12 @@ export class PgListaConveniosCoordComponent {
     }
   }
 
-
+  redirectListaInformes(id: IConvenio2){
+    const nuevaPagina = 'PgInformesConvenio';
+    const idConvenio = encodeURIComponent(id.c_stridconvenio);
+    const url = `${nuevaPagina}?idConvenio=${idConvenio}`;
+    window.open(url, '_blank');
+    console.log(id.c_stridconvenio);
+  }
 
 }
