@@ -2,20 +2,23 @@
 <app-pg-linea></app-pg-linea>
 
    
-    <div style="background-color: aqua; padding: 1%;">
+    <div style="padding: 1%;">
         <h3>Información General</h3><br>
 
-        <div class="p-field">
-            <label for="name">Título Convenio:</label>
-            <input  type="text" pInputText id="strnombrescoordinador" [(ngModel)]="tituloConvenio" [readOnly]=true class="width: 100%;" />
-        </div><br> 
+        <label>{{tituloConvenio}} </label><br>
+        <label>{{txtNaturaleza}}</label><br>
+        <label>{{txtClasificacion}}</label><br>
+        <label>{{blnAcademico}}</label><br>
+        <label>{{blnInvestigacion}}</label><br>
+        <label>{{blnPracticas}}</label><br>
+        <label>{{blnVinculacion}}</label><br>
+        <label>{{dtFechaInicio}}</label><br>
+        <label>{{dtFechaFin}}</label><br>
+        <label>{{txtInstitucion}}</label><br>
+        
     </div>
         
          
-        
-          
-    
-
 
  <div class="tab-menu align-items-center" style="padding-left: 25px; padding-right: 25px;">
     <p-tabView styleClass="tabview-custom"  >
@@ -23,7 +26,7 @@
           
         </p-tabPanel>
         
-
+        <app-pg-lista-informes-convenio></app-pg-lista-informes-convenio>
      </p-tabView>
  </div>
 

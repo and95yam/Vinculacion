@@ -91,12 +91,24 @@ const addInforme = async(req,res)=>{
   }
  }
  
+ const getInformesConvenio = async (req,res)=>{
+  try{
+    const id = req.params.id;
 
+    const response = await con.query('SELECT * from smaconvenios.getdatosinformeconvenio($1)',[id]);
+    res.status(200).json(response.rows);
+
+  }catch(error){
+    res.status(500).send({succes:false, message:error.message});
+    console.error(`Se produjo un error en la línea ${error.stack}`)
+  }
+ }
  
 
 module.exports={
   addInforme,
   getInforme,
   getInformeCoord,
-  getDatosInformeCoord
+  getDatosInformeCoord,
+  getInformesConvenio
 }

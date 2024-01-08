@@ -17,6 +17,7 @@ export class DireccionesApi{
   convenioInforme:string="http://localhost:3000/convenio_informe";
   miembroInforme:string="http://localhost:3000/miembro";
   actividadInforme:string='http://localhost:3000/actividad';
+  informesDeConvenios:string='http://localhost:3000/informe_convenio';
 
   //Modulo seguridad
   rol: string ="http://localhost:3000/rol";

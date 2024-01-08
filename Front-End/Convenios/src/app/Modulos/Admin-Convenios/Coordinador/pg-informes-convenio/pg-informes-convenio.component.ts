@@ -41,7 +41,6 @@ export class PgInformesConvenioComponent {
     this.route.queryParams.subscribe(params => {
       const idConvenio = params['idConvenio'];
       this.txtIdConvenio=idConvenio;
-      console.log(this.txtIdConvenio);
       this.datosConvenio();
     });
   }

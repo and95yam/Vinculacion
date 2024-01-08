@@ -5,14 +5,14 @@ const addActInforme = async (req,res) => {
 
     try{
         const id = req.params.id;//id informe
-        const {intNumActividad,stractividad,dtFechaInicioActividad,dtFechaFinActividad} = req.body;
+        const {intNumActividad,strActividad,dtFechaInicioActividad,dtFechaFinActividad} = req.body;
 
-        const response = await con.query('CALL smaconvenios.addactinforme($1,$2,$3,$4,$5)',[intNumActividad,id,stractividad,dtFechaInicioActividad,dtFechaFinActividad]);
+        const response = await con.query('CALL smaconvenios.addactinforme($1,$2,$3,$4,$5)',[intNumActividad,id,strActividad,dtFechaInicioActividad,dtFechaFinActividad]);
 
         res.json({
             message: 'Actividad Agregada',
             body:{
-                actividad:{intNumActividad,id,stractividad,dtFechaInicioActividad,dtFechaFinActividad}
+                actividad:{intNumActividad,id,strActividad,dtFechaInicioActividad,dtFechaFinActividad}
             }
         })
     }catch(error){

@@ -66,6 +66,7 @@ import { PgAdminConveniosCoordComponent } from './Modulos/Admin-Convenios/Coordi
 import { PgListaConveniosCoordComponent } from './Modulos/Admin-Convenios/Coordinador/pg-lista-convenios-coord/pg-lista-convenios-coord.component';
 import { PgInformesComponent } from './Modulos/Admin-Convenios/Coordinador/pg-informes/pg-informes.component';
 import { PgInformesConvenioComponent } from './Modulos/Admin-Convenios/Coordinador/pg-informes-convenio/pg-informes-convenio.component';
+import { PgListaInformesConvenioComponent } from './Modulos/Admin-Convenios/Coordinador/pg-lista-informes-convenio/pg-lista-informes-convenio.component';
 
 
 @NgModule({
@@ -91,6 +92,7 @@ import { PgInformesConvenioComponent } from './Modulos/Admin-Convenios/Coordinad
     PgListaConveniosCoordComponent,
     PgInformesComponent,
     PgInformesConvenioComponent,
+    PgListaInformesConvenioComponent,
 
   ],
   imports: [
