@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component,ViewChild,ChangeDetectorRef} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgModel } from '@angular/forms';
 import { SInformeService } from '../../Clases/cInforme/s-informe.service';
 import { SConvenioService } from '../../Clases/cConvenio/s-convenio.service';
 import { SMiembroService } from '../../Clases/cMiembro/s-miembro.service';//Servicio que llama a miembros
@@ -15,13 +16,19 @@ import { cGetDependencia } from '../../Clases/cDependencia/cDependencia';//inter
 import { MessageService } from 'primeng/api';
 import { MensajesConvenios } from 'src/herramientas/Mensajes/MensajesConvenios';
 import { pl } from 'date-fns/locale';
+import { Cedula } from '../../Clases/cedula';
 
 @Component({
   selector: 'app-pg-lista-informes-convenio',
   templateUrl: './pg-lista-informes-convenio.component.html',
-  styleUrls: ['./pg-lista-informes-convenio.component.css']
+  styleUrls: ['./pg-lista-informes-convenio.component.css'],
+  providers: [MessageService]
+
 })
 export class PgListaInformesConvenioComponent {
+@ViewChild('txtCiEquipo') txtCiEquipoModel!:NgModel;
+
+  cedula:Cedula= new Cedula;//Instancia de clase cedula
 
   mensaje: MensajesConvenios = new MensajesConvenios;
 
@@ -40,7 +47,7 @@ export class PgListaInformesConvenioComponent {
   nuevoModal:boolean=false;
   modalEquipo:boolean=false;
   modalActividad:boolean=false;
-
+  isGuardarButtonDisabled:boolean=true;
 
   controlVerCampos:boolean=true;
   controlIngresoCampos:boolean=true;
@@ -72,7 +79,10 @@ export class PgListaInformesConvenioComponent {
   txtObservaciones:string="";
   txtAnexo:string="";
   blnFirmado: boolean=true;
-  opcionesPeriodo: any[]=[];
+  readonlyMode:boolean =false;
+  opcionesPeriodo: any[]=[];// arreglo para cargar los periodos de los convenios 
+  opcionesDependencia: any[]=[];//arreglo para cargar las dependencias 
+  
 
   //Variables Equipo
   txtNombreDependencia:string=""
@@ -84,7 +94,7 @@ export class PgListaInformesConvenioComponent {
   //Variables Actividad
 
   constructor(
-   // private messageService:MessageService, 
+    private messageService:MessageService, 
     private route: ActivatedRoute,
     private informeconvenioService:SInformeService,
     private convenioService:SConvenioService,
@@ -92,7 +102,8 @@ export class PgListaInformesConvenioComponent {
     private actividadService:SActividadService,
     private planificacionService:SPlanificacionService,
     private dependenciaService:SDependenciaService,
-
+    private changeDetectorRef:ChangeDetectorRef,
+   
   ){}
 
   ngOnInit(){
@@ -101,17 +112,7 @@ export class PgListaInformesConvenioComponent {
     
   }
 
-  cargarDependencia(){
-
-    this.dependenciaService.getAll().subscribe(
-      dep => {
-        this.datosDependencia = dep;
-        console.log('dependencias',dep)
-        //this.changeDetectorRef.detectChanges();
-      }
-    );
-
-  }
+ 
   getIdConvenio(){
     this.route.queryParams.subscribe(params=>{
       const idConvenio = params['idConvenio'];
@@ -203,7 +204,50 @@ export class PgListaInformesConvenioComponent {
         
       }
     );
+
+    
   }
+
+  cargarDependencia() {
+    this.dependenciaService.getAll().subscribe(
+      dep => {
+        this.datosDependencia = dep;
+        this.opcionesDependencia = this.datosDependencia.map(dependencia => dependencia.strnombredependencia);
+        
+        
+      }
+    );
+  }
+  
+  
+  getIdDependencia(event:any){
+   
+    const objetoSeleccionado = this.datosDependencia.find(dep=>dep.strnombredependencia === this.txtNombreDependencia);
+    
+    if(objetoSeleccionado){
+      this.txtIdDependencia=objetoSeleccionado.intiddependencia;
+      console.log('id',this.txtIdDependencia)
+    }
+    
+  }
+  
+  validarCedula(){
+    const ok = Cedula.validarCedula(this.txtCiEquipo);
+    if(this.txtCiEquipo.length===10){
+      if(ok===false){
+        console.log('cedula incorrecta')
+        this.messageService.add({ severity: 'error', summary: this.nombre+' '+this.mensaje.CedularIncorrecta});
+
+        this.isGuardarButtonDisabled = true;
+      }else{
+        console.log('cedula ok')
+       this.isGuardarButtonDisabled = false;
+       this.messageService.add({ severity: 'error', summary: this.nombre+'si funciona chugcha '+this.mensaje.CedularIncorrecta});
+      }
+    }
+
+   }
+  
   
 
   nuevoInforme(){
@@ -226,7 +270,8 @@ export class PgListaInformesConvenioComponent {
 
   nuevoEquipo(){
     this.modalEquipo=true;
-
+    this.cargarDependencia();
+    this.isGuardarButtonDisabled=true;
   }
 
   nuevaActividad(){
