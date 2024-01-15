@@ -42,18 +42,24 @@ export class PgListaInformesConvenioComponent {
   txtIdConvenio!:string;
   loading:boolean=true;
   submitted!:boolean;
+  submittedEquipo!:boolean;
+  submittedActividad!:boolean;
   titulo: string="";
   nombre:string="";
   nuevoModal:boolean=false;
   modalEquipo:boolean=false;
   modalActividad:boolean=false;
   isGuardarButtonDisabled:boolean=true;
+  alto:string='350px';
+  ancho:string='500px'
+  equipoAgregado:boolean = false;//control agregar equipo
+  actividadAgregada:boolean = false;// control agregar actividades 
 
   controlVerCampos:boolean=true;
   controlIngresoCampos:boolean=true;
   controlEquipoyActividad:boolean=true;
-  tituloEquipo:string="Agregar Miembro Equipo";
-  tituloActividad:string="Agregar Actividad";
+  tituloEquipo:string="";
+  tituloActividad:string="";
   
 
   txtTituloInforme:string="";
@@ -93,6 +99,11 @@ export class PgListaInformesConvenioComponent {
 
   //Variables Actividad
 
+  txtNumActividad:number=1;
+  txtActividad:string="";
+  dtFechaInicioActividad!:Date;
+  dtFechaFinActividad!:Date;
+
   constructor(
     private messageService:MessageService, 
     private route: ActivatedRoute,
@@ -110,15 +121,6 @@ export class PgListaInformesConvenioComponent {
     this.getIdConvenio();
     this.listarInformes();
     
-  }
-
- 
-  getIdConvenio(){
-    this.route.queryParams.subscribe(params=>{
-      const idConvenio = params['idConvenio'];
-      this.txtIdConvenio=idConvenio;
-      console.log('parte 2:',this.txtIdConvenio);
-    })
   }
 
   listarInformes(){
@@ -178,78 +180,6 @@ export class PgListaInformesConvenioComponent {
     )
   }
 
-  listarMiembros(){
-    this.miembroService.getMiembros(this.txtIdInforme).subscribe(
-      miembro=>{
-        this.datosMiembro=miembro;
-        console.log(miembro)
-      }
-    )
-  }
-
-  listarActividad(){
-    this.actividadService.getActividades(this.txtIdInforme).subscribe(
-      actividad=>{
-          this.datosActividad=actividad;
-          console.log(actividad)
-      }
-    )
-  }
-
-  listarPlanificacion() {
-    this.planificacionService.getPlanificaciones(this.txtIdConvenio).subscribe(
-      plan => {
-        this.datosPlanificacion = plan;
-        this.opcionesPeriodo = this.datosPlanificacion.map(planificacion => planificacion.c_strperiodo);
-        
-      }
-    );
-
-    
-  }
-
-  cargarDependencia() {
-    this.dependenciaService.getAll().subscribe(
-      dep => {
-        this.datosDependencia = dep;
-        this.opcionesDependencia = this.datosDependencia.map(dependencia => dependencia.strnombredependencia);
-        
-        
-      }
-    );
-  }
-  
-  
-  getIdDependencia(event:any){
-   
-    const objetoSeleccionado = this.datosDependencia.find(dep=>dep.strnombredependencia === this.txtNombreDependencia);
-    
-    if(objetoSeleccionado){
-      this.txtIdDependencia=objetoSeleccionado.intiddependencia;
-      console.log('id',this.txtIdDependencia)
-    }
-    
-  }
-  
-  validarCedula(){
-    const ok = Cedula.validarCedula(this.txtCiEquipo);
-    if(this.txtCiEquipo.length===10){
-      if(ok===false){
-        console.log('cedula incorrecta')
-        this.messageService.add({ severity: 'error', summary: this.nombre+' '+this.mensaje.CedularIncorrecta});
-
-        this.isGuardarButtonDisabled = true;
-      }else{
-        console.log('cedula ok')
-       this.isGuardarButtonDisabled = false;
-       this.messageService.add({ severity: 'error', summary: this.nombre+'si funciona chugcha '+this.mensaje.CedularIncorrecta});
-      }
-    }
-
-   }
-  
-  
-
   nuevoInforme(){
     this.nuevoModal=true;
     this.titulo="Agregar Informe";
@@ -268,17 +198,206 @@ export class PgListaInformesConvenioComponent {
     this.submitted=false;
   }
 
+  /*************************************** MIEMBRO ********************************/
+  listarMiembros(){
+    this.miembroService.getMiembros(this.txtIdInforme).subscribe(
+      miembro=>{
+        this.datosMiembro=miembro;
+      }
+    )
+  }
+
   nuevoEquipo(){
     this.modalEquipo=true;
     this.cargarDependencia();
+    this.tituloEquipo="Agregar Miembro Equipo"; 
     this.isGuardarButtonDisabled=true;
+    this.submittedEquipo=false;
+    this.txtCiEquipo="";
+    this.txtNombreEquipo="";
+    this.txtActividadEquipo="";
+     
+  }
+
+  
+
+  async guardarEquipo(){
+    this.nombre="Miembro";
+
+    if(this.tituloEquipo==="Agregar Miembro Equipo"){
+
+      if(!this.txtNombreDependencia||!this.txtCiEquipo||!this.txtActividadEquipo){
+        this.submittedEquipo=true;
+        console.log('prueba funcionando',this.submittedEquipo)
+        return;
+      }
+
+      const nuevoMiembro={
+        intIdDependencia:this.txtIdDependencia,
+        strCiEquipo:this.txtCiEquipo,
+        strNombreEquipo:this.txtNombreEquipo,
+        strActividadEquipo:this.txtActividadEquipo
+      };
+  
+       this.miembroService.createMiembros(nuevoMiembro,this.txtIdInforme).subscribe(
+        
+        (response:any)=>{
+          console.log(response.message);
+          if(response.message == "Miembro Agregado"){
+            this.messageService.add({ severity:'success',summary: this.nombre+' '+this.mensaje.IngresadoCorrectamente})//corregir mensaje
+            this.modalEquipo=false;
+            this.listarMiembros();
+          }else{
+            this.messageService.add({ severity: 'error', summary: this.nombre+' '+this.mensaje.ErrorProceso});//corregir mensaje
+  
+          }
+        },
+        (error)=>{
+          console.error('Error de la solicitud HTTP:', error);
+  
+        }
+       );
+
+    }else{
+
+    }
+    
+  }
+
+  /*************************************** ACTIVIDAD ********************************/
+  listarActividad(){
+    this.actividadService.getActividades(this.txtIdInforme).subscribe(
+      actividad=>{
+          this.datosActividad=actividad;
+          console.log(actividad)
+      }
+    )
   }
 
   nuevaActividad(){
     this.modalActividad=true;
+    this.tituloActividad="Agregar Actividad"
+   
+    this.submittedActividad=false;
+    this.txtActividad="";
+  }
+
+  cerrarActividad(){
+    this.modalActividad=false;
+    this.txtNumActividad=-1;
+  }
+
+  calendario(){
+    this.alto='600px'
+  }
+
+  async guardarActividad(){
+    this.nombre="Actividad"
+
+    if(this.tituloActividad==="Agregar Actividad"){
+
+        if(!this.txtActividad||!this.dtFechaInicioActividad ||!this.dtFechaFinActividad ){
+          this.submittedActividad=true;
+          return;
+        }
+
+        const nuevoActividad={
+          intNumActividad:this.txtNumActividad,
+          strActividad:this.txtActividad,
+          dtFechaInicioActividad:this.dtFechaInicioActividad,
+          dtFechaFinActividad:this.dtFechaFinActividad
+        };
+
+       this.actividadService.createActividad(nuevoActividad,this.txtIdInforme).subscribe(
+           
+          (response:any)=>{
+            console.log(response.message); 
+            if(response.message == "Actividad Agregada"){
+              this.messageService.add({ severity:'success',summary: this.nombre+' '+this.mensaje.IngresadoCorrectamente})
+              this.modalActividad=false;
+              this.txtNumActividad=+1;
+              this.listarActividad();
+              
+            }
+          },
+          (error)=>{
+            console.error('Error de la solicitud HTTP:', error);
+          }
+       ); 
+    }else{
+
+    }
+
+  }
+
+  /*************************************** OTRAS FUNCIONES ********************************/
+
+  
+  validarCedula(){
+    const ok = Cedula.validarCedula(this.txtCiEquipo);
+    if(this.txtCiEquipo.length===10){
+      if(ok===false){
+        console.log('cedula incorrecta')
+        this.messageService.add({ severity: 'error', summary: this.nombre+' '+this.mensaje.CedularIncorrecta});
+
+        this.isGuardarButtonDisabled = true;
+      }else{
+        console.log('cedula ok')
+       this.isGuardarButtonDisabled = false;
+       
+      }
+    }
+  }
+
+  getIdDependencia(event:any){
+   
+    const objetoSeleccionado = this.datosDependencia.find(dep=>dep.strnombredependencia === this.txtNombreDependencia);
+    
+    if(objetoSeleccionado){
+      this.txtIdDependencia=objetoSeleccionado.intiddependencia;
+      console.log('id',this.txtIdDependencia)
+    }
+    
+  }
+
+  cargarDependencia() {
+    this.dependenciaService.getAll().subscribe(
+      dep => {
+        this.datosDependencia = dep;
+        this.opcionesDependencia = this.datosDependencia.map(dependencia => dependencia.strnombredependencia);
+        
+        
+      }
+    );
+  }
+
+  getIdConvenio(){
+    this.route.queryParams.subscribe(params=>{
+      const idConvenio = params['idConvenio'];
+      this.txtIdConvenio=idConvenio;
+      console.log('parte 2:',this.txtIdConvenio);
+    })
+  }
+
+  
+  listarPlanificacion() {
+    this.planificacionService.getPlanificaciones(this.txtIdConvenio).subscribe(
+      plan => {
+        this.datosPlanificacion = plan;
+        this.opcionesPeriodo = this.datosPlanificacion.map(planificacion => planificacion.c_strperiodo);
+        
+      }
+    );
+  }
+
+  crearIdInforme(){
+    this.txtIdInforme=this.txtIdConvenio+'_'+this.txtPeriodo;
+    console.log(this.txtIdInforme)
   }
 
 }
+
+
 
 
 

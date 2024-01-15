@@ -15,11 +15,33 @@ export class SActividadService {
 
   constructor(private http:HttpClient) { }
 
+  createActividad(actividad:IActividad,idInforme:string):Observable<IActividad>{
+    const encodedId = encodeURIComponent(idInforme);
+    const apiUrl = `${this.url}/${encodedId}`;
+    console.log('direccion', apiUrl);
+    
+    return this.http.post<IActividad>(apiUrl,actividad);
+  }
+
   getActividades(idInforme:string):Observable<GActividad[]>{
     console.log('idinforme',idInforme)
     const encodedId = encodeURIComponent(idInforme);
     const apiUrl = `${this.url}/${encodedId}`;
 
     return this.http.get<GActividad[]>(apiUrl);
+  }
+
+  editActividad(actividad:IActividad,idInforme:string,idActividad:number):Observable<IActividad>{
+    const encodedId = encodeURIComponent(idInforme).replace;
+    const apiUrl = `${this.url}/${encodedId}/${idActividad}`;
+
+    return this.http.post<IActividad>(apiUrl,actividad);
+  }
+
+  deleteActividad(idInforme:string,idActividad:number):Observable<void>{
+    const encodedId = encodeURIComponent(idInforme).replace;
+    const apiUrl = `${this.url}/${encodedId}/${idActividad}`;
+    return this.http.delete<void>(apiUrl);
+
   }
 }

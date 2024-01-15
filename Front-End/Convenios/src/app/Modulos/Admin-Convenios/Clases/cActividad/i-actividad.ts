@@ -1,6 +1,6 @@
 export interface IActividad {
     intNumActividad:number;
-    stractividad:string;
+    strActividad:string;
     dtFechaInicioActividad:Date;
     dtFechaFinActividad:Date;
 }
