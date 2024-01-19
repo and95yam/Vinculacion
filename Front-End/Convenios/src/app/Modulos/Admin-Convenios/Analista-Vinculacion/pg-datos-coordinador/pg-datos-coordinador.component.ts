@@ -93,6 +93,7 @@ export class PgDatosCoordinadorComponent {
   nuevo(){
     this.nuevoModal=true;
     this.titulo="Agregar Coordinador";
+    this.readonlyMode= false;
     this.isGuardarButtonDisabled=true;
     this.txtCiCoordinador="";
     this.txtNombres="";

@@ -81,3 +81,56 @@ $$;
 /*LLAMADO MOD CONVENIO_INSTITUCION */
 
 CALL smaconvenios.BuscarPlanificacion();
+
+
+/*FUNCION QUE MANDA PLANIFICACION (PARA SEGUIMIENTO)*/
+
+-- FUNCTION: smaconvenios.buscarplanificacionconvenio(character varying)
+
+-- DROP FUNCTION IF EXISTS smaconvenios.buscarplanificacionconvenio(character varying);
+
+CREATE OR REPLACE FUNCTION smaconvenios.buscarplanificacionconvenio(
+	codigo character varying)
+    RETURNS TABLE(c_intidplanificacion integer, c_strperiodo character varying, c_stridconvenio character varying) 
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+    ROWS 1000
+
+AS $BODY$
+BEGIN
+    
+    RETURN QUERY 
+	select * from smaconvenios.planificacion 
+    where codigo = stridconvenio;
+    
+END;
+$BODY$;
+
+ALTER FUNCTION smaconvenios.buscarplanificacionconvenio(character varying)
+    OWNER TO postgres;
+
+
+/* BUSCA PLANIFGICACION POR ID DE CONVENIO */
+
+-- FUNCTION: smaconvenios.buscarplanificacion(integer)
+
+-- DROP FUNCTION IF EXISTS smaconvenios.buscarplanificacion(integer);
+
+CREATE OR REPLACE FUNCTION smaconvenios.buscarplanificacion(
+	codigo integer)
+    RETURNS TABLE(c_intidplanificacion integer, c_strperiodo character varying, c_stridconvenio character varying) 
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+    ROWS 1000
+
+AS $BODY$
+BEGIN
+    
+    RETURN QUERY SELECT * FROM smaconvenios.planificacion WHERE codigo = intidplanificacion;
+END;
+$BODY$;
+
+ALTER FUNCTION smaconvenios.buscarplanificacion(integer)
+    OWNER TO postgres;

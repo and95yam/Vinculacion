@@ -33,7 +33,7 @@ const addInforme = async(req,res)=>{
             const responseEstadoInforme = await con.query('INSERT INTO smaconvenios.estadoinforme(stridinforme,strestadoinforme)VALUES ($1,$2);',[strIdInforme,strEstado])//Hacer procedimiento
 
             res.json ({
-              message: " informe Ingresado",
+              message: "informe Ingresado",
               body: {
                 informe:{strIdInforme,intIdplanificacion3,strPeriodo,id,strBeneficiarioDirecto,strBeneficioDirecto,strBeneficiarioIndirecto,strBeneficioIndirecto,strResultados,strObservaciones,strAnexo}
               }
@@ -103,6 +103,31 @@ const addInforme = async(req,res)=>{
     console.error(`Se produjo un error en la línea ${error.stack}`)
   }
  }
+
+ const editarInforme = async (req,res)=>{
+  try{
+      const id = req.params.id;
+      const idConvenio = req.params.idConvenio;
+      const{strPeriodo,strBeneficiarioDirecto,strBeneficioDirecto,strBeneficiarioIndirecto,strBeneficioIndirecto,strResultados,strObservaciones,strAnexo}=req.body;
+      console.log('idInforme', id); 
+      console.log('idConvenio',idConvenio)
+
+      const intIdPlanificacion1 = await con.query('select intidplanificacion from smaconvenios.planificacion Where stridconvenio = $1 And strperiodo = $2',[idConvenio,strPeriodo]);
+      console.log(intIdPlanificacion1.rows)
+      const intIdPlanificacion2 = intIdPlanificacion1.rows//manda las filas de la consulta 
+      const intIdPlanificacion3 = intIdPlanificacion2[0].intidplanificacion// el valor de idplanificacion
+      console.log('aqui',intIdPlanificacion2[0])
+      //modificacion de datos en la tabla informe
+      const response = await con.query('CALL smaconvenios.modinforme($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)',
+      [id,intIdPlanificacion3,strPeriodo,idConvenio,strBeneficiarioDirecto,strBeneficioDirecto,strBeneficiarioIndirecto,strBeneficioIndirecto,strResultados,strObservaciones,strAnexo])
+      console.log(response);
+      res.json({message:'informe actualizado'})
+  }catch(error){
+    res.status(500).send({succes:false, message:error.message});
+    console.error(`Se produjo un error en la línea ${error.stack}`)
+  }
+
+ }
  
 
 module.exports={
@@ -110,5 +135,6 @@ module.exports={
   getInforme,
   getInformeCoord,
   getDatosInformeCoord,
-  getInformesConvenio
+  getInformesConvenio,
+  editarInforme
 }

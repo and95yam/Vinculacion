@@ -27,7 +27,7 @@ export class DireccionesApi{
   grupo:string="http://localhost:3000/grupo"
 
 
-  cedula1:string="0955416755"
-  cedula2:string="0955416755"
+  cedula1:string="1001833647"
+  cedula2:string="1001833647"
   cedula3:string="0605018993"
 }

@@ -36,3 +36,14 @@ export interface IInformeConvenio {
   c_blnfirmado:boolean;
 
 }
+
+
+export interface AddInforme{
+  strPeriodo:string; 
+  strBeneficiarioDirecto:string; 
+  strBeneficioDirecto:string; 
+  strBeneficiarioIndirecto:string;
+  strBeneficioIndirecto:string;
+  strResultados:string;
+  strAnexo:string;
+}

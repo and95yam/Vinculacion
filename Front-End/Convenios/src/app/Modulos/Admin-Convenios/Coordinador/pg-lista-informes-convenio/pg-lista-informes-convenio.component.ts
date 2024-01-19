@@ -44,6 +44,7 @@ export class PgListaInformesConvenioComponent {
   submitted!:boolean;
   submittedEquipo!:boolean;
   submittedActividad!:boolean;
+  submittedPeriodo!:boolean;
   titulo: string="";
   nombre:string="";
   nuevoModal:boolean=false;
@@ -61,7 +62,7 @@ export class PgListaInformesConvenioComponent {
   tituloEquipo:string="";
   tituloActividad:string="";
   
-
+ //Variables Datos Convenio
   txtTituloInforme:string="";
   txtTituloConvenio:string=""
   txtCoordinador:string="";
@@ -75,20 +76,26 @@ export class PgListaInformesConvenioComponent {
   txtFechaInicio!:Date;
   txtFechaFin!:Date;
   txtIdInforme:string="";
+  txtObjetivo:string="";
+  
+  
+  readonlyMode:boolean =false;
+  opcionesPeriodo: any[]=[];// arreglo para cargar los periodos de los convenios 
+  opcionesDependencia: any[]=[];//arreglo para cargar las dependencias 
+   
+  //Estado convenio
+   blnFirmado: boolean=true;
+   txtEstado!:string;
+
+  //Variables Informe 
   txtPeriodo:string="";
   txtBeneficiarioDirecto:string="";
   txtBeneficioDirecto:string="";
   txtBeneficiarioIndirecto:string="";
   txtBeneficioIndirecto:string="";
-  txtObjetivo:string="";
   txtResultados:string="";
   txtObservaciones:string="";
   txtAnexo:string="";
-  blnFirmado: boolean=true;
-  readonlyMode:boolean =false;
-  opcionesPeriodo: any[]=[];// arreglo para cargar los periodos de los convenios 
-  opcionesDependencia: any[]=[];//arreglo para cargar las dependencias 
-  
 
   //Variables Equipo
   txtNombreDependencia:string=""
@@ -99,7 +106,7 @@ export class PgListaInformesConvenioComponent {
 
   //Variables Actividad
 
-  txtNumActividad:number=1;
+  txtNumActividad:number=0;
   txtActividad:string="";
   dtFechaInicioActividad!:Date;
   dtFechaFinActividad!:Date;
@@ -196,8 +203,98 @@ export class PgListaInformesConvenioComponent {
     this.txtBeneficioIndirecto= "";
     this.txtResultados= "";
     this.submitted=false;
+
+    
   }
 
+  async GenerarInforme(){
+
+    const crearInforme={
+      strPeriodo:this.txtPeriodo,
+      strBeneficiarioDirecto:"",
+      strBeneficioDirecto:"",
+      strBeneficiarioIndirecto:"", 
+      strBeneficioIndirecto:"", 
+      strResultados:"",
+      strObservaciones:"",
+      strAnexo:""
+
+      
+    };
+
+    this.informeconvenioService.createInforme(crearInforme,this.txtIdConvenio).subscribe(
+      (response:any)=>{console.log(response.message)}
+
+    )
+  }
+
+  async guardarInforme(){
+    this.nombre="Informe";
+   
+    if(this.titulo="Agregar Informe"){
+
+      //console.log('entra a funcion')
+      if(!this.txtBeneficiarioDirecto||!this.txtBeneficioDirecto||!this.txtResultados/*||!this.txtObservaciones||!this.txtAnexo*/){
+        
+        if(this.equipoAgregado==false && this.actividadAgregada==false){
+        if(this.equipoAgregado==false){
+          this.messageService.add({ severity:'error',summary: this.mensaje.EquipoNoIngresada})
+        }
+        if(this.actividadAgregada==false){
+          this.messageService.add({ severity:'error',summary: this.mensaje.ActividadNoIngresada})
+        }
+      }
+        
+        
+        console.log('entra a funcion')
+        
+        this.submitted=true;
+        console.log(this.submitted);
+        return;
+      }
+
+      
+
+      const nuevoInforme={
+        strPeriodo:this.txtPeriodo,
+        strBeneficiarioDirecto:this.txtBeneficiarioDirecto,
+        strBeneficioDirecto:this.txtBeneficioDirecto,
+        strBeneficiarioIndirecto:this.txtBeneficiarioIndirecto, 
+        strBeneficioIndirecto:this.txtBeneficioIndirecto, 
+        strResultados:this.txtResultados,
+        strObservaciones:this.txtObservaciones,
+        strAnexo:this.txtAnexo
+
+      };
+
+      console.log(nuevoInforme);
+
+      this.informeconvenioService.editInforme(nuevoInforme,this.txtIdInforme,this.txtIdConvenio).subscribe(
+          
+        (response:any)=>{
+          console.log('entra aqui x2');
+          console.log(response.message);
+          if(response.message =="informe actualizado"){
+            this.messageService.add({ severity:'success',summary: this.nombre+' '+this.mensaje.IngresadoCorrectamente})//corregir mensaje
+            this.nuevoModal=false;
+            this.listarInformes();
+
+          }else{
+            this.messageService.add({ severity: 'error', summary: this.nombre+' '+this.mensaje.ErrorProceso});//corregir mensaje
+  
+          }
+        },
+        (error)=>{
+          console.error('Error de la solicitud HTTP:', error);
+  
+        }
+      );
+                
+
+      
+    }
+
+  }
   /*************************************** MIEMBRO ********************************/
   listarMiembros(){
     this.miembroService.getMiembros(this.txtIdInforme).subscribe(
@@ -216,7 +313,7 @@ export class PgListaInformesConvenioComponent {
     this.txtCiEquipo="";
     this.txtNombreEquipo="";
     this.txtActividadEquipo="";
-     
+    this.GenerarInforme(); 
   }
 
   
@@ -246,6 +343,7 @@ export class PgListaInformesConvenioComponent {
           if(response.message == "Miembro Agregado"){
             this.messageService.add({ severity:'success',summary: this.nombre+' '+this.mensaje.IngresadoCorrectamente})//corregir mensaje
             this.modalEquipo=false;
+            this.equipoAgregado=true;
             this.listarMiembros();
           }else{
             this.messageService.add({ severity: 'error', summary: this.nombre+' '+this.mensaje.ErrorProceso});//corregir mensaje
@@ -277,14 +375,14 @@ export class PgListaInformesConvenioComponent {
   nuevaActividad(){
     this.modalActividad=true;
     this.tituloActividad="Agregar Actividad"
-   
+    this.txtNumActividad++
     this.submittedActividad=false;
     this.txtActividad="";
   }
 
   cerrarActividad(){
     this.modalActividad=false;
-    this.txtNumActividad=-1;
+    this.txtNumActividad--;
   }
 
   calendario(){
@@ -315,7 +413,9 @@ export class PgListaInformesConvenioComponent {
             if(response.message == "Actividad Agregada"){
               this.messageService.add({ severity:'success',summary: this.nombre+' '+this.mensaje.IngresadoCorrectamente})
               this.modalActividad=false;
-              this.txtNumActividad=+1;
+              this.actividadAgregada=true; 
+              this.titulo="Agregar Informe";
+              //this.txtNumActividad=this.txtNumActividad+1;
               this.listarActividad();
               
             }

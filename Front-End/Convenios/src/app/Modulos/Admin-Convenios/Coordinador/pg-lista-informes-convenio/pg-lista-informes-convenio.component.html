@@ -220,7 +220,7 @@
             <div class="p-field" >
               <label for="name">Periodo:</label>
               <p-dropdown [options]="opcionesPeriodo"  [(ngModel)]="txtPeriodo" placeholder="Seleccionar periodo" (click)="crearIdInforme()"></p-dropdown>
-
+              <small class="p-invalid"  *ngIf="submittedPeriodo && !txtPeriodo">Seleccione un Periodo </small>
               
             </div>
           </div> 
@@ -291,22 +291,29 @@
         <div class="campo" style="width: 50%;">
           <label for="name">DIRECTOS:</label>
           <textarea  rows="5" cols="30" pInputTextarea [(ngModel)]="txtBeneficiarioDirecto" [readOnly]="controlIngresoCampos"></textarea>
+          <small class="p-invalid"  *ngIf="submitted && !txtBeneficiarioDirecto">Beneficiario Necesario</small>
         </div>
         <div class="campo" style="width: 50%;">
           <div>
             <label for="name">BENEFICIO DIRECTO:</label>
-            <textarea  rows="5" cols="30" pInputTextarea [(ngModel)]="txtBeneficioDirecto" [readOnly]="controlIngresoCampos"></textarea>        </div>
+            <textarea  rows="5" cols="30" pInputTextarea [(ngModel)]="txtBeneficioDirecto" [readOnly]="controlIngresoCampos"></textarea>  
+            <small class="p-invalid"  *ngIf="submitted && !txtBeneficioDirecto">Beneficio Necesario</small>
+          </div>
         </div>
       </div>
       <div>
         <div *ngIf="false" class="campo" style="width: 50%;">
           <label for="name">INDIRECTOS:</label>
           <textarea  rows="5" cols="30" pInputTextarea [(ngModel)]="txtBeneficiarioIndirecto" [readOnly]="controlIngresoCampos"></textarea>
+          
         </div>
         <div  *ngIf="false"class="campo" style="width: 50%;">
           <div>
             <label for="name">BENEFICIO INDIRECTO:</label>
-            <textarea  rows="5" cols="30" pInputTextarea [(ngModel)]="txtBeneficioIndirecto" [readOnly]="controlIngresoCampos"></textarea>        </div>
+            <textarea  rows="5" cols="30" pInputTextarea [(ngModel)]="txtBeneficioIndirecto" [readOnly]="controlIngresoCampos"></textarea> 
+          
+
+          </div>
         </div>
       </div>
   
@@ -360,6 +367,8 @@
       <div class="p-field">
         <label for="name">Resultados:</label>
         <textarea  rows="5" cols="30" pInputTextarea [(ngModel)]="txtResultados" [readOnly]="controlIngresoCampos"></textarea>
+        <small class="p-invalid"  *ngIf="submitted && !txtResultados">Resultados Necesarios</small>
+
       </div><br>
       <div class="p-field" *ngIf="controlVerCampos">
         <label for="name">Observaciones:</label>
@@ -387,7 +396,7 @@
     <ng-template pTemplate="footer">
   
       <button pButton pRipple label="Cerrar" icon="pi pi-times" class="p-button-text" (click)="nuevoModal=false" ></button> 
-      <button   pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text"   ></button>
+      <button   pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="guardarInforme()"  ></button>
   
   
     </ng-template>

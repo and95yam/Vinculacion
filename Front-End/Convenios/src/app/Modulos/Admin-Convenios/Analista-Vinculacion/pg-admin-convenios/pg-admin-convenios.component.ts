@@ -11,7 +11,7 @@ import { SCoordinadorService } from '../../Clases/cCoordinador/s-coordinador.ser
 import { SInstitucionService } from '../../Clases/cInstitucion/s-institucion.service';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 import { format } from 'date-fns';
-
+import { parse, addYears, isAfter } from 'date-fns';
 
 @Component({
   selector: 'app-pg-admin-convenios',
@@ -86,9 +86,9 @@ export class PgAdminConveniosComponent {
   txtfechaFinFormat:string ="";
 
 
-  opcionesNaturaleza = ['Marco', 'Especifico'];
+  opcionesNaturaleza = ['Nacional','Internacional'];
 
-    opcionesClasificacion =['Nacional','Internacional'];
+    opcionesClasificacion =['Marco', 'Especifico'];
 
     opcionesRazon=[ 'Bimestral','Trimestral','Cuatrimestral', 'Semestral','Anual'];
 
@@ -113,7 +113,7 @@ export class PgAdminConveniosComponent {
           console.log(convenioTbl)
           this.tablaConvenios.forEach(convenioTbl=>{
 
-            this.tiempo=convenioTbl.dtfechainicioconvenio
+            this.tiempo=convenioTbl.dtfechainicioconvenio;
             this.vigencia=convenioTbl.strvigencia
             this.calcularVigencia()
            // console.log(this.vigente)
@@ -429,11 +429,15 @@ export class PgAdminConveniosComponent {
 
 
     calcularVigencia() {//mandar a clase
+      
       this.vigente!=null
       const fechaActual = new Date();
       const fecha = new Date(this.tiempo);
+     
+      console.log(this.tiempo)
       fecha.setFullYear(fecha.getFullYear() + this.vigencia);
-
+      console.log(fecha)
+      console.log(fechaActual)
       if (fechaActual > fecha) {
         this.vigente=false;
         return false;

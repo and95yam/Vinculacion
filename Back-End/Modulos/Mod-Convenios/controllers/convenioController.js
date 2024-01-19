@@ -95,8 +95,8 @@ const getConvenio = async(req,res)=>{//SE UTILIZA PARA VER CONVENIOS ACTUALMENTE
              // if (typeof item.c_dtfechainicioconvenio === 'string') {
                 const fechaInicioOriginal = new Date(item.dtfechainicioconvenio);
                 const fechaFinOriginal = new Date(item.dtfechafinconvenio);
-                item.dtfechainicioconvenio = fechaInicioOriginal.toLocaleDateString('es-ES').replace(/\//g, '-');
-                item.dtfechafinconvenio = fechaFinOriginal.toLocaleDateString('es-ES').replace(/\//g, '-');
+                item.dtfechainicioconvenio = fechaInicioOriginal//.toLocaleDateString('es-ES').replace(/\//g, '-');
+                item.dtfechafinconvenio = fechaFinOriginal//.toLocaleDateString('es-ES').replace(/\//g, '-');
                /* item.dtfechainicioconvenio = fechaInicioOriginal.toLocaleDateString('es-ES');
                 item.dtfechafinconvenio = fechaFinOriginal.toLocaleDateString('es-ES');*/
               //}
@@ -164,8 +164,8 @@ const verConveniosCoordinador = async(req,res)=>{
 
                     const fechaInicioOriginal2 = new Date (item.c_dtfechainicioconvenio);
                     const fechaFinOriginal2= new Date (item.c_dtfechafinconvenio);
-                    item.c_dtfechainicioconvenio = fechaInicioOriginal2.toLocaleDateString('es-ES').replace(/\//g, '-');
-                    item.c_dtfechafinconvenio = fechaFinOriginal2.toLocaleDateString('es-ES').replace(/\//g, '-');
+                    item.c_dtfechainicioconvenio = fechaInicioOriginal2//.toLocaleDateString('es-ES').replace(/\//g, '-');
+                    item.c_dtfechafinconvenio = fechaFinOriginal2//.toLocaleDateString('es-ES').replace(/\//g, '-');
                 } 
             });
 
