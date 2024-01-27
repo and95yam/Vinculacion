@@ -67,7 +67,7 @@
                   <td style="width: 1%;">
                     <div style="display: flex;">
                     <button pButton pRipple icon="pi pi-eye" class="p-button-rounded mr-2 p-button-success" pTooltip="Información"  (click)="verInforme(item)"   ></button> 
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded  " pTooltip="Editar"  ></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded  " pTooltip="Editar" (click)="editarInforme(item)" ></button>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-roundedmr-2 btn-rojo" pTooltip="Eliminar"  ></button>
                     </div>
     
@@ -207,7 +207,7 @@
   
         
   
-        <div class="custom-col" *ngIf="controlVerCampos">
+        <div class="custom-col" *ngIf="accionInforme">
           <div class="p-field" >
             <label for="name">Periodo:</label>
             <input  type="text" pInputText id="txtFechaFin" [(ngModel)]="txtPeriodo" [readOnly]=true/>
@@ -216,7 +216,7 @@
 
         
 
-        <div class="custom-col" *ngIf="!controlVerCampos">
+        <div class="custom-col" *ngIf="!accionInforme">
             <div class="p-field" >
               <label for="name">Periodo:</label>
               <p-dropdown [options]="opcionesPeriodo"  [(ngModel)]="txtPeriodo" placeholder="Seleccionar periodo" (click)="crearIdInforme()"></p-dropdown>
@@ -267,10 +267,10 @@
             <tr>
             
               <th  style="width:15% ; font-size: 10px;">DEPENDENCIA </th>
-              <th  style="width:15% ; font-size: 10px;">CI </th>
-              <th  style="width:15% ; font-size: 10px;">NOMBRES </th>
-              <th  style="width:15% ; font-size: 10px;">ACTIVIDAD </th>
-              <th  *ngIf="controlEquipoyActividad" style="width:15% ; font-size: 10px;">ACCCIÓN </th>
+              <th  style="width:10% ; font-size: 10px;">CI </th>
+              <th  style="width:30% ; font-size: 10px;">NOMBRES </th>
+              <th  style="width:40% ; font-size: 10px;">ACTIVIDAD </th>
+              <th  *ngIf="verAccion" style="width:15% ; font-size: 10px;">ACCCIÓN </th>
               
             
             </tr>
@@ -281,6 +281,13 @@
               <td >{{ item.c_strciequipo}}</td>
               <td >{{ item.c_strnombreequipo}}</td>
               <td >{{ item.c_stractividadequipo}}</td>
+              <td *ngIf="verAccion" style="width: 1%;">
+                <div style="display: flex;">
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded  " pTooltip="Editar"  (click)="editarEquipo(item)"></button>
+                <button pButton pRipple icon="pi pi-trash" class="p-button-roundedmr-2 btn-rojo" pTooltip="Eliminar" (click)="eliminarEquipo(item)"  ></button>
+                </div>
+
+              </td>
           
             </tr>
           </ng-template>
@@ -346,9 +353,10 @@
             
               
               <th  style="width:15% ; font-size: 10px;">NUM ACTIVIDAD </th>
-              <th  style="width:15% ; font-size: 10px;">ACTIVIDAD </th>
+              <th  style="width:45% ; font-size: 10px;">ACTIVIDAD </th>
               <th  style="width:15% ; font-size: 10px;">FECHA INICIO  </th>
               <th  style="width:15% ; font-size: 10px;">FECHA FIN  </th>
+              <th  *ngIf="verAccion" style="width:15% ; font-size: 10px;">ACCCIÓN </th>
             
             </tr>
           </ng-template>
@@ -358,6 +366,13 @@
               <td >{{ item.c_stractividad}}</td>
               <td >{{ item.c_dtfechainicioactividad}}</td>
               <td >{{ item.c_dtfechafinactividad}}</td>
+              <td  *ngIf="verAccion" style="width: 0.25%;">
+                <div style="display: flex; align-items: center;">
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded  " pTooltip="Editar" (click)="editarActividad(item)"></button>
+                <button pButton pRipple icon="pi pi-trash" class="p-button-roundedmr-2 btn-rojo" pTooltip="Eliminar" (click)="eliminarActividad(item)" ></button>
+                </div>
+
+              </td>
           
             </tr>
           </ng-template>
@@ -418,7 +433,7 @@
 
       <div class="p-field">
         <label for="name">CI:</label>
-        <input type="text" pInputText id="strciequipo" [(ngModel)]="txtCiEquipo"  maxlength="10"
+        <input [readOnly]="soloLectura" type="text" pInputText id="strciequipo" [(ngModel)]="txtCiEquipo"  maxlength="10"
           (ngModelChange)="validarCedula()" #txtCiEquipoModel="ngModel" />
         <small class="p-invalid" *ngIf="submittedEquipo && !txtCiEquipo">Cédula Necesaria</small>
       </div><br>
@@ -463,13 +478,17 @@
       
       <div class="p-field" >
         <label for="name">Fecha de Inicio:</label>
-        <p-calendar [ngClass]="{'error': submittedActividad && !dtFechaInicioActividad}"   [(ngModel)]=" dtFechaInicioActividad" dateFormat="yy-mm-dd" (click)="calendario()" ></p-calendar>
+        <p-calendar  *ngIf="verFecha"   [ngClass]="{'error': submittedActividad && !dtFechaInicioActividad}"   [(ngModel)]=" dtFechaInicioActividad" dateFormat="yy-mm-dd" (click)="calendario()" ></p-calendar>
+        <input *ngIf="!verFecha" [ngClass]="dtFechaInicioActividad" type="text" pInputText id="dtFechaInicioActividad" [(ngModel)]="dtFechaInicioActividad"   readonly="true" (click)="verFecha=true" />
+
         <small class="p-invalid"  *ngIf="submittedActividad && !dtFechaInicioActividad">Fecha Inicio Necesaria</small>
       </div><br>
 
       <div class="p-field" >
         <label for="name">Fecha Fin:</label>
-        <p-calendar [ngClass]="{'error': submittedActividad && !dtFechaFinActividad}"   [(ngModel)]="dtFechaFinActividad" dateFormat="yy-mm-dd" (click)="calendario()" ></p-calendar>
+        <p-calendar *ngIf="verFecha2"  [ngClass]="{'error': submittedActividad && !dtFechaFinActividad}"   [(ngModel)]="dtFechaFinActividad" dateFormat="yy-mm-dd" (click)="calendario()" ></p-calendar>
+        <input *ngIf="!verFecha2"  [ngClass]="dtFechaFinActividad" type="text" pInputText id="dtFechaFinActividad" [(ngModel)]="dtFechaFinActividad"  readonly="true" (click)="verFecha2=true" />
+
         <small class="p-invalid"  *ngIf="submittedActividad && !dtFechaFinActividad">Fecha Inicio Necesaria</small>
       </div><br>
   
@@ -482,3 +501,20 @@
   
   </p-dialog>
   
+
+  <p-toast></p-toast> 
+  <p-dialog [(visible)]="modalBorrar" header="{{titulo}}" [modal]="true" styleClass="p-fluid"  [style]="{width: '350px'}" [contentStyle]="{ 'height': '50px' }" >
+    
+    <div class="p-field" >
+      <label for="name">{{txtConfirmacion}}</label>
+
+    </div>
+  
+      
+    <ng-template pTemplate="footer" >
+      <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="modalBorrar=false" ></button>
+      <button pButton pRipple label="Borrar" style="color: red;" icon="pi pi-trash" class="p-button-text" (click)="borrar()"  ></button>
+  
+    </ng-template>
+  
+  </p-dialog>

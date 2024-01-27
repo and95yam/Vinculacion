@@ -48,7 +48,7 @@ const editEqInforme = async (req, res) =>{
         const response = await con.query('CALL smaconvenios.modequipoinforme($1,$2,$3,$4,$5,$6)',[id,intIdDependencia,strCiEquipo,strNombreEquipo,strActividadEquipo,idci]);
 
         console.log(response);
-        res.json('miembro {$id} y {idci} actualizado')
+        res.json({message: 'miembro actualizado'})
 
     }catch(error){
         res.status(500).send({success:false,message: error.message});
@@ -63,7 +63,7 @@ const delEqInforme = async (req,res) => {
 
         const response = await con.query('CALL smaconvenios.delequipoinforme($1,$2)',[id,idci])
         console.log(response);
-        res.json('miembro'+id+idci+'Eliminado');
+        res.json({message: 'miembro eliminado'});
     }catch(error){
 
     }

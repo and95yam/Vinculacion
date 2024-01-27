@@ -60,7 +60,7 @@ RETURNS TABLE (
 AS $$
 BEGIN
     
-    RETURN QUERY SELECT intnumactividad,stridinforme,stractividad, dtfechafinactividad, dtfechafinactividad FROM smaconvenios.actividadinforme WHERE codigo = stridinforme
+    RETURN QUERY SELECT intnumactividad,stridinforme,stractividad, dtfechainicioactividad, dtfechafinactividad FROM smaconvenios.actividadinforme WHERE codigo = stridinforme
     ORDER BY intnumactividad ASC;
 END;
 $$ LANGUAGE plpgsql;

@@ -32,7 +32,7 @@ const addConvenio = async(req,res)=>{// INGRESA EL CONVENIO COMPLETO MAS LA PLAN
 
         
         while(fechaActual!==null){
-            const strperiodo =calcularFechaSiguiente(fechaActual, (intrazonconvenio*30), dtfechafinconvenio);
+            const strperiodo =calcularFechaSiguiente(fechaActual, ((intrazonconvenio-1)*30), dtfechafinconvenio);
             console.log('entrada bucle');
             console.log(strperiodo)
             

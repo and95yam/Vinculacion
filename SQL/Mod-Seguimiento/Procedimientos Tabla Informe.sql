@@ -248,3 +248,31 @@ BEGIN
 	WHERE conv.stridconvenio= codigo;
 END; 
 $$ LANGUAGE plpgsql;
+
+/* ELIMINAR INFORME */
+
+CREATE OR REPLACE PROCEDURE smaconvenios.eliminarInforme(codigo VARCHAR(32))
+AS
+$$
+BEGIN
+    -- Eliminar de la tabla actividadinforme
+    DELETE FROM smaconvenios.actividadinforme WHERE stridinforme = codigo;
+
+    -- Eliminar de la tabla eqinforme
+    DELETE FROM smaconvenios.eqinforme WHERE stridinforme = codigo;
+
+    -- Eliminar de la tabla estadoinforme
+    DELETE FROM smaconvenios.estadoinforme WHERE stridinforme = codigo;
+
+    -- Eliminar de la tabla informe
+    DELETE FROM smaconvenios.informe WHERE stridinforme = codigo;
+
+    -- Puedes agregar más eliminaciones si es necesario
+
+    -- Confirmar la transacción
+    COMMIT;
+END;
+$$
+LANGUAGE plpgsql;
+
+call smaconvenios.eliminarInforme('cp.08.2024_2024-01_2024-07')

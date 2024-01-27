@@ -45,7 +45,7 @@ const editActInforme = async (req,res) => {
         const response = await con.query('CALL smaconvenios.ModActInforme($1,$2,$3,$4,$5)',[id,idact,stractividad,dtfechainicioactividad,dtfechafinactividad]);
 
         console.log(response.rows);
-        res.json('actividad '+id+'actualizada');
+        res.json({message: 'actividad actualizada'});
 
     }catch(error){
         res.status(500).send({success:false,message:error.message});
@@ -58,7 +58,7 @@ const delActInforme = async (req,res) => {
             const idact = req.params.idact;
 
             const response = await con.query('CALL smaconvenios.DelActInforme($1,$2)',[idact,id]);
-            res.json('actividad '+ idact+' eliminada');
+            res.json({message:'Actividad ELiminada'});
     }catch(error){
         res.status(500).send({success:false,message:error.message});
     }

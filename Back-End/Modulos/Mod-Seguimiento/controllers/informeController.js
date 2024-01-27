@@ -19,6 +19,8 @@ const addInforme = async(req,res)=>{
             const intIdplanificacion2 = intIdplanificacion.rows;// manda las filas de la consulta 
             
             const intIdplanificacion3 = intIdplanificacion2[0].intidplanificacion// da el valor de la fila exacta. y el idplanificacion
+
+            
            
              
             const strEstado = 'Entregado'
@@ -31,6 +33,20 @@ const addInforme = async(req,res)=>{
             //Ingreso Tabla estado Informe 
 
             const responseEstadoInforme = await con.query('INSERT INTO smaconvenios.estadoinforme(stridinforme,strestadoinforme)VALUES ($1,$2);',[strIdInforme,strEstado])//Hacer procedimiento
+
+            const numeroFilas = await con.query('select count(strperiodo) from smaconvenios.planificacion where stridconvenio =$1',[id])//regresa conteo de filas de planificacion
+            const numeroFilas2 = numeroFilas.rows;
+            const numeroFilas3 = parseInt(numeroFilas2[0].count)
+
+            const avance1= await con.query('select fltavanceconvenio from smaconvenios.convenio where stridconvenio =$1',[id])
+            const avance2=avance1.rows;
+            const avance3=parseFloat(avance2[0].fltavanceconvenio);
+            console.log(avance3)
+            const avance4 = (100/numeroFilas3)+avance3;
+            console.log(avance4)
+            const actualizarAvance = await con.query('update smaconvenios.convenio set fltavanceconvenio=$1 where stridconvenio= $2',[avance4,id])
+             
+
 
             res.json ({
               message: "informe Ingresado",
@@ -128,6 +144,8 @@ const addInforme = async(req,res)=>{
   }
 
  }
+
+ 
  
 
 module.exports={

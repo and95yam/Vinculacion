@@ -4,7 +4,7 @@ const{addActInforme,getActInforme,editActInforme,delActInforme}=require('../cont
 
 router.post('/actividad/:id',addActInforme);//Id informe
 router.get('/actividad/:id',getActInforme);//id informe
-router.put('/actividad/:id/:idact',editActInforme);
-router.delete('/actividad/:id/:idact',delActInforme);
+router.put('/actividad/:id/:idact',editActInforme);//id informe/idactividad
+router.delete('/actividad/:id/:idact',delActInforme);//id informe/idactividad
 
 module.exports = router;

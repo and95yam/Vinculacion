@@ -1,5 +1,5 @@
 export interface IActividad {
-    intNumActividad:number;
+    //intNumActividad:number;
     strActividad:string;
     dtFechaInicioActividad:Date;
     dtFechaFinActividad:Date;
@@ -13,4 +13,10 @@ export interface GActividad{
         c_dtfechainicioactividad:Date; 
         c_dtfechafinactividad:Date;
       
+}
+export interface EActividad {
+    //intNumActividad:number;
+    stractividad:string;
+    dtfechainicioactividad:Date;
+    dtfechafinactividad:Date;
 }

@@ -7,9 +7,9 @@ import { SMiembroService } from '../../Clases/cMiembro/s-miembro.service';//Serv
 import { SActividadService } from '../../Clases/cActividad/s-actividad.service';// servicio actividades
 import { SPlanificacionService } from '../../Clases/cPlanificacion/s-planificacion.service';//servicio planificacion
 import { IPlanificacion } from '../../Clases/cPlanificacion/i-planificacion';
-import { IActividad,GActividad } from '../../Clases/cActividad/i-actividad';//interface actividad
+import { IActividad,GActividad,EActividad } from '../../Clases/cActividad/i-actividad';//interface actividad
 import { GMiembro} from '../../Clases/cMiembro/i-miembro';//Interface miembro
-import { IInformeConvenio} from '../../Clases/cInforme/i-informe';//interface datos informe
+import { AddInforme, IInformeConvenio} from '../../Clases/cInforme/i-informe';//interface datos informe
 import { IConvenio, IConvenioInforme } from '../../Clases/cConvenio/i-convenio';//interface datos convenio
 import { SDependenciaService } from '../../Clases/cDependencia/sDependencia.service';//servicio que llama a dependencia
 import { cGetDependencia } from '../../Clases/cDependencia/cDependencia';//interface dependencia
@@ -50,17 +50,23 @@ export class PgListaInformesConvenioComponent {
   nuevoModal:boolean=false;
   modalEquipo:boolean=false;
   modalActividad:boolean=false;
+  modalBorrar:boolean=false;
   isGuardarButtonDisabled:boolean=true;
   alto:string='350px';
   ancho:string='500px'
   equipoAgregado:boolean = false;//control agregar equipo
   actividadAgregada:boolean = false;// control agregar actividades 
+  accionInforme:boolean=false//control informe si es agregar o editar 
+  txtConfirmacion:string=""//para borrar equipo o actividad
 
   controlVerCampos:boolean=true;
   controlIngresoCampos:boolean=true;
-  controlEquipoyActividad:boolean=true;
+  controlEquipoyActividad:boolean=true;//posible borrar
   tituloEquipo:string="";
   tituloActividad:string="";
+  verAccion:boolean=true;
+  soloLectura:boolean=true;
+  
   
  //Variables Datos Convenio
   txtTituloInforme:string="";
@@ -77,6 +83,7 @@ export class PgListaInformesConvenioComponent {
   txtFechaFin!:Date;
   txtIdInforme:string="";
   txtObjetivo:string="";
+
   
   
   readonlyMode:boolean =false;
@@ -96,6 +103,7 @@ export class PgListaInformesConvenioComponent {
   txtResultados:string="";
   txtObservaciones:string="";
   txtAnexo:string="";
+  
 
   //Variables Equipo
   txtNombreDependencia:string=""
@@ -110,6 +118,8 @@ export class PgListaInformesConvenioComponent {
   txtActividad:string="";
   dtFechaInicioActividad!:Date;
   dtFechaFinActividad!:Date;
+  verFecha:boolean=true;
+  verFecha2:boolean=true;
 
   constructor(
     private messageService:MessageService, 
@@ -140,10 +150,12 @@ export class PgListaInformesConvenioComponent {
   }
 
   verInforme(id:IInformeConvenio){
+    this.verAccion=false;
     this.nuevoModal=true;
     this.controlVerCampos=true;
     this.controlIngresoCampos=true;
     this.controlEquipoyActividad=false;
+    this.accionInforme=true;
     
     this.titulo="Informe";
     this.txtIdConvenio=id.c_stridconvenio;
@@ -189,8 +201,10 @@ export class PgListaInformesConvenioComponent {
 
   nuevoInforme(){
     this.nuevoModal=true;
+    this.verAccion=true;
     this.titulo="Agregar Informe";
     this.controlVerCampos=false;
+    this.accionInforme=false;
     this.controlIngresoCampos=false
     this.controlEquipoyActividad=true;
     this.datosMiembro=[];
@@ -207,6 +221,34 @@ export class PgListaInformesConvenioComponent {
     
   }
 
+  editarInforme(id:IInformeConvenio){
+    this.nuevoModal=true; 
+    this.verAccion=true;
+    this.titulo="Editar Informe"
+    this.controlVerCampos=false;
+    
+    this.accionInforme=true;
+    this.controlIngresoCampos=false;
+
+    this.txtIdConvenio=id.c_stridconvenio;
+    this.txtIdInforme=id.c_stridinforme;
+    this.txtCiCoordinador=id.c_strcicoordinador;
+    this.txtPeriodo=id.c_strperiodo;
+
+    
+    this.listarConvenioInforme();
+    this.listarMiembros();
+    this.listarActividad();
+    this.txtBeneficiarioDirecto=id.c_strbeneficiariodirecto
+    this.txtBeneficioDirecto=id.c_strbeneficiodirecto
+    this.txtBeneficiarioIndirecto= id.c_strbeneficiarioindirecto
+    this.txtBeneficioIndirecto= id.c_strbeneficioindirecto
+    this.txtResultados= id.c_strresultados
+    this.txtObservaciones=id.c_strobservaciones
+    
+   
+  }
+
   async GenerarInforme(){
 
     const crearInforme={
@@ -218,8 +260,6 @@ export class PgListaInformesConvenioComponent {
       strResultados:"",
       strObservaciones:"",
       strAnexo:""
-
-      
     };
 
     this.informeconvenioService.createInforme(crearInforme,this.txtIdConvenio).subscribe(
@@ -227,6 +267,8 @@ export class PgListaInformesConvenioComponent {
 
     )
   }
+
+
 
   async guardarInforme(){
     this.nombre="Informe";
@@ -306,6 +348,7 @@ export class PgListaInformesConvenioComponent {
 
   nuevoEquipo(){
     this.modalEquipo=true;
+    this.soloLectura=false;
     this.cargarDependencia();
     this.tituloEquipo="Agregar Miembro Equipo"; 
     this.isGuardarButtonDisabled=true;
@@ -313,10 +356,38 @@ export class PgListaInformesConvenioComponent {
     this.txtCiEquipo="";
     this.txtNombreEquipo="";
     this.txtActividadEquipo="";
-    this.GenerarInforme(); 
+    if( this.titulo==="Agregar Informe"){
+      this.GenerarInforme();
+    }
+    
   }
 
-  
+  editarEquipo(id:GMiembro){
+    this.modalEquipo=true; 
+    this.soloLectura=true;
+    this.controlEquipoyActividad=true;
+    
+    this.tituloEquipo="Editar Miembro Equipo"; 
+    this.cargarDependencia();
+    this.isGuardarButtonDisabled=false;
+    this.submittedEquipo=false;
+    this.txtNombreDependencia=id.c_strnombredependencia;
+    this.txtIdDependencia=id.c_intiddependencia;
+    this.txtCiEquipo=id.c_strciequipo;
+    this.txtNombreEquipo=id.c_strnombreequipo;
+    this.txtActividadEquipo=id.c_stractividadequipo;
+
+    
+  }
+   
+  eliminarEquipo(id:GMiembro){
+    this.modalBorrar=true;
+    this.nombre='miembro';
+    this.titulo='Eliminar Miembro'
+    this.txtConfirmacion="¿Desea eliminar este miembro del equipo?"
+    this.txtCiEquipo=id.c_strciequipo;
+  }
+
 
   async guardarEquipo(){
     this.nombre="Miembro";
@@ -357,7 +428,40 @@ export class PgListaInformesConvenioComponent {
        );
 
     }else{
+          if(this.tituloEquipo==="Editar Miembro Equipo"){
 
+            console.log('Editar')
+              if(!this.txtNombreEquipo||!this.txtActividadEquipo){
+                this.submittedEquipo=true;
+                console.log('prueba funcionando',this.submittedEquipo)
+                return;
+              }
+
+            const editMiembro={
+
+              intIdDependencia:this.txtIdDependencia,
+              strCiEquipo:this.txtCiEquipo,
+              strNombreEquipo:this.txtNombreEquipo,
+              strActividadEquipo:this.txtActividadEquipo
+            }
+
+            this.miembroService.editMiembros(editMiembro,this.txtIdInforme,this.txtCiEquipo).subscribe(
+              (response:any)=>{
+                if(response.message==="miembro actualizado"){
+                  this.messageService.add({ severity:'success',summary: this.nombre+' '+this.mensaje.ModificadoCorrectamente})//corregir mensaje
+                  this.modalEquipo=false;
+                  this.listarMiembros();
+                }else{
+                  this.messageService.add({ severity: 'error', summary: this.nombre+' '+this.mensaje.ErrorProceso});//corregir mensaje
+                }
+              },
+              (error)=>{
+                console.error('Error de la solicitud HTTP:', error);
+    
+              }
+            );
+
+          }
     }
     
   }
@@ -378,6 +482,10 @@ export class PgListaInformesConvenioComponent {
     this.txtNumActividad++
     this.submittedActividad=false;
     this.txtActividad="";
+    this.verFecha=true;
+    this.verFecha2=true;
+    
+
   }
 
   cerrarActividad(){
@@ -387,6 +495,27 @@ export class PgListaInformesConvenioComponent {
 
   calendario(){
     this.alto='600px'
+  }
+
+  editarActividad(id:GActividad){
+    this.nombre='actividad'
+    this.modalActividad=true;
+    this.verFecha=false;
+    this.verFecha2=false;
+    this.tituloActividad='Editar Actividad';
+    this.txtNumActividad=id.c_intnumactividad;
+    this.txtActividad=id.c_stractividad;
+    this.dtFechaInicioActividad=id.c_dtfechainicioactividad;
+    this.dtFechaFinActividad=id.c_dtfechafinactividad;
+  }
+  
+  eliminarActividad(id:GActividad){
+    this.modalBorrar=true;
+    this.nombre='Actividad';
+    this.titulo='Eliminar Actividad'
+    this.txtConfirmacion="¿Desea eliminar esta actividad?"
+    this.txtNumActividad=id.c_intnumactividad;
+    
   }
 
   async guardarActividad(){
@@ -418,6 +547,8 @@ export class PgListaInformesConvenioComponent {
               //this.txtNumActividad=this.txtNumActividad+1;
               this.listarActividad();
               
+            }else{
+              this.messageService.add({ severity: 'error', summary: this.nombre+' '+this.mensaje.ErrorProceso});
             }
           },
           (error)=>{
@@ -425,7 +556,41 @@ export class PgListaInformesConvenioComponent {
           }
        ); 
     }else{
+            if(this.tituloActividad==='Editar Actividad'){
 
+              console.log('entra a editar')
+
+              if(!this.txtActividad||!this.dtFechaInicioActividad ||!this.dtFechaFinActividad ){
+                this.submittedActividad=true;
+                return;
+              }
+
+              const editActividad={
+                stractividad:this.txtActividad,
+                dtfechainicioactividad:this.dtFechaInicioActividad,
+                dtfechafinactividad:this.dtFechaFinActividad
+              };
+
+              console.log(editActividad)
+
+              this.actividadService.editActividad(editActividad,this.txtIdInforme,this.txtNumActividad).subscribe(
+                
+
+                (response:any)=>{
+                  
+                  if(response.message==='actividad actualizada'){
+                    this.messageService.add({ severity:'success',summary: this.nombre+' '+this.mensaje.IngresadoCorrectamente})
+                    this.modalActividad=false;
+                    this.listarActividad();
+                  }else{
+                    this.messageService.add({ severity: 'error', summary: this.nombre+' '+this.mensaje.ErrorProceso});
+                  }
+                },
+                (error)=>{
+                  console.error('Error de la solicitud HTTP:', error);
+                }
+              );
+            }
     }
 
   }
@@ -459,6 +624,8 @@ export class PgListaInformesConvenioComponent {
     }
     
   }
+
+  
 
   cargarDependencia() {
     this.dependenciaService.getAll().subscribe(
@@ -495,8 +662,36 @@ export class PgListaInformesConvenioComponent {
     console.log(this.txtIdInforme)
   }
 
-}
+  async borrar(){
+      if(this.titulo==='Eliminar Miembro'){
+        console.log('convenio',this.txtIdInforme,'ci equipo',this.txtCiEquipo)
+          this.miembroService.deleteMiembro(this.txtIdInforme,this.txtCiEquipo).subscribe(
+            (response:any)=>{
+                  console.log(response)
+              if(response.message === 'miembro eliminado'){
+                this.messageService.add({ severity:'success',summary: this.nombre+' '+this.mensaje.EliminadoCorrectamente})
+                this.modalBorrar=false;
+                this.listarMiembros();
+              }
+            }
+          )
 
+      }else{
+          if( this.titulo==='Eliminar Actividad'){
+              this.actividadService.deleteActividad(this.txtIdInforme,this.txtNumActividad).subscribe(
+                (response:any)=>{
+                  if(response.message==='Actividad ELiminada'){
+                    this.messageService.add({ severity:'success',summary: this.nombre+' '+this.mensaje.EliminadoCorrectamente})
+                    this.modalBorrar=false;
+                    this.listarActividad();
+                  }
+                }
+              )
+          }
+      }
+  }
+
+}
 
 
 

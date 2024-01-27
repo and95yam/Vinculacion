@@ -53,6 +53,7 @@ RETURNS TABLE (
 
    c_strnombreequipo      varchar(256),
    c_strciequipo          varchar(10),
+   c_intiddependencia 	  int,
    c_strnombredependencia varchar(32),
    c_stractividadequipo   varchar(256)
    
@@ -61,7 +62,7 @@ AS $$
 BEGIN
     
     RETURN QUERY 
-    SELECT e.strnombreequipo, e.strciequipo, d.strnombredependencia, e.stractividadequipo 
+    SELECT e.strnombreequipo, e.strciequipo,e.intiddependencia, d.strnombredependencia, e.stractividadequipo 
     FROM smaconvenios.eqinforme  AS e  
     JOIN smaconvenios.dependencia AS d On e.intiddependencia = d.intiddependencia
     WHERE codigo = e.stridinforme;
