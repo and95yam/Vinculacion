@@ -5,13 +5,17 @@ import {PgConveniosComponent} from'./Modulos/Admin-Convenios/Analista-Vinculacio
 import { AppSeguridadComponent } from './Modulos/Mod-Seguridad/app-seguridad/app-seguridad.component';
 import { PgAdminConveniosCoordComponent } from './Modulos/Admin-Convenios/Coordinador/pg-admin-convenios-coord/pg-admin-convenios-coord.component';
 import { PgInformesConvenioComponent } from './Modulos/Admin-Convenios/Coordinador/pg-informes-convenio/pg-informes-convenio.component';
+import { PgConveniosInvitadoComponent } from './Modulos/Admin-Convenios/Invitado/pg-convenios-invitado/pg-convenios-invitado.component';
+
+
 
 const routes: Routes = [
   {path: '', component:PgInicioComponent},
   {path:'PgConveniosComponent', component:PgConveniosComponent},
   {path: 'AppSeguridadComponent',component:AppSeguridadComponent},
   {path: 'PgAdminConveniosCoordComponent',component:PgAdminConveniosCoordComponent},
-  {path: 'PgInformesConvenio',component:PgInformesConvenioComponent}
+  {path: 'PgInformesConvenio',component:PgInformesConvenioComponent},
+  {path:'PgConveniosInvitado', component:PgConveniosInvitadoComponent}
 ];
 
 @NgModule({

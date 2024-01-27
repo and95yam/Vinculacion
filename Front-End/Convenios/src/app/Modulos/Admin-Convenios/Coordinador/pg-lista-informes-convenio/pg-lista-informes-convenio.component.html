@@ -67,7 +67,7 @@
                   <td style="width: 1%;">
                     <div style="display: flex;">
                     <button pButton pRipple icon="pi pi-eye" class="p-button-rounded mr-2 p-button-success" pTooltip="Información"  (click)="verInforme(item)"   ></button> 
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded  " pTooltip="Editar"  ></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded  " pTooltip="Editar" (click)="editarInforme(item)" ></button>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-roundedmr-2 btn-rojo" pTooltip="Eliminar"  ></button>
                     </div>
     
@@ -281,7 +281,13 @@
               <td >{{ item.c_strciequipo}}</td>
               <td >{{ item.c_strnombreequipo}}</td>
               <td >{{ item.c_stractividadequipo}}</td>
-          
+              <th  *ngIf="controlEquipoyActividad">
+                <div style="display: flex;" style="width: 1%;" class="text-center">
+   
+                  <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded  " pTooltip="Editar"  ></button>
+                  <button pButton pRipple icon="pi pi-trash" class="p-button-roundedmr-2 btn-rojo" pTooltip="Eliminar"  ></button>
+                  </div>
+              </th>
             </tr>
           </ng-template>
         </p-table>
@@ -349,7 +355,8 @@
               <th  style="width:15% ; font-size: 10px;">ACTIVIDAD </th>
               <th  style="width:15% ; font-size: 10px;">FECHA INICIO  </th>
               <th  style="width:15% ; font-size: 10px;">FECHA FIN  </th>
-            
+              <th  *ngIf="controlEquipoyActividad" style="width:15% ; font-size: 10px;">ACCCIÓN </th>
+
             </tr>
           </ng-template>
             <ng-template pTemplate="body" let-item>
@@ -358,6 +365,13 @@
               <td >{{ item.c_stractividad}}</td>
               <td >{{ item.c_dtfechainicioactividad}}</td>
               <td >{{ item.c_dtfechafinactividad}}</td>
+              <th  *ngIf="controlEquipoyActividad">
+                <div style="display: flex;" style="width: 1%;" class="text-center">
+   
+                  <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded  " pTooltip="Editar"  ></button>
+                  <button pButton pRipple icon="pi pi-trash" class="p-button-roundedmr-2 btn-rojo" pTooltip="Eliminar"  ></button>
+                  </div>
+              </th>
           
             </tr>
           </ng-template>
