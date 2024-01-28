@@ -15,6 +15,7 @@ export class DireccionesApi{
   informeCoordinador:string="http://localhost:3000/informe_coordinador";
   informeDatos:string="http://localhost:3000/informe_datos";
   convenioInforme:string="http://localhost:3000/convenio_informe";
+  convenioInvitado:string="http://localhost:3000/convenio_invitado"
   miembroInforme:string="http://localhost:3000/miembro";
   actividadInforme:string='http://localhost:3000/actividad';
   informesDeConvenios:string='http://localhost:3000/informe_convenio';

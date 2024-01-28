@@ -208,7 +208,26 @@ const verConveniosInvitado= async(req,res)=>{
 
     try{
         response = await con.query('SELECT * FROM smaconvenios.VerTablaDatosConveniosInvitado()');
-        res.status(200).json(response.rows);
+
+        const vig= response.rows; 
+
+            vig.forEach(item=>{
+                if(item.c_strvigencia && item.c_dtfechainicioconvenio){
+                    if(typeof item.c_strvigencia == 'object' && item.c_strvigencia.years !== undefined){
+                        item.c_strvigencia =item.c_strvigencia.years;
+                    }
+
+                    const fechaInicioOriginal2 = new Date (item.c_dtfechainicioconvenio);
+                    const fechaFinOriginal2= new Date (item.c_dtfechafinconvenio);
+                    item.c_dtfechainicioconvenio = fechaInicioOriginal2//.toLocaleDateString('es-ES').replace(/\//g, '-');
+                    item.c_dtfechafinconvenio = fechaFinOriginal2//.toLocaleDateString('es-ES').replace(/\//g, '-');
+                } 
+            });
+
+            res.status(200).json(vig);
+        
+
+       // res.status(200).json(response.rows);
 
     }catch(error){
     res.status(500),send({success:false, message:error.message});

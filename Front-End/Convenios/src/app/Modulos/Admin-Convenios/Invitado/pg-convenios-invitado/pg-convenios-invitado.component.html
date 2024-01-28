@@ -1,0 +1,391 @@
+<div class="card">
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+            <strong>  CONVENIOS</strong>
+         </ng-template>
+        <ng-template pTemplate="right">
+          <button type="button" pButton pRipple icon="pi pi-file-excel"  class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom" ></button><!--(click)="generarXlsx()"-->
+              <button type="button" pButton pRipple icon="pi pi-file-pdf"  class="p-button-danger p-button mr-2" pTooltip="PDF" tooltipPosition="bottom"  ></button><!--(click)=" generarPDF()"-->
+            
+            <span class="p-input-icon-right">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." style="padding: 4%;" />
+            </span>
+  
+        </ng-template>
+    </p-toolbar>
+  
+    <p-table #dt [value]="datosConvenios" [rows]="10" [paginator]="true" [globalFilterFields]="['stridconvenio','strtituloconvenio','strnombrescoordinador','strnombredependencia','strnaturalezaconvenio','strcicoordinador','strclasificacionconvenio']"
+               styleClass="p-datatable-gridlines p-datatable-sm" [rowHover]="true" dataKey="id" [rowsPerPageOptions]="[10,25,50]" responsiveLayout="scroll" [responsive]="true"
+               currentPageReportTemplate="Mostrando {first} hasta {last} de {totalRecords} registros" [showCurrentPageReport]="true">
+  
+  
+  
+  
+  
+  
+          <ng-template pTemplate="header">
+  
+              <tr>
+  
+                  <th pSortableColumn="stridconvenio" style="width:4% ; font-size: 10px;">ID CONVENIO <p-sortIcon field="code"></p-sortIcon></th>
+                  <th pSortableColumn="strtituloconvenio" style="width:15% ; font-size: 10px;">TÍTULO <p-sortIcon field="name"></p-sortIcon></th>
+                  <th pSortableColumn="strnombrescoordinador" style="width:10% ; font-size: 10px;">COORDINADOR <p-sortIcon field="name"></p-sortIcon></th>
+                  <th pSortableColumn="strnaturalezaconvenio" style="width:4%; font-size: 10px; ">NATURALEZA <p-sortIcon field="name"></p-sortIcon></th>
+                  <th pSortableColumn="strclasificacionconvenio" style=" font-size: 10px; width:4%;">CLASIFICACIÓN <p-sortIcon field="name"></p-sortIcon></th>
+                  <th pSortableColumn="strnombredependencia" style="width:5%; font-size: 10px;"> DEPENDENCIA<p-sortIcon field="name"></p-sortIcon></th>
+                  <th pSortableColumn="blnacademico"style="width:0.5% ; font-size: 5px;" pTooltip="Eje Académico"> ACADÉMICO<p-sortIcon field="name"></p-sortIcon></th>
+                  <th pSortableColumn="blninvestigacion" style="width:0.5%; font-size: 5px;" pTooltip="Eje Investigacion"> INVESTIGACIÓN<p-sortIcon field="name"></p-sortIcon></th>
+                  <th pSortableColumn="blnpracticas" style="width:0.5%; font-size: 5px;" pTooltip="Eje Prácticas">PRÁCTICAS<p-sortIcon field="name"></p-sortIcon></th>
+                  <th pSortableColumn="blnvinculacion" style="width:0.5%; font-size: 5px;" pTooltip="Eje Vinculación">VINCULACIÓN<p-sortIcon field="name"></p-sortIcon></th>
+                  <th pSortableColumn="strinstitucion" style="width:10% ; font-size: 9px;">INSTITUCIÓN<p-sortIcon field="name"></p-sortIcon></th>
+                  <th pSortableColumn="dtfechainicioconvenio"style="width:3%; font-size: 10px;">INICIO<p-sortIcon field="name"></p-sortIcon></th>
+                  <th pSortableColumn="strvigencia" style="width:0.5%; font-size: 8px;">VIGENCIA (Años)<p-sortIcon field="name"></p-sortIcon></th>
+  
+  
+                  <th class="text-center">Archivo</th>
+                  <th class="text-center">Acción</th>
+  
+              </tr>
+  
+  
+          </ng-template>
+  
+          <ng-template pTemplate="body" let-item>
+            <tr>
+              <td >{{ item.c_stridconvenio}}</td>
+              <td >{{ item.c_strtituloconvenio }}</td>
+              <td >{{ item.c_strnombrescoordinador }}</td>
+              <td >{{ item.c_strnaturalezaconvenio }}</td>
+              <td >{{ item.c_strclasificacionconvenio }}</td>
+              <td >{{ item.c_strnombredependencia }}</td>
+              <td  class="text-center">
+                <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': item.c_blnacademico === true, 'text-red-500 pi-times-circle': item.c_blnacademico === false }"></i>
+              </td>
+              <td  class="text-center">
+                <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': item.c_blninvestigacion === true, 'text-red-500 pi-times-circle': item.c_blninvestigacion === false }"></i>
+              </td>
+              <td  class="text-center">
+                <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': item.c_blnpracticas === true, 'text-red-500 pi-times-circle': item.c_blnpracticas === false }"></i>
+              </td>
+              <td  class="text-center">
+                <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': item.c_blnvinculacion === true, 'text-red-500 pi-times-circle': item.c_blnvinculacion === false }"></i>
+              </td>
+  
+  
+              <td >{{ item.c_strinstitucion }}</td>
+  
+              <td class="text-center">{{ item.c_dtfechainicioconvenio }}</td>
+              
+              <td >{{ item.c_strvigencia }}</td>
+  
+  
+              
+  
+  
+                <td style="width: 0.8%;">
+                  <a   class="button hover rounded" >
+                    <div class="icono-svg">
+                      <ng-container >
+                          <img  src="../../../../../assets//imagenes/Download.png" class="icono">
+                      </ng-container>
+                    </div>
+                  </a>
+                </td>
+  
+                <td style="width: 0.8%;">
+                  <div style="display: flex;">
+                    <button pButton pRipple icon="pi pi-eye" class="p-button-rounded mr-2 p-button-success" pTooltip="Información" (click)="verConvenio(item)"  ></button>
+                  </div>
+                </td>
+  
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+              <!-- In total there are {{products ? products.length : 0 }} products.-->
+            </div>
+  
+        </ng-template>
+  
+  
+      </p-table>
+      <br><br>
+  
+  </div>
+
+
+  <p-dialog  [(visible)]="modalVerConvenio" header="{{titulo}}" [modal]="true" styleClass="p-fluid"  [style]="{width: '900px'}" [contentStyle]="{ 'height': '1500px' }" >
+
+    <p-toolbar styleClass="p-mb-4" *ngIf="mostrarToolbar">
+      <ng-template pTemplate="left" >
+          <strong> <h3> {{titulo}}</h3>  </strong>
+       </ng-template>
+      <ng-template pTemplate="right">
+  
+        <div class="custom-col">
+          <div class="p-field">
+            <label for="name" >
+              <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': txtVigente === true, 'text-red-500 pi-times-circle': txtVigente === false }">Vigente</i>
+            </label>
+          </div>
+        </div>
+        <div class="custom-col">
+          <div class="p-field">
+            <label for="name">Avance:</label>
+            <input [ngClass]="{'error': submitted && !txtAvance}" type="text" pInputText id="txtAvance" [(ngModel)]="txtAvance" readonly="true" />
+  
+  
+          </div>
+        </div>
+        <div class="custom-col">
+            <div class="p-field">
+              <label for="name"></label><br>
+  
+              <button type="button" pButton pRipple icon="pi pi-file-pdf"  class="p-button-danger p-button mr-2" pTooltip="PDF" tooltipPosition="bottom"  ></button>
+  
+            </div>
+  
+        </div>
+  
+      </ng-template>
+    </p-toolbar>
+  
+    <ng-template pTemplate="content" class="custom-grid" >
+      <h3>Información General</h3>
+      <div class="campo" style="width: 20%;">
+        <label  for="name">Resolución N:</label>
+        <input [ngClass]="{'error': submitted && !txtResolucion}" type="text" pInputText id="stridconvenio" [(ngModel)]="txtResolucion" [readOnly]="activarResolucion"/>
+        <small class="p-invalid" *ngIf="submitted && !txtResolucion">Resolución Necesaria</small>
+      </div><br>
+  
+      <div class="p-field">
+        <label for="name">Título Convenio:</label>
+        <input [ngClass]="{'error': submitted && !txtTituloConvenio}" type="text" pInputText id="strnombrescoordinador" [(ngModel)]="txtTituloConvenio" [readOnly]="read" class="width: 100%;" />
+        <small class="p-invalid" *ngIf="submitted && !txtTituloConvenio">Título Necesario</small>
+      </div><br>
+      <div class="p-field">
+        <label for="name">Objetivo Convenio:</label>
+        <textarea [ngClass]="{'error': submitted && !txtObjetivo}" rows="5" cols="30" pInputTextarea [(ngModel)]="txtObjetivo" [readOnly]="read"></textarea>
+        <small class="p-invalid" *ngIf="submitted && !txtObjetivo">Objetivo  Necesario</small>
+      </div><br>
+  
+      <div>
+       <div class="campo" style="width: 20%;">
+        <label for="name">CI :<label for="name" *ngIf="!visibleEditar">{{txtCedula}}</label></label>
+        <div *ngIf="!read">
+          <p-autoComplete
+          [ngClass]="{'cedula-error': submitted && !txtCedulaFiltro}"
+          [(ngModel)]="txtCedulaFiltro"
+          [suggestions]="filtroCoordinador"
+          field="strcicoordinador"
+          (completeMethod)="filtrarCedula($event)"
+          (onSelect)="onCoordinadorSelect($event)"
+          [disabled]="read"
+          (input)="controlCadenaCedula($event)"
+          type="text"
+          ></p-autoComplete>
+          <small class="p-invalid" *ngIf="submitted && !txtCedulaFiltro">Cedula  Necesaria</small>
+  
+  
+        </div>
+        <div *ngIf="read">
+          <input [ngClass]="{'error': submitted && !txtCedula}" type="text" pInputText id="txtCedula" [(ngModel)]="txtCedula" [readOnly]="read" />
+          <small class="p-invalid" *ngIf="submitted && !txtCedula">Cédula  Necesaria</small>
+        </div>
+  
+  
+  
+       </div>
+       <div class="campo" style="width: 80%;">
+        <label for="name">Nombre Coordinador/a:</label>
+        <input  type="text" pInputText id="txtNombreCoordinador" [(ngModel)]="txtNombreCoordinador" [readOnly]="read2" />
+       </div>
+      </div>
+  
+      <div class="custom-row">
+  
+  
+        <div class="custom-col">
+          <div class="p-field">
+            <label for="name">Email:</label>
+            <input  type="text" pInputText id="txtEmail" [(ngModel)]="txtEmail" [readOnly]="read2" />
+          </div>
+        </div>
+  
+        <div class="custom-col">
+          <div class="p-field">
+            <label for="name">Teléfono:</label>
+            <input  type="text" pInputText id="txtTelefono" [(ngModel)]="txtTelefono" [readOnly]="read2" />
+          </div>
+        </div>
+        <div class="custom-col">
+          <div class="p-field">
+            <label for="name">Dependencia:</label>
+            <input  type="text" pInputText id="txtDependencia" [(ngModel)]="txtDependencia" [readOnly]="read2" />
+          </div>
+        </div>
+      </div>
+  
+      <div class="custom-row">
+  
+        <div class="custom-col">
+          <div class="p-field">
+            <label for="name">Naturaleza:</label>
+            <div *ngIf="!read">
+              <p-dropdown [ngClass]="{'error': submitted && !txtNaturaleza}" [options]="opcionesNaturaleza" [(ngModel)]="txtNaturaleza" placeholder="Naturaleza"></p-dropdown>
+              <small class="p-invalid" *ngIf="submitted && !txtNaturaleza">Naturaleza  Necesaria</small>
+            </div>
+            <div *ngIf="read">
+              <input [ngClass]="{'error': submitted && !txtNaturaleza}" type="text" pInputText id="txtNaturaleza" [(ngModel)]="txtNaturaleza" [readOnly]="read" />
+            </div>
+          </div>
+  
+        </div>
+  
+        <div class="custom-col">
+          <div class="p-field">
+            <label for="name">Clasificación:</label>
+            <div *ngIf="!read">
+                <p-dropdown  [ngClass]="{'error': submitted && !txtClasificacion}" [options]="opcionesClasificacion" [(ngModel)]="txtClasificacion"  placeholder="Clasificación"></p-dropdown>
+                <small class="p-invalid" *ngIf="submitted && !txtClasificacion ">Clasificación  Necesaria</small>
+            </div>
+            <div *ngIf="read">
+              <input [ngClass]="{'error': submitted && !txtClasificacion}" type="text" pInputText id="txtClasificacion" [(ngModel)]="txtClasificacion" [readOnly]="read" />
+            </div>
+          </div>
+        </div>
+  
+      </div><br>
+  
+      <label for="name">Ejes:</label><br><br>
+  
+      <div style="padding: 10px;" class="custom-row">
+        <div>
+          <input type="checkbox" id="academico"  [ngClass]="{'error': submitted && !btnAcademico}" [(ngModel)]="btnAcademico" [disabled]="EstadoEjes">
+          <label for="academico">Académico</label>
+  
+        </div>
+  
+        <div>
+          <input type="checkbox" id="investigacion" [ngClass]="{'error': submitted && !btnInvestigacion}" [(ngModel)]="btnInvestigacion" [disabled]="EstadoEjes">
+          <label for="investigacion">Investigación</label>
+        </div>
+  
+        <div>
+          <input type="checkbox" id="practicas"  [ngClass]="{'error': submitted && !btnPracticas}" [(ngModel)]="btnPracticas" [disabled]="EstadoEjes">
+          <label for="practicas">Prácticas</label>
+        </div>
+  
+        <div>
+          <input type="checkbox" id="vinculacion" [ngClass]="{'error': submitted && !btnVinculacion}" [(ngModel)]="btnVinculacion" [disabled]="EstadoEjes">
+          <label for="vinculacion">Vinculación</label>
+        </div>
+  
+      </div><br>
+  
+  
+      <div>
+        <div class="campo" style="width: 30%;">
+          <label for="name">Instituciones Participantes:</label>
+          <input [ngClass]="{'error': submitted && !txtEspoch}" type="text" pInputText id="txtEspoch" [(ngModel)]="txtEspoch" [readOnly]="read" />
+        </div>
+        <div class="campo" style="width: 70%;">
+  
+          <div *ngIf="!read">
+            <p-dropdown [ngClass]="{'error': submitted && !txtInstitucion}" [(ngModel)]="txtInstitucion"[options]="datosInstitucion" optionLabel="strinstitucion" optionValue="strinstitucion" placeholder="Institucion Participante"  (onChange)="getIdInstitucion($event)"></p-dropdown>
+            <small class="p-invalid" *ngIf="submitted && !txtInstitucion">Institución Necesaria</small>
+  
+          </div>
+          <div *ngIf="read">
+            <input [ngClass]="{'error': submitted && !txtInstitucion}" type="text" pInputText id="txtInstitucion" [(ngModel)]="txtInstitucion" [readOnly]="read" />
+          </div>
+  
+        </div>
+      </div>
+  
+  
+      <h3 *ngIf="visibleEditar">Vigencia del convenio y periodo de ejecución</h3>
+  
+      <div class="custom-row">
+  
+        <div class = "custom-col">
+          <div class="p-field" *ngIf="visibleEditar">
+            <label for="name">Fecha Inicio:</label>
+            <p-calendar [ngClass]="{'error': submitted && !txtFechaInicio}" *ngIf="!read"  [(ngModel)]="txtFechaInicio" dateFormat="yy-mm-dd" [disabled]="read"></p-calendar>
+            <input  *ngIf="read" [ngClass]="{'error': submitted && !txtFechaInicio}" type="text" pInputText id="txtFechaInicio" [(ngModel)]="txtFechaInicio" [readOnly]="read"/>
+            <small class="p-invalid" *ngIf="submitted && !txtFechaInicio">Fecha Inicio  Necesaria</small>
+  
+          </div>
+        </div>
+  
+        <div class="custom-col">
+          <div class="p-field" *ngIf="visibleEditar">
+            <label for="name">Fecha Fin:</label>
+            <p-calendar [ngClass]="{'error': submitted && !txtFechaFin}"  *ngIf="!read" [(ngModel)]="txtFechaFin" dateFormat="yy-mm-dd" [disabled]="read"></p-calendar>
+            <input *ngIf="read" [ngClass]="{'error': submitted && !txtFechaFin}" type="text" pInputText id="txtFechaFin" [(ngModel)]="txtFechaFin" [readOnly]="read"/>
+            <small class="p-invalid" *ngIf="submitted && !txtFechaFin">Fecha Fin  Necesaria</small>
+  
+          </div>
+        </div>
+  
+        <div class="custom-col" *ngIf="read">
+          <div class="p-field" *ngIf="visibleEditar">
+            <label for="name">Vigencia (años):</label>
+            <input [ngClass]="{'error': submitted && !txtVigencia}" type="text" pInputText id="txtVigencia" [(ngModel)]="txtVigencia" [readOnly]="read" />
+  
+          </div>
+        </div>
+  
+        <div class="custom-col">
+          <div class="p-field" *ngIf="visibleEditar">
+            <label for="name">Razón Informes:</label>
+            <div *ngIf="!read">
+              <p-dropdown  [ngClass]="{'error': submitted && !txtRazon}" [(ngModel)]="txtRazon" [options]="opcionesRazon" placeholder="Razón" (onChange)="asignarRazon($event.value)" ></p-dropdown>
+  
+            </div>
+            <div *ngIf="read">
+              <input [ngClass]="{'error': submitted && !txtRazon}" type="text" pInputText id=" txtRazon" [(ngModel)]=" txtRazon" readonly />
+              <small class="p-invalid" *ngIf="submitted && !txtRazon">Razón  Necesaria</small>
+  
+            </div>
+          </div>
+        </div>
+  
+        <div class="custom-col" *ngIf="read">
+          <div class="p-field">
+            <label for="name">Documento:</label>
+            <a   class="button hover rounded" >
+              <div class="icono-svg">
+                <ng-container >
+                    <img [ngClass]="{'error': submitted && !txtArchivo}" src="../../../../../assets//imagenes/Download.png" class="icono">
+                </ng-container>
+              </div>
+            </a>
+          </div>
+  
+  
+        </div>
+        <div class="custom-col">
+          <p-fileUpload  [ngClass]="{'error': submitted && !txtArchivo}" *ngIf="!read" mode="basic" chooseLabel="Subir Informe" name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*"></p-fileUpload>
+  
+        </div>
+  
+  
+      </div>
+  
+    </ng-template>
+  
+    <ng-template pTemplate="footer">
+  
+      <button pButton pRipple label="Cerrar" icon="pi pi-times" class="p-button-text"  (click)="modalVerConvenio=false"></button>
+      <button  *ngIf="!read" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="GuardarConvenio()"  ></button>
+  
+  
+    </ng-template>
+  
+  
+  </p-dialog>
+  
+  
+  

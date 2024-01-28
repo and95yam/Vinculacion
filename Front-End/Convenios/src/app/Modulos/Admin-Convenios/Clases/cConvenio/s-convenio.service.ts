@@ -18,6 +18,7 @@ export class SConvenioService {
   url:string=this.link.datosConvenio;
   url2:string=this.link.convenioCordinador;
   url3:string=this.link.convenioInforme;
+  url4:string=this.link.convenioInvitado;
 
   constructor(private http:HttpClient) { }
 
@@ -28,6 +29,10 @@ export class SConvenioService {
 
   getConvenioCord(id:string):Observable<IConvenio2[]>{
     return this.http.get<IConvenio2[]>(this.url2+'/'+id);
+  }
+
+  getConvenioInvitado():Observable<IConvenio[]>{
+    return this.http.get<IConvenio[]>(this.url4);
   }
 
   //Para ver los datos del convenio en el reporte del informe 
@@ -52,6 +57,8 @@ export class SConvenioService {
     return this.http.put<modConvenio>(this.url+'/'+id,datosconvenio);
 
   }
+
+
 
 
 
