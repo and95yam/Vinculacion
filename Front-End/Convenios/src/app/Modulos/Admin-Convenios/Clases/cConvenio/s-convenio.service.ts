@@ -31,8 +31,8 @@ export class SConvenioService {
     return this.http.get<IConvenio2[]>(this.url2+'/'+id);
   }
 
-  getConvenioInvitado():Observable<IConvenio[]>{
-    return this.http.get<IConvenio[]>(this.url4);
+  getConvenioInvitado():Observable<IConvenio3[]>{
+    return this.http.get<IConvenio3[]>(this.url4);
   }
 
   //Para ver los datos del convenio en el reporte del informe 
