@@ -40,6 +40,7 @@ app.use(require(rutasSeguimiento.rutaInformes));
 app.use(require(rutasSeguimiento.rutaEqInforme));
 app.use(require(rutasSeguimiento.rutaActividadInforme));
 app.use(require(rutasSeguimiento.rutaEstadoInforme));
+//app.use(require(rutasSeguimiento.rutaEvaluacionInforme));
 
 app.listen(puerto); 
 console.log('listening on port',puerto);

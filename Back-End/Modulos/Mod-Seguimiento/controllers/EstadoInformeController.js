@@ -16,21 +16,20 @@ const verEstadoInforme = async (req,res) => {
     }
 }
 
-const evaluarInforme = async (req,res) => {
-
+const evaluarInforme = async (req,res)=>{
+    
     try{
-
         const id = req.params.id; 
-        const{strestadoInforme,strObservacionesInforme,blnfirmado}=req.body;
- 
-        const response = await con.query('CALL smaconvenios.modestadoinforme($1,$2,$3,$4,current_date)',[id,strestadoInforme,strObservacionesInforme,blnfirmado]);
-        console.log(response.rows);
-        res.json('Estado del informe '+id+'Evaluado');
+        const {strEstadoInforme,strObservacionesInforme}=req.body;
+
+        const response = await con.query('call smaconvenios.EvaluarInforme($1,$2,$3)',[id,strEstadoInforme,strObservacionesInforme])
+        res.json({message:'informe evaluado'})
 
     }catch(error){
         res.status(500).send({success:false,message:error.message});
     }
 }
+
 
 
 

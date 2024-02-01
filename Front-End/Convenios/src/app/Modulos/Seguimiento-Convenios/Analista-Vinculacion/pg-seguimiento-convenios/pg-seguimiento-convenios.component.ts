@@ -3,11 +3,11 @@ import { MenuItem } from 'primeng/api';
 
 
 @Component({
-  selector: 'app-pg-invitado',
-  templateUrl: './pg-invitado.component.html',
-  styleUrls: ['./pg-invitado.component.css']
+  selector: 'app-pg-seguimiento-convenios',
+  templateUrl: './pg-seguimiento-convenios.component.html',
+  styleUrls: ['./pg-seguimiento-convenios.component.css']
 })
-export class PgInvitadoComponent {
+export class PgSeguimientoConveniosComponent {
 
   public items:MenuItem[]=[];
 
@@ -21,7 +21,9 @@ export class PgInvitadoComponent {
     this.index=0;
     this.items=[
      
-      {label:"Convenios"}
+      {label:"Informes Entregados"},
+      {label:"Informes pendientes"},
+      {label:"informes validados"}
 
     ];
   

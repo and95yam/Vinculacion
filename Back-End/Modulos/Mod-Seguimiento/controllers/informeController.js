@@ -120,6 +120,39 @@ const addInforme = async(req,res)=>{
   }
  }
 
+ const getInformesEntregadosMes = async (req,res)=>{
+  try{
+      const response = await con.query('select * from smaconvenios.getinformesmensuales()');
+      res.status(200).json(response.rows);
+
+  }catch(error){
+    res.status(500).send({succes:false, message:error.message});
+    console.error(`Se produjo un error en la línea ${error.stack}`)
+  }
+ }
+
+ const getInformesPendientes = async (req,res)=>{
+  try{
+      const response = await con.query('select * from smaconvenios.getinformesPendientes()');
+      res.status(200).json(response.rows);
+
+  }catch(error){
+    res.status(500).send({succes:false, message:error.message});
+    console.error(`Se produjo un error en la línea ${error.stack}`)
+  }
+ }
+
+ const getInformesValidados = async (req,res)=>{
+  try{
+      const response = await con.query('select * from smaconvenios.getinformesValidados()');
+      res.status(200).json(response.rows);
+
+  }catch(error){
+    res.status(500).send({succes:false, message:error.message});
+    console.error(`Se produjo un error en la línea ${error.stack}`)
+  }
+ }
+
  const editarInforme = async (req,res)=>{
   try{
       const id = req.params.id;
@@ -154,5 +187,8 @@ module.exports={
   getInformeCoord,
   getDatosInformeCoord,
   getInformesConvenio,
-  editarInforme
+  getInformesEntregadosMes,
+  editarInforme,
+  getInformesPendientes,
+  getInformesValidados
 }

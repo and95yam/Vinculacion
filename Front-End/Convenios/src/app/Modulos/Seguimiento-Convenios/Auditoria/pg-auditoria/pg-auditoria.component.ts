@@ -3,21 +3,23 @@ import { MenuItem } from 'primeng/api';
 
 
 @Component({
-  selector: 'app-pg-invitado',
-  templateUrl: './pg-invitado.component.html',
-  styleUrls: ['./pg-invitado.component.css']
+  selector: 'app-pg-auditoria',
+  templateUrl: './pg-auditoria.component.html',
+  styleUrls: ['./pg-auditoria.component.css']
 })
-export class PgInvitadoComponent {
+export class PgAuditoriaComponent {
 
   public items:MenuItem[]=[];
 
   public activeItem: MenuItem={};
   public home: MenuItem={};
   public  index:number=0;
+
+  
   
    constructor(){}
 
-  ngOnInit():void{
+   ngOnInit():void{
     this.index=0;
     this.items=[
      

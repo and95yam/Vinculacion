@@ -249,6 +249,119 @@ BEGIN
 END; 
 $$ LANGUAGE plpgsql;
 
+/*Ver informes entregados en el mes*/
+
+CREATE OR REPLACE FUNCTION smaconvenios.GetInformesMensuales()
+RETURNS TABLE (
+
+    c_stridinforme         varchar(64),
+    c_intidplanificacion   int,
+    c_strperiodo           varchar(64),
+    c_stridconvenio        varchar(16),
+	c_strtituloconvenio    varchar(256),
+	c_strcicoordinador	   varchar(10),	
+    c_strbeneficiariodirecto varchar(512),
+    c_strbeneficiodirecto  varchar(1024),
+    c_strbeneficiarioindirecto varchar(512),
+    c_strbeneficioindirecto varchar(1024),
+    c_strresultados        varchar(1024),
+    c_strobservaciones     varchar(1024),
+    c_stranexo             varchar(256),
+    c_dtfechacreacion      date,
+   	c_strestadoinforme	   varchar(16),
+	c_blnfirmado		   bool
+)
+AS $$
+BEGIN 
+	RETURN QUERY 
+	select inf.stridinforme, inf.intidplanificacion, inf.strperiodo, inf.stridconvenio, conv.strtituloconvenio, conv.strcicoordinador, inf.strbeneficiariodirecto,
+	inf.strbeneficiodirecto, inf.strbeneficiarioindirecto, inf.strbeneficioindirecto, inf.strresultados, estinf.strobservacionesinforme,
+	inf.stranexo, inf.dtfechacreacion, estinf.strestadoinforme, estinf.blnfirmado
+	   
+	FROM smaconvenios.informe AS inf
+	JOIN smaconvenios.convenio AS conv
+	ON inf.stridconvenio = conv.stridconvenio
+	JOIN smaconvenios.estadoinforme AS estinf
+	ON estinf.stridinforme = inf.stridinforme 
+	where EXTRACT(MONTH FROM dtfechacreacion)=EXTRACT(MONTH FROM CURRENT_DATE ) AND estinf.strestadoinforme='Entregado';
+END; 
+$$ LANGUAGE plpgsql;
+
+/*VER INFORMES PENDIENTES*/
+CREATE OR REPLACE FUNCTION smaconvenios.GetInformesPendientes()
+RETURNS TABLE (
+
+    c_stridinforme         varchar(64),
+    c_intidplanificacion   int,
+    c_strperiodo           varchar(64),
+    c_stridconvenio        varchar(16),
+	c_strtituloconvenio    varchar(256),
+	c_strcicoordinador	   varchar(10),	
+    c_strbeneficiariodirecto varchar(512),
+    c_strbeneficiodirecto  varchar(1024),
+    c_strbeneficiarioindirecto varchar(512),
+    c_strbeneficioindirecto varchar(1024),
+    c_strresultados        varchar(1024),
+    c_strobservaciones     varchar(1024),
+    c_stranexo             varchar(256),
+    c_dtfechacreacion      date,
+   	c_strestadoinforme	   varchar(16),
+	c_blnfirmado		   bool
+)
+AS $$
+BEGIN 
+	RETURN QUERY 
+	select inf.stridinforme, inf.intidplanificacion, inf.strperiodo, inf.stridconvenio, conv.strtituloconvenio, conv.strcicoordinador, inf.strbeneficiariodirecto,
+	inf.strbeneficiodirecto, inf.strbeneficiarioindirecto, inf.strbeneficioindirecto, inf.strresultados, estinf.strobservacionesinforme,
+	inf.stranexo, inf.dtfechacreacion, estinf.strestadoinforme, estinf.blnfirmado
+	   
+	FROM smaconvenios.informe AS inf
+	JOIN smaconvenios.convenio AS conv
+	ON inf.stridconvenio = conv.stridconvenio
+	JOIN smaconvenios.estadoinforme AS estinf
+	ON estinf.stridinforme = inf.stridinforme 
+	where estinf.strestadoinforme='Pendiente';
+END; 
+$$ LANGUAGE plpgsql;
+
+/*Get informes validados*/
+
+CREATE OR REPLACE FUNCTION smaconvenios.GetInformesValidados()
+RETURNS TABLE (
+
+    c_stridinforme         varchar(64),
+    c_intidplanificacion   int,
+    c_strperiodo           varchar(64),
+    c_stridconvenio        varchar(16),
+	c_strtituloconvenio    varchar(256),
+	c_strcicoordinador	   varchar(10),	
+    c_strbeneficiariodirecto varchar(512),
+    c_strbeneficiodirecto  varchar(1024),
+    c_strbeneficiarioindirecto varchar(512),
+    c_strbeneficioindirecto varchar(1024),
+    c_strresultados        varchar(1024),
+    c_strobservaciones     varchar(1024),
+    c_stranexo             varchar(256),
+    c_dtfechacreacion      date,
+   	c_strestadoinforme	   varchar(16),
+	c_blnfirmado		   bool
+)
+AS $$
+BEGIN 
+	RETURN QUERY 
+	select inf.stridinforme, inf.intidplanificacion, inf.strperiodo, inf.stridconvenio, conv.strtituloconvenio, conv.strcicoordinador, inf.strbeneficiariodirecto,
+	inf.strbeneficiodirecto, inf.strbeneficiarioindirecto, inf.strbeneficioindirecto, inf.strresultados, estinf.strobservacionesinforme,
+	inf.stranexo, inf.dtfechacreacion, estinf.strestadoinforme, estinf.blnfirmado
+	   
+	FROM smaconvenios.informe AS inf
+	JOIN smaconvenios.convenio AS conv
+	ON inf.stridconvenio = conv.stridconvenio
+	JOIN smaconvenios.estadoinforme AS estinf
+	ON estinf.stridinforme = inf.stridinforme 
+	where estinf.strestadoinforme='Validado';
+END; 
+$$ LANGUAGE plpgsql;
+
 /* ELIMINAR INFORME */
 
 CREATE OR REPLACE PROCEDURE smaconvenios.eliminarInforme(codigo VARCHAR(32))

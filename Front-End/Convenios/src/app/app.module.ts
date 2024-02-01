@@ -69,7 +69,12 @@ import { PgInformesConvenioComponent } from './Modulos/Admin-Convenios/Coordinad
 import { PgListaInformesConvenioComponent } from './Modulos/Admin-Convenios/Coordinador/pg-lista-informes-convenio/pg-lista-informes-convenio.component';
 import { PgInvitadoComponent } from './Modulos/Admin-Convenios/Invitado/pg-invitado/pg-invitado.component';
 import { PgConveniosInvitadoComponent } from './Modulos/Admin-Convenios/Invitado/pg-convenios-invitado/pg-convenios-invitado.component';
-
+import { PgAuditoriaComponent } from './Modulos/Seguimiento-Convenios/Auditoria/pg-auditoria/pg-auditoria.component';
+import { PgConveniosInformesComponent } from './Modulos/Seguimiento-Convenios/Auditoria/pg-convenios-informes/pg-convenios-informes.component';
+import { PgSeguimientoConveniosComponent } from './Modulos/Seguimiento-Convenios/Analista-Vinculacion/pg-seguimiento-convenios/pg-seguimiento-convenios.component';
+import { PgInformesEntregadosMesComponent } from './Modulos/Seguimiento-Convenios/Analista-Vinculacion/pg-informes-entregados-mes/pg-informes-entregados-mes.component';
+import { PgInformesPendientesComponent } from './Modulos/Seguimiento-Convenios/Analista-Vinculacion/pg-informes-pendientes/pg-informes-pendientes.component';
+import { PgInformesValidadosComponent } from './Modulos/Seguimiento-Convenios/Analista-Vinculacion/pg-informes-validados/pg-informes-validados.component';
 
 @NgModule({
   declarations: [
@@ -97,6 +102,13 @@ import { PgConveniosInvitadoComponent } from './Modulos/Admin-Convenios/Invitado
     PgListaInformesConvenioComponent,
     PgInvitadoComponent,
     PgConveniosInvitadoComponent,
+    PgAuditoriaComponent,
+    PgConveniosInformesComponent,
+    PgSeguimientoConveniosComponent,
+    PgInformesEntregadosMesComponent,
+    PgInformesPendientesComponent,
+    PgInformesValidadosComponent,
+    
 
   ],
   imports: [

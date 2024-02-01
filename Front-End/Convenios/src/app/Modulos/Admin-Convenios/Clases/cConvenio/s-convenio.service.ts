@@ -27,6 +27,10 @@ export class SConvenioService {
     return this.http.get<IConvenio[]>(this.url);
   }
 
+  buscarConvenio(id:string):Observable<IConvenio2[]>{
+    return this.http.get<IConvenio2[]>(this.url+'/'+id);
+  }
+
   getConvenioCord(id:string):Observable<IConvenio2[]>{
     return this.http.get<IConvenio2[]>(this.url2+'/'+id);
   }
