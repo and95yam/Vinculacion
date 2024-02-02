@@ -33,6 +33,18 @@ export class DireccionesApi{
 
   grupo:string="http://localhost:3000/grupo"
 
+  //Enviroment Cas
+
+  CASLOGIN:string= 'https://seguridad.espoch.edu.ec/cas/login?'
+  CASLOGOUT:string= 'https://seguridad.espoch.edu.ec/cas/logout?'
+  CASVALIDATE:string= 'https://seguridad.espoch.edu.ec/cas/p3/serviceValidate?'
+  REDIRECT_URI: string='https://localhost:4200/cas'
+  REDIRECT_URIINDEX:string= 'https://localhost:4200/'
+  REDIRECT_URL_SINCESSO:string='https://localhost:4200/sinacceso'
+  LOGOUT_REDIRECT:string= 'https://localhost:4200/logout'
+  ERRORCAS_REDIRECT:string= 'https://localhost:4200/errorcas'
+  LOGOUT_CORREO: string='https://login.microsoftonline.com/common/oauth2/logout?'
+  VALIDATENODEJS:string= 'https://precas.espoch.edu.ec/ServicioWebComprobantes/ServiciosComprobantes/ValidateCas/'
 
   cedula1:string="1727090225"
   cedula2:string="1001833647"

@@ -4,7 +4,8 @@ import{BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import { ButtonModule } from 'primeng/button';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-
+import { CasClient } from './AutentucacionCas/CasClient';
+import { HttpService } from './AutentucacionCas/http.service';
 
 
 
@@ -79,6 +80,8 @@ import { PgInformesEntregadosMesComponent } from './Modulos/Seguimiento-Convenio
 import { PgInformesPendientesComponent } from './Modulos/Seguimiento-Convenios/Analista-Vinculacion/pg-informes-pendientes/pg-informes-pendientes.component';
 import { PgInformesValidadosComponent } from './Modulos/Seguimiento-Convenios/Analista-Vinculacion/pg-informes-validados/pg-informes-validados.component';
 import { PgGraficasComponent } from './Modulos/Seguimiento-Convenios/Analista-Vinculacion/pg-graficas/pg-graficas.component';
+import { PgPrincipalComponent } from './pg-principal/pg-principal.component';
+import { PgLoginCasComponent } from './pg-login-cas/pg-login-cas.component';
 
 
 @NgModule({
@@ -114,6 +117,10 @@ import { PgGraficasComponent } from './Modulos/Seguimiento-Convenios/Analista-Vi
     PgInformesPendientesComponent,
     PgInformesValidadosComponent,
     PgGraficasComponent,
+    PgPrincipalComponent,
+    PgLoginCasComponent,
+    
+    
     
 
   ],
@@ -152,13 +159,16 @@ import { PgGraficasComponent } from './Modulos/Seguimiento-Convenios/Analista-Vi
     CheckboxModule,
     AutoCompleteModule,
     KnobModule,
-    ChartModule
+    ChartModule,
+    
+    
+    
 
 
 
 
   ],
-  providers: [],
+  providers: [HttpClientModule,CasClient,HttpService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
