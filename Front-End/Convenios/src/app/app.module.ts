@@ -13,6 +13,7 @@ import {PanelModule} from 'primeng/panel';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import {TabViewModule} from 'primeng/tabview';
 import {ToastModule} from 'primeng/toast';//
+import {KnobModule} from 'primeng/knob';
 
 import {CalendarModule} from 'primeng/calendar';//
 import {SliderModule} from 'primeng/slider';//
@@ -49,6 +50,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { CheckboxModule } from 'primeng/checkbox';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import {ChartModule} from 'primeng/chart';
+
 
 
 import { PgConveniosComponent } from './Modulos/Admin-Convenios/Analista-Vinculacion/pg-convenios/pg-convenios.component';
@@ -75,6 +78,8 @@ import { PgSeguimientoConveniosComponent } from './Modulos/Seguimiento-Convenios
 import { PgInformesEntregadosMesComponent } from './Modulos/Seguimiento-Convenios/Analista-Vinculacion/pg-informes-entregados-mes/pg-informes-entregados-mes.component';
 import { PgInformesPendientesComponent } from './Modulos/Seguimiento-Convenios/Analista-Vinculacion/pg-informes-pendientes/pg-informes-pendientes.component';
 import { PgInformesValidadosComponent } from './Modulos/Seguimiento-Convenios/Analista-Vinculacion/pg-informes-validados/pg-informes-validados.component';
+import { PgGraficasComponent } from './Modulos/Seguimiento-Convenios/Analista-Vinculacion/pg-graficas/pg-graficas.component';
+
 
 @NgModule({
   declarations: [
@@ -108,6 +113,7 @@ import { PgInformesValidadosComponent } from './Modulos/Seguimiento-Convenios/An
     PgInformesEntregadosMesComponent,
     PgInformesPendientesComponent,
     PgInformesValidadosComponent,
+    PgGraficasComponent,
     
 
   ],
@@ -144,7 +150,9 @@ import { PgInformesValidadosComponent } from './Modulos/Seguimiento-Convenios/An
     //ConfirmationService,
     InputTextareaModule,
     CheckboxModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    KnobModule,
+    ChartModule
 
 
 

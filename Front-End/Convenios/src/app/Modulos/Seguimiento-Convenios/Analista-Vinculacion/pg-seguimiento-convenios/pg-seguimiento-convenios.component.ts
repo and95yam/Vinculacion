@@ -14,6 +14,8 @@ export class PgSeguimientoConveniosComponent {
   public activeItem: MenuItem={};
   public home: MenuItem={};
   public  index:number=0;
+
+
   
    constructor(){}
 

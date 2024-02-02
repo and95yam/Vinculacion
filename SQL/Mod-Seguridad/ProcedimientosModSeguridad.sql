@@ -113,24 +113,21 @@ $$;
 
 /*-----------------------------------AGREGAR PERFIL-----------------------------*/
 
-CREATE PROCEDURE smaseguridad.addPerfil 
+CREATE OR REPLACE PROCEDURE smaseguridad.addPerfil 
 (
 	c_lngusr_id BIGINT,
     c_introl_id INTEGER,
     c_blnactivo BOOLEAN,
     c_lngasignadopor BIGINT,
-    c_lngfechaasignacion BIGINT,
-    c_lngmodificadopor BIGINT,
-    c_lngfechamodificacion BIGINT,
     c_strnombretema CHARACTER,
     c_blndefault BOOLEAN
-	
 )
 LANGUAGE plpgsql AS 
 $$
 BEGIN 
-	INSERT INTO smaseguridad.perfil (lngusr_id,introl_id,blnactivo,lngasignadopor,lngfechaasignacion,lngmodificadopor,lngfechamodificacion,strnombretema,blndefault)VALUES
-	(c_lngusr_id,c_introl_id,c_blnactivo,c_lngasignadopor,c_lngfechaasignacion,c_lngmodificadopor,c_lngfechamodificacion,c_strnombretema,c_blndefault);
+	INSERT INTO smaseguridad.perfil (lngusr_id, introl_id, blnactivo, lngasignadopor, lngfechaasignacion,  strnombretema, blndefault)
+	VALUES
+	(c_lngusr_id, c_introl_id, c_blnactivo, c_lngasignadopor, current_timestamp,  c_strnombretema, c_blndefault);
 END 
 $$;
 
@@ -198,10 +195,10 @@ CREATE OR REPLACE PROCEDURE smaseguridad.modPerfil
 		c_lngusr_id BIGINT,
 		c_introl_id INTEGER,
 		c_blnactivo BOOLEAN,
-		c_lngasignadopor BIGINT,
-		c_lngfechaasignacion BIGINT,
+		
+		
 		c_lngmodificadopor BIGINT,
-		c_lngfechamodificacion BIGINT,
+		
 		c_strnombretema VARCHAR,
 		c_blndefault BOOLEAN 
 			
@@ -210,7 +207,7 @@ LANGUAGE plpgsql AS
 $$
 BEGIN 
 	UPDATE smaseguridad.perfil 
-	SET lngusr_id= c_lngusr_id, introl_id = c_introl_id, blnactivo=c_blnactivo, lngasignadopor=c_lngasignadopor,lngfechaasignacion= c_lngfechaasignacion, lngmodificadopor = c_lngmodificadopor, lngfechamodificacion=c_lngfechamodificacion, strnombretema= c_strnombretema, blndefault=c_blndefault     
+	SET lngusr_id= c_lngusr_id, introl_id = c_introl_id, blnactivo=c_blnactivo,  lngmodificadopor = c_lngmodificadopor, lngfechamodificacion=current_timestamp, strnombretema= c_strnombretema, blndefault=c_blndefault     
 	WHERE intid= c_intid;
 	
 	

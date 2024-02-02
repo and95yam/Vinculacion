@@ -28,6 +28,8 @@ export class DireccionesApi{
   rol: string ="http://localhost:3000/rol";
   accion: string="http://localhost:3000/accion"
   funcion:string="http://localhost:3000/funcion"
+  perfil:string="http://localhost:3000/perfil"
+  perfilRol:string="http://localhost:3000/perfilyrol"
 
   grupo:string="http://localhost:3000/grupo"
 

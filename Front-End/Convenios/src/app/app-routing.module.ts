@@ -8,6 +8,7 @@ import { PgInformesConvenioComponent } from './Modulos/Admin-Convenios/Coordinad
 import { PgInvitadoComponent } from './Modulos/Admin-Convenios/Invitado/pg-invitado/pg-invitado.component';
 import { PgAuditoriaComponent } from './Modulos/Seguimiento-Convenios/Auditoria/pg-auditoria/pg-auditoria.component';
 import { PgSeguimientoConveniosComponent } from './Modulos/Seguimiento-Convenios/Analista-Vinculacion/pg-seguimiento-convenios/pg-seguimiento-convenios.component';
+import { PgGraficasComponent } from './Modulos/Seguimiento-Convenios/Analista-Vinculacion/pg-graficas/pg-graficas.component';
 
 const routes: Routes = [
   {path: '', component:PgInicioComponent},
@@ -17,7 +18,8 @@ const routes: Routes = [
   {path: 'PgInformesConvenio',component:PgInformesConvenioComponent},
   {path: 'PgInvitado',component:PgInvitadoComponent},
   {path: 'PgAuditoria',component:PgAuditoriaComponent},
-  {path:'PgSeguimiento',component:PgSeguimientoConveniosComponent}
+  {path:'PgSeguimiento',component:PgSeguimientoConveniosComponent},
+  {path:'PgGraficas',component:PgGraficasComponent}
 ];
 
 @NgModule({
