@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DireccionesApi } from 'src/herramientas/direcciones/Direcciones';
 
 @Component({
   selector: 'app-pg-principal',
@@ -6,6 +7,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./pg-principal.component.css']
 })
 export class PgPrincipalComponent {
-    
-    IniciarIngreso(){}
+  
+  link:DireccionesApi= new DireccionesApi;
+  url=this.link.REDIRECT_URI
+
+  async IniciarIngreso(){
+    //await this.tool.VerificacionVersion();
+  window.open(this.url, '_blank');
+  
+
+  }
+
 }

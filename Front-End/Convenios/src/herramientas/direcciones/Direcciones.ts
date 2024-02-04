@@ -38,7 +38,7 @@ export class DireccionesApi{
   CASLOGIN:string= 'https://seguridad.espoch.edu.ec/cas/login?'
   CASLOGOUT:string= 'https://seguridad.espoch.edu.ec/cas/logout?'
   CASVALIDATE:string= 'https://seguridad.espoch.edu.ec/cas/p3/serviceValidate?'
-  REDIRECT_URI: string='https://localhost:4200/cas'
+  REDIRECT_URI: string='https://localhost:4200/PgCas'
   REDIRECT_URIINDEX:string= 'https://localhost:4200/'
   REDIRECT_URL_SINCESSO:string='https://localhost:4200/sinacceso'
   LOGOUT_REDIRECT:string= 'https://localhost:4200/logout'
