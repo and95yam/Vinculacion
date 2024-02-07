@@ -61,6 +61,7 @@ export class CasClient {
 
 
   async validateLogin() {
+    
     var service = encodeURIComponent(this.link.REDIRECT_URI);
     var ticket = sessionStorage.getItem('ticketUser');
     var urlvalidate = this.link.VALIDATENODEJS + 'service=' + service + '&ticket=' + ticket;

@@ -23,6 +23,7 @@ export class DireccionesApi{
   informePendiente:string="http://localhost:3000/informesPediente"
   informeValidado:string="http://localhost:3000/informeValidado"
   evaluacionInforme:string="http://localhost:3000/evaluar"
+  PaginaInicio:string="https://localhost:4200/PgInicio"
 
   //Modulo seguridad
   rol: string ="http://localhost:3000/rol";
@@ -30,6 +31,7 @@ export class DireccionesApi{
   funcion:string="http://localhost:3000/funcion"
   perfil:string="http://localhost:3000/perfil"
   perfilRol:string="http://localhost:3000/perfilyrol"
+  perfilPerID:string="http://localhost:3000/perfilPerId"
 
   grupo:string="http://localhost:3000/grupo"
 

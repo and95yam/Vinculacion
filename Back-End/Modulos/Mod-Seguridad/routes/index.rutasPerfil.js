@@ -1,7 +1,7 @@
 const {Router} = require('express');
 const routerPerfil = Router(); 
 
-const{addPerfil, getPerfil, buscarPerfil, modPerfil, delPerfil,perfilyRol, buscPerfilyRol} = require('../controllers/index.PerfilController');
+const{addPerfil, getPerfil, buscarPerfil, modPerfil, delPerfil,perfilyRol, buscPerfilyRol,perfilPerId} = require('../controllers/index.PerfilController');
 
 routerPerfil.post('/perfil', addPerfil);
 routerPerfil.get('/perfil',getPerfil);
@@ -10,5 +10,6 @@ routerPerfil.put('/perfil/:id/', modPerfil);
 routerPerfil.delete('/perfil/:id/', delPerfil);
 routerPerfil.get('/perfilyRol',perfilyRol);
 routerPerfil.get('/perfilyRol/:id',buscPerfilyRol)
+routerPerfil.get('/perfilPerId/:id',perfilPerId)
 
 module.exports = routerPerfil;

@@ -31,6 +31,19 @@ const getPerfil = async(req,res)=>{
     
 }
 
+const perfilPerId = async(req,res)=>{
+    try{
+        const id= req.params.id 
+        const response = await con.query('select * from smaseguridad.perfil as p  inner join smaseguridad.rol as r  ON p.introl_id = r.intid where p.lngusr_id = $1 and p.blndefault=true ',[id]);
+        console.log(response.rows);
+        res.status(200).json(response.rows);
+
+    }catch(error){
+        res.status(500).send({success:false,message: error.message});
+
+    }
+}
+
 const buscarPerfil = async(req,res)=>{
     try{
          const id = req.params.id;
@@ -101,5 +114,6 @@ module.exports ={
     modPerfil,
     delPerfil,
     perfilyRol,
-    buscPerfilyRol
+    buscPerfilyRol,
+    perfilPerId
 }

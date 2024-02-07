@@ -12,7 +12,7 @@ import { DireccionesApi } from 'src/herramientas/direcciones/Direcciones';//Temp
 export class PgAdminConveniosCoordComponent {
 
   dir:DireccionesApi = new DireccionesApi
-  ced:string=this.dir.cedula1
+  ced:any=sessionStorage.getItem('UserCedula')
 
   coordinador!:ICoordinador3[];
   public items:MenuItem[]=[];

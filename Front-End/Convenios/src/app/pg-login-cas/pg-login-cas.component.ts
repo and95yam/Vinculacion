@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
 import { CasClient } from '../AutentucacionCas/CasClient';
+import { SSeguridadService } from '../Modulos/Admin-Convenios/Clases/cSeguridad/s-seguridad.service'; 
+import { ISeguridad } from '../Modulos/Admin-Convenios/Clases/cSeguridad/iseguridad';
+import { DireccionesApi } from 'src/herramientas/direcciones/Direcciones';
+
+
 
 
 @Component({
@@ -10,20 +15,54 @@ import { CasClient } from '../AutentucacionCas/CasClient';
 })
 export class PgLoginCasComponent {
 
+  link:DireccionesApi= new DireccionesApi;
+  url=this.link.PaginaInicio
+  Perfil!:ISeguridad[]
+  ced:any=sessionStorage.getItem('perid')
+ 
   constructor(
-    private casclient: CasClient
+    private casclient: CasClient,
+    private seguridadService:SSeguridadService,
+  
 
   ){}
   async ngOnInit() {
+   
+    console.log('perid loginCas' ,this.ced)
 
+    
+    
     console.log('pasa por aqui')
+    
     if (!this.casclient.getLogin()) {
       console.log('Estoy sin Login');
       this.casclient.saveTicket();
       await this.casclient.verificaLogin().then();
+      this.ced=sessionStorage.getItem('perid')
     }
     if (this.casclient.isAuthenticated() && this.casclient.getLogin()) {
       //await this.session.InicioSesion();
+      
     }
+    this.getPerId()
   }
+  getPerId(){
+
+    this.seguridadService.getPerfilID(this.ced).subscribe(
+      PerId=> {
+        this.Perfil=PerId
+        if( this.Perfil.length>0){
+          console.log('si tiene perfil')
+          window.open(this.url, '_blank')
+          window.close();
+        }else{
+          console.log("no tiene")
+          
+        }
+        console.log( PerId)
+      }
+    );
+    }
+
+    
 }

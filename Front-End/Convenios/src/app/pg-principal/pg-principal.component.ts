@@ -12,7 +12,7 @@ export class PgPrincipalComponent {
   url=this.link.REDIRECT_URI
 
   async IniciarIngreso(){
-    //await this.tool.VerificacionVersion();
+  
   window.open(this.url, '_blank');
   
 

@@ -14,7 +14,7 @@ import { PgLoginCasComponent } from './pg-login-cas/pg-login-cas.component';
 
 const routes: Routes = [
   {path:'',component:PgPrincipalComponent},
- // {path: '', component:PgInicioComponent},
+  {path: 'PgInicio', component:PgInicioComponent},
   {path:'PgConveniosComponent', component:PgConveniosComponent},
   {path: 'AppSeguridadComponent',component:AppSeguridadComponent},
   {path: 'PgAdminConveniosCoordComponent',component:PgAdminConveniosCoordComponent},
