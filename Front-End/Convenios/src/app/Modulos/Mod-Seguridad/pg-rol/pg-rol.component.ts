@@ -16,10 +16,13 @@ export class PgRolComponent {
   mensaje: MensajesConvenios = new MensajesConvenios;
 
   rol!: IRol[];
+  estados: any[] = [];
+
   nuevoModal!:boolean;
   titulo:string="";
   submitted!:boolean;
   nombre:string="";
+  
 
   txtid!:number;
   txtCodigo:string="";
@@ -27,6 +30,8 @@ export class PgRolComponent {
   txtDescripcion:string="";
   blnActivo!:boolean;
   intOrden!:number;
+  txtEstado: string = "";
+
 
   constructor(
     private rolService:SRolService,
@@ -76,7 +81,7 @@ export class PgRolComponent {
 
      if(check===true){
 
-      if(!this.txtCodigo||!this.txtNombre||!this.txtDescripcion||!this.intOrden){
+      if(!this.txtNombre||!this.txtDescripcion){
         this.submitted=true;
         console.log(this.submitted)
         return;

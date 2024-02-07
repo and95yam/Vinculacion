@@ -82,6 +82,7 @@ import { PgInformesValidadosComponent } from './Modulos/Seguimiento-Convenios/An
 import { PgGraficasComponent } from './Modulos/Seguimiento-Convenios/Analista-Vinculacion/pg-graficas/pg-graficas.component';
 import { PgPrincipalComponent } from './pg-principal/pg-principal.component';
 import { PgLoginCasComponent } from './pg-login-cas/pg-login-cas.component';
+import { NgUsuarioComponent } from './Modulos/Mod-Seguridad/ng-usuario/ng-usuario.component';
 
 
 @NgModule({
@@ -119,6 +120,7 @@ import { PgLoginCasComponent } from './pg-login-cas/pg-login-cas.component';
     PgGraficasComponent,
     PgPrincipalComponent,
     PgLoginCasComponent,
+    NgUsuarioComponent,
     
     
     

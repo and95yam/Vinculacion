@@ -10,22 +10,18 @@
 
      <div class="tab-menu align-items-center" style="padding-left: 25px; padding-right: 25px;">
         <p-tabView styleClass="tabview-custom" (onChange)="cambiarSelector($event)"  >
+            
             <p-tabPanel header="ROLES">
               <app-pg-rol></app-pg-rol>
             </p-tabPanel>
-            <p-tabPanel header="ACCIÓN">
-              <app-pg-accion></app-pg-accion>
+            <p-tabPanel header="USUARIOS">
+              <app-ng-usuario></app-ng-usuario>
             </p-tabPanel>
-            <p-tabPanel header="GRUPO">
-              <app-pg-grupo></app-pg-grupo>
-            </p-tabPanel>
+            
             <p-tabPanel header="PERFIL">
               <app-pg-perfil></app-pg-perfil>
             </p-tabPanel>
-            <p-tabPanel header="FUNCIÓN">
-              <app-pg-funcion></app-pg-funcion>
-            </p-tabPanel>
-
+           
 
          </p-tabView>
      </div>

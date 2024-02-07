@@ -1,125 +1,107 @@
 
+
+
 <div class="card">
-  <p-toolbar styleClass="p-mb-4">
+  <p-toolbar styleClass="mb-4">
       <ng-template pTemplate="left">
-          <strong>  Administración de Roles</strong>
-       </ng-template>
-      <ng-template pTemplate="right">
-          <button pButton pRipple label="Nuevo" icon="pi pi-pencil" class="p-button mr-2" pTooltip="Crear nuevo rol" (click)="nuevoRol()"></button><!--(click)="nuevoRol()"-->
-          <span class="p-input-icon-right">
-               <i class="pi pi-search"></i>
-              <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
-          </span>
-
-
+         <strong>  ROLES</strong>
       </ng-template>
-
-  </p-toolbar>
-
-  <p-table #dt [value]="rol" [rows]="10" [paginator]="true" [globalFilterFields]="['strnombre','intorden','strcodigo']"
-           styleClass="p-datatable-gridlines p-datatable-sm" [rowHover]="true" dataKey="id" [rowsPerPageOptions]="[10,25,50]" responsiveLayout="scroll" [responsive]="true"
-           currentPageReportTemplate="Mostrando {first} hasta {last} de {totalRecords} registros" [showCurrentPageReport]="true">
-
+      <ng-template pTemplate="right">
+         <button pButton pRipple label="Nuevo" icon="pi pi-pencil" class="p-button mr-2" pTooltip="Crear nuevo rol" (click)="nuevoRol()">
+         </button>
+      </ng-template>
+   </p-toolbar>
+   
+  <p-table #dt [value]="rol" [rows]="10" [paginator]="true" [globalFilterFields]="['rol_nombre','rol_descripcion']" styleClass="p-datatable-gridlines p-datatable-sm"
+       [rowHover]="true" dataKey="id"  [rowsPerPageOptions]="[10,25,50]" responsiveLayout="scroll" [responsive]="true"
+      currentPageReportTemplate="Mostrando {first} hasta {last} de {totalRecords} registros" [showCurrentPageReport]="true">
+      <ng-template pTemplate="caption">
+          <div class="card">
+             <div class="flex justify-content-between flex-wrap card-container">
+                <div>{{'listado' | titlecase}}</div>
+                <span class="p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                   <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
+                </span>
+             </div>
+          </div>
+       </ng-template>
       <ng-template pTemplate="header">
           <tr>
-
-              <th pSortableColumn="intid">ID <p-sortIcon field="code"></p-sortIcon></th>
-              <th pSortableColumn="strcodigo" style="width:20%">Código <p-sortIcon field="code"></p-sortIcon></th>
-              <th pSortableColumn="strnombre" style="width:20%">Nombre <p-sortIcon field="text"></p-sortIcon></th>
-              <th pSortableColumn="strdescripcion" style="width:20%">Descripción <p-sortIcon field="text"></p-sortIcon></th>
-              <th pSortableColumn="blnactivo" style="width:20%">Activo <p-sortIcon field=""></p-sortIcon></th>
-              <th pSortableColumn="intorden" style="width:20%">Orden <p-sortIcon field="text"></p-sortIcon></th>
-
+              <th pSortableColumn="rol_nombre" class="text-center">Nombre<p-sortIcon field="name"></p-sortIcon></th>
+              <th pSortableColumn="rol_descripcion" class="text-center">Descripción<p-sortIcon field="category"></p-sortIcon></th>
+              <th class="text-center">Estado</th>
               <th class="text-center">Acción</th>
-
           </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-item>
+      <ng-template pTemplate="body" let-rol>
           <tr>
-
-
-                  <td style="width: 33%;">{{ item.intid}}</td>
-                  <td style="width: 33%;">{{ item.strcodigo }}</td>
-                  <td style="width: 33%;">{{ item.strnombre }}</td>
-                  <td style="width: 33%;">{{ item.strdescripcion }}</td>
-                  <td style="width: 33%;">{{ item.blnactivo }}</td>
-                  <td style="width: 33%;">{{ item.intorden }}</td>
-
-              <td style="width: 1%;">
-                  <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded mr-2"  (click)="editarRol(item)"  ></button>
-
-
+              <td>{{rol.strnombre}}</td>
+              <td>{{rol.strdescripcion}}</td>
+              <td class="text-center">
+                  <span [class]="'product-badge status-' + rol.blnActivo" *ngIf="rol.rol_estado==1; else inactivo">Activo</span>
+                  <ng-template #inactivo>
+                      <span [class]="'product-badge status-' + rol.blnActivo">Inactivo</span>
+                  </ng-template>
+              </td>
+              <td class="text-center">
+                  <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded mr-2" (click)="editarRol(rol)"></button>
               </td>
           </tr>
       </ng-template>
-      <ng-template pTemplate="summary">
-          <div class="p-d-flex p-ai-center p-jc-between">
-            <!-- In total there are {{products ? products.length : 0 }} products.-->
-          </div>
-
+      <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="7">No se encontrarón registros.</td>
+          </tr>
       </ng-template>
   </p-table>
-  <br><br>
 </div>
 
+
+
+
+
 <p-toast></p-toast>
-<p-dialog [(visible)]="nuevoModal" header="{{titulo}}" [modal]="true" styleClass="p-fluid"  [style]="{width: '450px'}" [contentStyle]="{ 'height': '400px' }" >
-<ng-template pTemplate="content">
-
-  <div class="p-field">
-    <div class="p-field">
-      <label for="codigo">ID</label>
-      <input type="text"  class="form-control" pInputText id="intid" readonly required name="" [(ngModel)]="txtid"  />
-    </div><br>
-
-    <div class="p-field">
-      <label for="codigo">Código</label>
-      <input type="text"  class="form-control" pInputText id="strcodigo" required name="" [(ngModel)]="txtCodigo" maxlength="4" />
-      <small class="p-invalid"  *ngIf="submitted && !txtCodigo">Código Necesario</small>
-
-    </div><br>
-
-    <div class="p-field">
-      <label for="codigo">Nombre Rol</label>
-      <input type="text"  class="form-control" pInputText id="strnombre" required name="" [(ngModel)]="txtNombre"  />
-      <small class="p-invalid"  *ngIf="submitted && !txtNombre">Nombre Necesario</small>
-
-    </div><br>
-
-    <div class="p-field">
-      <label for="codigo">Descripción</label>
-      <input type="text"  class="form-control" pInputText id="strdescripcion" required name="" [(ngModel)]="txtDescripcion"  />
-      <small class="p-invalid"  *ngIf="submitted && !txtDescripcion"> Descripción Necesaria</small>
-
-    </div><br>
-
-    <div class="p-field">
-      <label for="codigo">Activo: </label>
-      <input type="checkbox" id="blnactivo"  [(ngModel)]="blnActivo" >
-      <small class="p-invalid"  *ngIf="submitted && !blnActivo"> Estado Necesario</small>
-
-
-
-    </div><br>
-
-    <div class="p-field">
-      <label for="codigo">Orden</label>
-      <input type="text" class="form-control" pInputText id="intorden" required name="" [(ngModel)]="intOrden" pattern="[0-9]*" inputmode="numeric" />
-      <small class="p-invalid"  *ngIf="submitted && !intOrden">Orden Necesaria</small>
-
-    </div><br>
-
-  </div><br>
-
-
-</ng-template>
-<ng-template pTemplate="footer">
-  <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"  (click)="nuevoModal=false"></button>
-  <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="guardarRol()" ></button>
-
-</ng-template>
-
-</p-dialog>
+<p-dialog [(visible)]="nuevoModal" header="{{titulo}}" [modal]="true" styleClass="p-fluid" position="top" [style]="{width: '50vw'}">
+    <ng-template pTemplate="content">
+        <div class="grid p-fluid" *ngIf="txtCodigo=='0'">
+            <div class="col-12 md:col-2">
+                <label for="name" class="col-sm-3 col-form-label">Código:</label>
+            </div>
+            <div class="col-12 md:col-10">
+            <input type="text" pInputText class="form-control" readonly required name="txtCodigo" [(ngModel)]="txtCodigo" placeholder="Código">
+          </div>
+        </div>
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-2">
+                <label for="name" class="col-sm-3 col-form-label">Nombre:</label>
+            </div>
+            <div class="col-12 md:col-10">
+            <input type="text" pInputText class="form-control" required name="txtNombre" [(ngModel)]="txtNombre" placeholder="Nombre">
+          </div>
+        </div> 
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-2">
+                <label for="name" class="col-sm-3 col-form-label">Descripción:</label>
+            </div>
+            <div class="col-12 md:col-10">
+            <input type="text" pInputText class="form-control" required name="txtDescripción" [(ngModel)]="txtDescripcion" placeholder="Descripción">
+          </div>
+        </div> 
+        <div class="grid p-fluid" *ngIf="txtCodigo=='0'">
+            <div class="col-12 md:col-2">
+                <label for="name" class="col-sm-3 col-form-label">Estado:</label>
+            </div>
+            <div class="col-12 md:col-10">
+                <p-dropdown  appendTo="body" [options]="estados" [(ngModel)]="txtEstado" optionLabel="label" optionValue="value" [showClear]="true"></p-dropdown>
+            </div>
+          </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="nuevoModal=false"></button>
+        <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="guardarRol()"></button>
+    </ng-template>
+  </p-dialog>
 
 
 

@@ -19,6 +19,8 @@ export class PgLoginCasComponent {
   url=this.link.PaginaInicio
   Perfil!:ISeguridad[]
   ced:any=sessionStorage.getItem('perid')
+  autorizado:boolean=false;
+  texto:string="";
  
   constructor(
     private casclient: CasClient,
@@ -52,10 +54,14 @@ export class PgLoginCasComponent {
       PerId=> {
         this.Perfil=PerId
         if( this.Perfil.length>0){
+          this.autorizado=true;
           console.log('si tiene perfil')
+          this.texto="";
           window.open(this.url, '_blank')
-          window.close();
+         // window.close();
         }else{
+          this.autorizado=false;
+          this.texto="Usuario No Autorizado, Comuníquese con el Administrador"
           console.log("no tiene")
           
         }
