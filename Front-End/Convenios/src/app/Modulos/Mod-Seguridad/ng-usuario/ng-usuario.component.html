@@ -83,25 +83,25 @@
                     <label for="name">Cédula</label>
                 </div>
                  <div class="col-10 md:col-8">
-                    <input type="text" pInputText id="name" [(ngModel)]="usuario.per_cedula"  required autofocus />
-                    <small class="p-invalid" *ngIf="submitted && !usuario.per_nombres">cédula es requerida.</small>
+                    <input type="text" pInputText id="name" [(ngModel)]="txtcedula"  required autofocus />
+                    <small class="p-invalid" *ngIf="submitted && !txtnombres">cédula es requerida.</small>
                 </div>
                 <div class="col-2 md:col-2 flex flex-wrap-reverse">
-                 <button pButton type="button" icon="pi pi-search" iconPos="bottom" class="p-button-text p-button-text" ></button> <!--(click)=" buscarUsuario()"-->
+                 <button pButton type="button" icon="pi pi-search" iconPos="bottom" class="p-button-text p-button-text" (click)=" buscarUsuario()"></button> <!--"-->
                </div>    
              </div>
            <div class="grid p-fluid">
               <div class="col-6 md:col-6">
                  <label for="description">Nombres</label>
-                 <input type="text" pInputText id="name" [disabled]="disabled" [(ngModel)]="usuario.per_nombres"   />
+                 <input type="text" pInputText id="name" [disabled]="disabled" [(ngModel)]="txtnombres"   />txtnombres
              </div>
              <div class="col-6 md:col-6">
                <label for="description">Apellidos</label>
-               <input type="text" pInputText id="name" [disabled]="disabled" [(ngModel)]="usuario.per_apellidos"   />
+               <input type="text" pInputText id="name" [disabled]="disabled" [(ngModel)]="txtapellido1"   />
            </div>
            <div class="col-12 md:col-12">
             <label for="description">Email</label>
-            <input type="text" pInputText id="name" [disabled]="disabled" [(ngModel)]="usuario.per_email"  />
+            <input type="text" pInputText id="name" [disabled]="disabled" [(ngModel)]="txtcorreo"  />
            </div>
              
             </div>
@@ -185,7 +185,7 @@
                   
                 </div>
                  <div class="col-10 md:col-10">
-                    {{usuario.per_nombres}}  {{usuario.per_apellidos}} 
+                    {{txtnombres}}  {{txtapellido1}} 
                 </div>
                
                  

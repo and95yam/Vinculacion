@@ -34,6 +34,7 @@ export class DireccionesApi{
   perfilPerID:string="http://localhost:3000/perfilPerId"
 
   grupo:string="http://localhost:3000/grupo"
+  bdCentralizada:string="https://centralizada2.espoch.edu.ec/rutadinardap/obtenerpersona/"
 
   //Enviroment Cas
 

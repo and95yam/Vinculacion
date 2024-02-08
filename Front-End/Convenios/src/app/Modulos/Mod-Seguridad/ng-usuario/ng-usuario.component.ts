@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ICentral } from '../clases/cCentral/i-central';
+import { SCentralService } from '../clases/cCentral/s-central.service';
 
 @Component({
   selector: 'app-ng-usuario',
@@ -15,8 +17,15 @@ export class NgUsuarioComponent {
    submitted: boolean = false;
    disabled: boolean = true;
 
+   txtcedula!:string;
+   txtnombres!:string;
+   txtapellido1!:string;
+   txtapellido2!:string;
+   txtcorreo!:string;
+
+
    public lstUsuarios:any[]=[]// persona[] = [];
-   usuario:any={}// persona = {};
+   usuario!: ICentral[];
    usuarioSeleccionado:any={}// persona = {};
    usuarioguardar: any = {};
 
@@ -49,9 +58,14 @@ export class NgUsuarioComponent {
    lstEstado: Array<any> = [];
    objEstado: any = {}
 
+   constructor(
+    private DbCentral:SCentralService
+
+   ){ }
+
    async abrirModalUsuario() {
     this.tipoDependencia = {};
-    this.usuario = {};
+    this.usuario = [];
     this.usuariorol = {};
     this.rol = {};
     this.submitted = false;
@@ -67,6 +81,20 @@ export class NgUsuarioComponent {
     //this.listarRoles();
     this.usuarioDialog = true;
 
+ }
+
+ buscarUsuario(){
+  this.DbCentral.getDatos(this.txtcedula).subscribe(
+    listado=>{
+      this.usuario=listado
+      console.log(listado.listado[0].per_nombres)
+      this.txtnombres=listado.listado[0].per_nombres
+      this.txtapellido1=listado.listado[0].per_primerApellido
+      this.txtcorreo=listado.listado[0].per_email
+    }
+    
+  );
+  
  }
 
 }
