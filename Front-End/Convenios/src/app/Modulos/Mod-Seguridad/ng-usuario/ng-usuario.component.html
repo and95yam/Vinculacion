@@ -118,53 +118,7 @@
               </div>
              </div>
         </p-panel>
-        <p-panel header="Dependencias">
-           <div class="p-formgrid p-grid">
-             
-              <div class="p-field">
-                 <label class="p-mb-3">Tipo</label>
-                 <div class="p-formgrid p-grid">
-                   <p-dropdown appendTo="body" [options]="lstTipoDependencia" [(ngModel)]="tipoDependencia" optionLabel="des" placeholder="Seleccione un tipo"  ></p-dropdown><!--(ngModelChange)="ListarDependenciasTipo()"-->
-                     
-                 </div>
-             </div>
-             </div>
-
-             <div *ngIf="tipoDependencia.id==1" class="grid p-fluid">
-
-             
-              <div class="col-6 md:col-4"><label class="p-mb-3">Sede</label></div>
-                 <div class="col-6 md:col-8">
-                   <p-dropdown appendTo="body" [options]="lstSedes" [(ngModel)]="objSede" optionLabel="sednombre" placeholder="Seleccione una sede"  ></p-dropdown> <!--(ngModelChange)="ListarFacultades($event)"-->
-                 </div>
-          
-             
-              <div class="col-6 md:col-4"> <label class="p-mb-3">Facultad</label></div>
-              <div class="col-6 md:col-8">
-                <p-dropdown appendTo="body" [options]="lstFacultades" [(ngModel)]="objFacultad" optionLabel="facnombre" placeholder="Seleccione una facultad" ></p-dropdown> <!--(ngModelChange)="ListarCarreras($event)"-->
-              </div>
-            
-            <div class="col-6 md:col-4">
-              <label class="p-mb-3">Carreras</label>
-           </div>
-              <div class="col-6 md:col-8">
-                <p-dropdown appendTo="body" [options]="lstCarreras" [(ngModel)]="objCarrera" optionLabel="carnombre" placeholder="Seleccione una carrera"></p-dropdown> 
-              </div>
-           
-              
-
-    </div>
-             <div *ngIf="tipoDependencia.id==2" class="grid p-fluid">
-
-             
-              <div class="col-6 md:col-4"><label class="p-mb-3">Dependencias</label></div>
-              <div class="col-6 md:col-8">
-                   <p-dropdown appendTo="body" [options]="lstDependencias" [(ngModel)]="objDependencia" optionLabel="depNombre" placeholder="Seleccione una Dependencia"  ></p-dropdown> 
-              </div>
-          
-                  
-               </div>
-        </p-panel>
+       
        
           
            
@@ -239,18 +193,11 @@
      
          </div>
          <div *ngIf="tipoDependencia.id==2" class="grid p-fluid col-12 md:col-12">
-           <div class="col-6 md:col-4">
-              <label class="p-mb-3">Dependencias</label>
-           </div>
-              <div class="col-6 md:col-8">
-                 <p-dropdown appendTo="body" [options]="lstDependencias" [(ngModel)]="objDependencia" optionLabel="depNombre" placeholder="Seleccione una Dependencia" [filter]="true" filterBy="depNombre" ></p-dropdown> 
-              </div>
+           
+             
             </div>
        
-                    <div class="col-6 md:col-4"></div>
-                   <div class="col-6 md:col-2"><button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" ></button></div> <!--(click)="cerrarRol()"-->
-                   <div class="col-6 md:col-2"><button pButton pRipple label="Guardar" icon="pi pi-check"  class="p-button-text" ></button></div><!--(click)="guardarRol()"-->
-                   <div class="col-6 md:col-4"></div>
+                   
            
        </div>
            <div class="p-formgrid p-grid" *ngIf="!activarroles">

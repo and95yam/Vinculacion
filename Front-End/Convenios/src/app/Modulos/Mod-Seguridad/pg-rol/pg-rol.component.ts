@@ -22,6 +22,7 @@ export class PgRolComponent {
   titulo:string="";
   submitted!:boolean;
   nombre:string="";
+  edit:boolean=false;
   
 
   txtid!:number;
@@ -40,6 +41,10 @@ export class PgRolComponent {
 
   ngOnInit():void{
     this.listarRoles();
+    this.estados = [
+      { label: 'Activo', value: true },
+      { label: 'Inactivo', value: false }
+   ];
   }
 
   listarRoles() {
@@ -55,6 +60,7 @@ export class PgRolComponent {
 
   editarRol(id:IRol){
     this.nuevoModal=true;
+    this.edit=true;
     this.titulo="Editar Rol"
     this.txtid=id.intid;
     this.txtCodigo=id.strcodigo;
@@ -62,11 +68,13 @@ export class PgRolComponent {
     this.txtDescripcion=id.strdescripcion;
     this.blnActivo=id.blnactivo;
     this.intOrden=id.intorden;
+    
   }
 
   nuevoRol(){
     this.nuevoModal=true;
     this.titulo="Nuevo Rol";
+    this.edit=false;
     this.txtid=0;
     this.txtCodigo="";
     this.txtNombre="";
@@ -88,11 +96,11 @@ export class PgRolComponent {
       }
       const datosRol={
 
-        strcodigo:this.txtCodigo,
+        
         strnombre:this.txtNombre,
         strdescripcion:this.txtDescripcion,
         blnactivo:this.blnActivo,
-        intorden:this.intOrden
+        
       };
 
       this.rolService.createRol(datosRol).subscribe(
@@ -116,7 +124,7 @@ export class PgRolComponent {
      }else{
       if(check==false){
 
-        if(!this.txtCodigo||!this.txtNombre||!this.txtDescripcion||!this.intOrden){
+        if(!this.txtNombre||!this.txtDescripcion){
           this.submitted=true;
           console.log(this.submitted)
           return;
@@ -124,11 +132,12 @@ export class PgRolComponent {
 
         const editaRol={
 
-          strcodigo:this.txtCodigo,
+          
           strnombre:this.txtNombre,
           strdescripcion:this.txtDescripcion,
           blnactivo:this.blnActivo,
-          intorden:this.intOrden
+         
+          
         };
 
         this.rolService.updateRol(editaRol,this.txtid).subscribe(

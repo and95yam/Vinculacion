@@ -81,7 +81,7 @@ const delPerfil = async(req,res)=>{
 
 const perfilyRol = async(req,res)=>{
     try{
-    const response= await con.query('select tp.lngusr_id as  id_usuario,tp.strnombretema as perfil,tr.intid as id_rol,tr.strcodigo as codigo_rol, tr.strnombre as rol, tp.lngasignadopor, tp.lngmodificadopor, tr.strdescripcion, tp.blnactivo, tp.lngfechaasignacion,tp.blndefault From smaseguridad.rol AS tr JOIN smaseguridad.perfil AS tp On tr.intid = tp.introl_id');
+    const response= await con.query('select  tp. intid ,tp.lngusr_id as  id_usuario,tp.strnombretema as perfil,tr.intid as id_rol,tr.strcodigo as codigo_rol, tr.strnombre as rol, tr.strdescripcion, tp.blnactivo, tp.blndefault From smaseguridad.rol AS tr JOIN smaseguridad.perfil AS tp On tr.intid = tp.introl_id');
     
     console.log(response.rows);
     res.status(200).json(response.rows);

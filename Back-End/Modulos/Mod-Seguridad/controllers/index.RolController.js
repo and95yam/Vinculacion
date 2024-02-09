@@ -6,15 +6,16 @@ const addRol =async (req,res)=>{
 
     try{
 
-       const{strcodigo,strnombre,strdescripcion,blnactivo,intorden} = req.body;
-       const response = await con.query('CALL smaseguridad.AddRol($1,$2,$3,$4,$5)',[strcodigo,strnombre,strdescripcion,blnactivo,intorden]);
+       const{strnombre,strdescripcion} = req.body;
+       const strcodigo=strnombre.substring(0,4);
+       const response = await con.query('CALL smaseguridad.AddRol($1,$2,$3)',[strcodigo,strnombre,strdescripcion]);
        console.log(response);
 
        //RESPUESTA
         res.json({
             message: 'Creado',
             body:{
-                rol:{strcodigo,strnombre,strdescripcion,blnactivo,intorden}
+                rol:{strcodigo,strnombre,strdescripcion}
             }
         })
 
@@ -55,7 +56,7 @@ const modRol = async (req,res)=>{
     try{
         const id = req.params.id;
         const{strcodigo,strnombre,strdescripcion,blnactivo,intorden} = req.body;
-        const response = await con.query('CALL smaseguridad.modROL($1,$2,$3,$4,$5,$6)',[id,strcodigo,strnombre,strdescripcion,blnactivo,intorden]);
+        const response = await con.query('CALL smaseguridad.modROL($1,$2,$3,$4)',[id,strnombre,strdescripcion,blnactivo]);
 
         //RESPUESTA
         console.log(response);

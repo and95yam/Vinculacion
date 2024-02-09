@@ -39,11 +39,10 @@
               <td>{{rol.strnombre}}</td>
               <td>{{rol.strdescripcion}}</td>
               <td class="text-center">
-                  <span [class]="'product-badge status-' + rol.blnActivo" *ngIf="rol.rol_estado==1; else inactivo">Activo</span>
-                  <ng-template #inactivo>
-                      <span [class]="'product-badge status-' + rol.blnActivo">Inactivo</span>
-                  </ng-template>
+                <span *ngIf="rol.blnactivo; else inactivo">Activo</span>
+                <ng-template #inactivo>Inactivo</ng-template>
               </td>
+              
               <td class="text-center">
                   <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded mr-2" (click)="editarRol(rol)"></button>
               </td>
@@ -64,14 +63,7 @@
 <p-toast></p-toast>
 <p-dialog [(visible)]="nuevoModal" header="{{titulo}}" [modal]="true" styleClass="p-fluid" position="top" [style]="{width: '50vw'}">
     <ng-template pTemplate="content">
-        <div class="grid p-fluid" *ngIf="txtCodigo=='0'">
-            <div class="col-12 md:col-2">
-                <label for="name" class="col-sm-3 col-form-label">Código:</label>
-            </div>
-            <div class="col-12 md:col-10">
-            <input type="text" pInputText class="form-control" readonly required name="txtCodigo" [(ngModel)]="txtCodigo" placeholder="Código">
-          </div>
-        </div>
+        
         <div class="grid p-fluid">
             <div class="col-12 md:col-2">
                 <label for="name" class="col-sm-3 col-form-label">Nombre:</label>
@@ -88,12 +80,12 @@
             <input type="text" pInputText class="form-control" required name="txtDescripción" [(ngModel)]="txtDescripcion" placeholder="Descripción">
           </div>
         </div> 
-        <div class="grid p-fluid" *ngIf="txtCodigo=='0'">
+        <div class="grid p-fluid" *ngIf="edit">
             <div class="col-12 md:col-2">
                 <label for="name" class="col-sm-3 col-form-label">Estado:</label>
             </div>
             <div class="col-12 md:col-10">
-                <p-dropdown  appendTo="body" [options]="estados" [(ngModel)]="txtEstado" optionLabel="label" optionValue="value" [showClear]="true"></p-dropdown>
+                <p-dropdown  appendTo="body" [options]="estados" [(ngModel)]="blnActivo" optionLabel="label" optionValue="value" [showClear]="true"></p-dropdown>
             </div>
           </div>
     </ng-template>

@@ -5,19 +5,17 @@ CREATE PROCEDURE smaseguridad.addRol
 (
 	c_strcodigo  VARCHAR(4),
 	c_strnombre  VARCHAR(32),
-	c_strdescripcion VARCHAR(1024),
-	c_blnactivo BOOLEAN,
-	c_intorden INTEGER 
+	c_strdescripcion VARCHAR(1024)
+	
 	
 )
 LANGUAGE plpgsql AS 
 $$
 BEGIN 
-	INSERT INTO smaseguridad.rol (strcodigo,strnombre,strdescripcion,blnactivo,intorden)VALUES
-	(c_strcodigo,c_strnombre,c_strdescripcion,c_blnactivo,c_intorden);
+	INSERT INTO smaseguridad.rol (strcodigo,strnombre,strdescripcion)VALUES
+	(c_strcodigo,c_strnombre,c_strdescripcion);
 END 
 $$;
-
 
 ------------------------------------------- ver roles 
 
@@ -70,22 +68,20 @@ CREATE OR REPLACE PROCEDURE smaseguridad.modROl
 (
 	
 		c_intid INTEGER,
-		c_strcodigo VARCHAR(4),
 		c_strnombre VARCHAR(32),
 		c_strdescripcion VARCHAR(1024),
-		c_blnactivo BOOLEAN,
-		c_intorden INTEGER 
+		c_blnactivo BOOLEAN
+		
 			
 )
 LANGUAGE plpgsql AS
 $$
 BEGIN 
 	UPDATE smaseguridad.rol 
-	SET strcodigo = c_intid, strnombre = c_strnombre, strdescripcion = c_strdescripcion, blnactivo = c_blnactivo, intorden = c_intorden
+	SET  strnombre = c_strnombre, strdescripcion = c_strdescripcion, blnactivo = c_blnactivo
 	WHERE intid= c_intid; 
 END 
 $$;
-
 
 
 

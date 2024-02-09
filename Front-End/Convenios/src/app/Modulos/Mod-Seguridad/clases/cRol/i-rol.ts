@@ -10,10 +10,13 @@ export interface IRol {
 
 export interface addRol {
 
-  strcodigo:string;
+ 
   strnombre:string;
   strdescripcion:string;
   blnactivo:boolean;
-  intorden:number;
 
 }
+
+
+
+
