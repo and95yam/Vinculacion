@@ -20,7 +20,7 @@ export class SInformeService {
 
   constructor(private http:HttpClient) { }
 
-  getInformeCoord(stridcord:string):Observable<IInforme[]>{
+  getInformeCoord(stridcord:any):Observable<IInforme[]>{
     return this.http.get<IInforme[]>(this.url+'/'+stridcord);
   }
 

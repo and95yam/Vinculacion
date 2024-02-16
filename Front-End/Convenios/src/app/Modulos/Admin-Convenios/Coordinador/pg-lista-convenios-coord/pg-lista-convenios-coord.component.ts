@@ -14,7 +14,7 @@ import { IPlanificacion } from '../../Clases/cPlanificacion/i-planificacion';
 export class PgListaConveniosCoordComponent {
 
   dir:DireccionesApi = new DireccionesApi
-  ced:string=this.dir.cedula1
+  ced:any=sessionStorage.getItem('UserCedula')
 
   convenios!:IConvenio2[]
   planificacion!:IPlanificacion[]

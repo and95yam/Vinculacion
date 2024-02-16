@@ -28,7 +28,21 @@
             </ng-container>
             <div  class="text"> <b>Convenios</b> </div>
           </div>
+
+        </a>
+        
+        <div  class="rol"><a routerLink="/PgSeguimiento" class="button hover rounded" title="Página Seguimiento Coordinador">
+          <div class="icono-svg">
+            <ng-container >
+
+                <img  src="../../../assets/imagenes/seguimiento.png" class="icono">
+
+            </ng-container>
+            <div  class="text"> <b>Seguimiento</b> </div>
+          </div>
         </a></div>
+
+      </div>
 
         <div  class="rol" *ngIf="perliesusuarios.introl_id==4" ><a   routerLink="/PgAuditoria"  class="button hover rounded" title="Página Principal Coordinador">
           <div class="icono-svg">
@@ -41,16 +55,7 @@
           </div>
         </a></div>
 
-        <div  class="rol" *ngIf="perliesusuarios.introl_id==5" ><a   routerLink="/PgInvitado"  class="button hover rounded" title="Página Principal Coordinador">
-          <div class="icono-svg">
-            <ng-container >
-
-                <img  src="../../../assets/imagenes/Convenio.png" class="icono">
-
-            </ng-container>
-            <div  class="text"> <b>Convenios</b> </div>
-          </div>
-        </a></div>
+        
 
         <div  class="rol" *ngIf="perliesusuarios.introl_id==1" ><a   routerLink="/AppSeguridadComponent"  class="button hover rounded" title="Página Principal Coordinador">
           <div class="icono-svg">
@@ -63,16 +68,7 @@
           </div>
         </a></div>
 
-        <div  class="rol"><a  class="button hover rounded" title="Página Seguimiento Coordinador">
-          <div class="icono-svg">
-            <ng-container >
-
-                <img  src="../../../assets/imagenes/seguimiento.png" class="icono">
-
-            </ng-container>
-            <div  class="text"> <b>Seguimiento</b> </div>
-          </div>
-        </a></div>
+       
   </div>
 
 

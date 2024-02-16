@@ -19,7 +19,10 @@ import { ImplicitReceiver } from '@angular/compiler';
 export class PgInformesComponent {
 
   dir:DireccionesApi = new DireccionesApi
-  ced:string=this.dir.cedula1
+  ced:any=sessionStorage.getItem('UserCedula')
+
+  cedulacord:string=this.ced.toString();
+
   idInforme:string="";
 
   informe!:IInforme[];
@@ -68,12 +71,14 @@ export class PgInformesComponent {
 
   ngOnInit():void{
     this.listarInformes();
+    console.log(this.cedulacord);
   }
 
   listarInformes(){
       this.informeService.getInformeCoord(this.ced).subscribe(
         inf=>{
           this.informe= inf
+          console.log(this.cedulacord);
           console.log(inf)
         }
       )

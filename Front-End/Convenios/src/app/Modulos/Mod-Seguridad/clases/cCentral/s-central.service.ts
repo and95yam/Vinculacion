@@ -11,6 +11,7 @@ export class SCentralService {
   
   link:DireccionesApi = new DireccionesApi;
   url:string=this.link.bdCentralizada;
+ 
 
   constructor(private http:HttpClient) { }
 

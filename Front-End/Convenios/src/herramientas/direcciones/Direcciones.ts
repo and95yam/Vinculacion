@@ -34,6 +34,7 @@ export class DireccionesApi{
   perfilPerID:string="http://localhost:3000/perfilPerId"
 
   grupo:string="http://localhost:3000/grupo"
+  usuario:string="http://localhost:3000/usuario"
   bdCentralizada:string="https://centralizada2.espoch.edu.ec/rutadinardap/obtenerpersona/"
 
   //Enviroment Cas
@@ -49,7 +50,5 @@ export class DireccionesApi{
   LOGOUT_CORREO: string='https://login.microsoftonline.com/common/oauth2/logout?'
   VALIDATENODEJS:string= 'https://precas.espoch.edu.ec/ServicioWebComprobantes/ServiciosComprobantes/ValidateCas/'
 
-  cedula1:string="1727090225"
-  cedula2:string="1001833647"
-  cedula3:string="0605018993"
+ 
 }

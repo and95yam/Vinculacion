@@ -26,6 +26,7 @@ app.use(require(rutasSeguridad.rutaFuncion));
 app.use(require(rutasSeguridad.rutaGrupo));
 app.use(require(rutasSeguridad.rutaRol));
 app.use(require(rutasSeguridad.rutaPerfil));
+app.use(require(rutasSeguridad.rutaUsuario));
 
 //MOD CONVENIOS//
 app.use(require(rutasConvenio.rutaDependencia));

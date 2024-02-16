@@ -5,14 +5,14 @@
              <strong>  USUARIOS</strong>
           </ng-template>
           <ng-template pTemplate="right">
-             <button pButton pRipple label="Nuevo" icon="pi pi-pencil" class="p-button mr-2" pTooltip="Crear nuevo usuario" (click)="abrirModalUsuario()" > <!--"-->
+             <button pButton pRipple label="Nuevo" icon="pi pi-pencil" class="p-button mr-2" pTooltip="Crear nuevo usuario" (click)="nuevoUsuario()" > <!--"-->
              </button>
           </ng-template>
        </p-toolbar>
-       <p-table #dt *ngIf="lstUsuarios.length > 0" [value]="lstUsuarios" [rows]="10" [showCurrentPageReport]="true" [responsive]="true"
+       <p-table #dt  [value]="lstUsuarios" [rows]="10" [showCurrentPageReport]="true" [responsive]="true"
           [rowsPerPageOptions]="[10,15,20]"  [paginator]="true" [rowHover]="true"
           currentPageReportTemplate="Mostrando {first} hasta {last} de {totalRecords} registros"
-          [globalFilterFields]="['per_cedula','per_nombres','per_apellidos','per_email']">
+          [globalFilterFields]="['c_cedulausuario','c_primerapellido','c_primerapellido']">
           <ng-template pTemplate="caption">
              <div class="card">
                 <div class="flex justify-content-between flex-wrap card-container">
@@ -26,20 +26,20 @@
           </ng-template>
           <ng-template pTemplate="header">
              <tr>
-                <th style="width:10em" pSortableColumn="per_cedula" pResizableColumn>Cédula
-                   <p-sortIcon field="per_cedula"></p-sortIcon>
+                <th style="width:10em" pSortableColumn="c_cedulausuario" pResizableColumn>Cédula
+                   <p-sortIcon field="c_cedulausuario"></p-sortIcon>
                 </th>
-                <th pSortableColumn="per_apellidos" pResizableColumn>Apellidos
-                   <p-sortIcon field="per_apellidos"> </p-sortIcon>
+                <th pSortableColumn="c_primerapellido" pResizableColumn>Apellidos
+                   <p-sortIcon field="c_primerapellido"> </p-sortIcon>
                 </th>
-                <th pSortableColumn="per_nombres" pResizableColumn> Nombres
-                   <p-sortIcon field="per_nombres"></p-sortIcon>
+                <th pSortableColumn="c_srnombreusuario" pResizableColumn> Nombres
+                   <p-sortIcon field="c_srnombreusuario"></p-sortIcon>
                 </th>
-                <th pSortableColumn="per_email" pResizableColumn> Email
-                   <p-sortIcon field="per_email"></p-sortIcon>
+                <th pSortableColumn="c_correo" pResizableColumn> Email
+                   <p-sortIcon field="c_correo"></p-sortIcon>
                 </th>
-                <th pSortableColumn="per_estado" pResizableColumn> Estado
-                   <p-sortIcon field="per_estado"></p-sortIcon>
+                <th pSortableColumn="c_estado" pResizableColumn> Estado
+                   <p-sortIcon field="c_estado"></p-sortIcon>
                 </th>
                 <th> Acciones
                 </th>
@@ -48,20 +48,20 @@
           <ng-template pTemplate="body" let-ser>
              <tr>
                 <td>
-                   <a class="no-underline" >{{ser.per_cedula}}</a>
+                   <a class="no-underline" >{{ser.c_cedulausuario}}</a>
                 </td>
-                <td> {{ser.per_apellidos}} </td>
-                <td> {{ser.per_nombres}} </td>
-                <td> {{ser.per_email}} </td>
-                <td> <span [class]="'product-badge status-' + ser.per_estado" *ngIf="ser.per_estado==1; else inactivo">Activo</span>
+                <td> {{ser.c_primerapellido}} </td>
+                <td> {{ser.c_nombreusuario }} </td>
+                <td> {{ser.c_correo}} </td>
+                <td> <span [class]="'product-badge status-' + ser.c_estado" *ngIf="ser.c_estado==true; else inactivo">Activo</span>
                    <ng-template #inactivo>
-                       <span [class]="'product-badge status-' + ser.per_estado">Inactivo</span>
+                       <span [class]="'product-badge status-' + ser.c_estado">Inactivo</span>
                    </ng-template></td>
                 <td>
                    <button pRipple pButton icon="pi pi-eye" class="p-button-rounded p-button-info mr-2"
                       pTooltip="Ver Perfiles" tooltipPosition="left"  ><!--(click)="editarUsuario(ser)"-->
                    </button>
-                   <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger "  pTooltip="Desactivar usuario"></button><!--(click)="eliminarUsuario(ser)" -->
+                   <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger "  pTooltip="Desactivar usuario" (click)="desactivar(ser)"></button><!--(click)="eliminarUsuario(ser)" -->
                 </td>
              </tr>
           </ng-template>
@@ -109,13 +109,13 @@
           <p-panel header="Roles">
            <div class="p-formgrid p-grid">
              
-              <div class="p-field">
-                  <label class="p-mb-3">Roles</label>
-                  <div class="p-formgrid p-grid">
-                    <p-dropdown  appendTo="body" [options]="roles" [(ngModel)]="rol" optionLabel="rol_nombre" placeholder="Seleccione un rol"></p-dropdown>
-                      
-                  </div>
-              </div>
+            <div class="p-field">
+               <label class="p-mb-3">Roles</label>
+               <div class="p-formgrid p-grid">
+                   <p-dropdown  appendTo="body" [(ngModel)]="txtRol" [options]="roles"  optionLabel="strnombre" optionValue="strnombre" placeholder="Seleccione un rol" (ngModelChange)="getIdRol($event)"></p-dropdown>
+               </div>
+           </div>
+           
              </div>
         </p-panel>
        
@@ -125,129 +125,25 @@
         </ng-template>
         
         <ng-template pTemplate="footer">
-            <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" ></button><!--(click)="hideDialog()"-->
-            <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text"  ></button><!--(click)="guardarUsuario()"-->
+            <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="usuarioDialog=false"></button>
+            <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="guardarUsuario()" ></button><!--(click)="guardarUsuario()"-->
         </ng-template>
     </p-dialog>
 
-    <p-dialog [(visible)]="perfilesDialog" [style]="{width: '50em'}" header="Usuarios" [modal]="true" styleClass="p-fluid">
-        <ng-template pTemplate="content">
-           <p-panel header="Usuario">
-              <div class="grid p-fluid">
-                 <div class="col-10 md:col-2">
-                    <button pButton type="button" icon="pi pi-user-plus" iconPos="bottom" class="p-button-text p-button-text"  pTooltip="Ingresar un nuevo rol"></button><!--(click)="abrirRoles()"-->
-                  
-                </div>
-                 <div class="col-10 md:col-10">
-                    {{txtnombres}}  {{txtapellido1}} 
-                </div>
-               
-                 
-             </div>
-        
-         
-          </p-panel>
-          <p-panel header="Roles">
-           <h4 class="p-mb-3">Nuevo rol</h4>
-           <div class="grid p-fluid" *ngIf="activarroles">
-                      
-                       
-             
-              <div class="col-6 md:col-4">
-                 <label class="p-mb-3">Seleccione un rol</label>
-               </div>
-              <div class="col-6 md:col-8">
-                <p-dropdown  appendTo="body" [options]="roles" [(ngModel)]="rol" optionLabel="rol_nombre" placeholder="Seleccione un rol" [filter]="true" filterBy="rol_nombre"></p-dropdown>
-              </div>
-                <div class="col-6 md:col-4">
-                   <label class="p-mb-3">Tipo de Dependencia</label>
-                 </div>
-                 <div class="col-6 md:col-8">
-                     <p-dropdown appendTo="body" [options]="lstTipoDependencia" [(ngModel)]="tipoDependencia" optionLabel="des" placeholder="Seleccione un tipo" ></p-dropdown><!--(ngModelChange)="ListarDependenciasTipo()"-->
-                       
-                 </div>
-             
-             
-                <div *ngIf="tipoDependencia.id==1" class="grid p-fluid">
+
+    <p-dialog [(visible)]="desactivarDialog" [style]="{width: '30em'}" header="Desactivar Usuario" [modal]="true" styleClass="p-fluid">
+            <label >{{titulo}}</label>
+
+            
+
+            <ng-template pTemplate="footer">
+               <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="desactivarDialog=false"></button>
+               <button pButton pRipple label="Desactivar" icon="pi pi-trash" class="p-button-text" (click)="desactivarUsuario()"  ></button>
+            </ng-template>
    
-                
-                   <div class="col-6 md:col-4"><label class="p-mb-3">Sede</label></div>
-                      <div class="col-6 md:col-8">
-                        <p-dropdown appendTo="body" [options]="lstSedes" [(ngModel)]="objSede" optionLabel="sednombre" placeholder="Seleccione una sede"  [filter]="true" filterBy="sednombre"></p-dropdown> <!--(ngModelChange)="ListarFacultades($event)"-->
-                      </div>
-               
-                  
-                   <div class="col-6 md:col-4"> <label class="p-mb-3">Facultad</label></div>
-                   <div class="col-6 md:col-8">
-                     <p-dropdown appendTo="body" [options]="lstFacultades" [(ngModel)]="objFacultad" optionLabel="facnombre" placeholder="Seleccione una facultad"  [filter]="true" filterBy="sednombre"></p-dropdown> <!--(ngModelChange)="ListarCarreras($event)"-->
-                   </div>
-                 
-                 <div class="col-6 md:col-4">
-                   <label class="p-mb-3">Carreras</label>
-                </div>
-                   <div class="col-6 md:col-8">
-                     <p-dropdown appendTo="body" [options]="lstCarreras" [(ngModel)]="objCarrera" optionLabel="carnombre" placeholder="Seleccione una carrera" [filter]="true" filterBy="carnombre"></p-dropdown> 
-                   </div>
-                
-                   
-     
-         </div>
-         <div *ngIf="tipoDependencia.id==2" class="grid p-fluid col-12 md:col-12">
-           
-             
-            </div>
-       
-                   
-           
-       </div>
-           <div class="p-formgrid p-grid" *ngIf="!activarroles">
-             
-              <div class="p-field">
-                  <div class="p-formgrid p-grid">
-                    <p-table [value]="usuariosrol">
-                       <ng-template pTemplate="header">
-                           <tr>
-                               <th>Nombre</th>
-                               <th>Tipo</th>
-                               <th>Estado</th>
-                               <th>Acciones</th>
-                           </tr>
-                       </ng-template>
-                       <ng-template pTemplate="body" let-usuariorol>
-                           <tr>
-                               <td>{{usuariorol.rol_nombre}}</td>
-                               
-                                
-                                <td> 
-                                   <p-message *ngIf="usuariorol.tipo==1" severity="info" text="ACADÉMICO" styleClass="p-mr-2"></p-message>
-                                   <p-message *ngIf="usuariorol.tipo==2" severity="info" text="ADMINISTRATIVO" styleClass="p-mr-2"></p-message>
-                                  
-                                
-                              
-                               </td>
-                                <td>    
-                                   <span [class]="'product-badge status-' +usuariorol.prol_estado" *ngIf="usuariorol.prol_estado==1; else inactivo">Activo</span>
-                                   <ng-template #inactivo>
-                                       <span [class]="'product-badge status-' + usuariorol.prol_estado">Inactivo</span>
-                                   </ng-template>
-                             
-                                </td>
-                                <td> <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger "  *ngIf="usuariorol.prol_estado==1" pTooltip="Eliminar" ></button><!--(click)="eliminarRol(usuariorol)"-->
-                                   <button pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-success "  *ngIf="usuariorol.prol_estado==2" pTooltip="Activar" ></button><!--(click)="activarRol(usuariorol)"-->
-                               </td>
-                           </tr>
-                       </ng-template>
-                   </p-table>
-                  </div>
-              </div>
-             </div>
-        </p-panel>
-        
-        </ng-template>
-        
-        <ng-template pTemplate="footer">
-            <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" ></button><!--(click)="hideDialog()"-->
-        </ng-template>
-    </p-dialog>
+   </p-dialog>
+
+
+   
        
      

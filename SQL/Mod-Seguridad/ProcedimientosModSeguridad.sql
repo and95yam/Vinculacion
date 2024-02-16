@@ -600,4 +600,86 @@ END
 $$;
 
 
+/* PROCEDIMIENTOS TABLA USUARIO*/
+
+/* AGREGAR USUARIO*/
+
+CREATE PROCEDURE smaseguridad.AddUsuario
+(
+	c_perid integer,
+	c_cedulaUsuario varchar(10),
+	c_nombreUsuario varchar,
+	c_primerApellido varchar,
+	c_segundoApellido varchar,
+	c_correo varchar,
+	c_estado boolean,
+	c_idrol integer
+	
+	
+)
+LANGUAGE plpgsql AS 
+$$
+BEGIN 
+INSERT INTO smaseguridad.usuario(
+	perid, "cedulaUsuario", "nombresUsuario", "primerApellido", "segundoApellido", correo, estado, idrol)
+	VALUES (c_perid, c_cedulaUsuario, c_nombreUsuario, c_primerApellido,c_segundoApellido, c_correo, c_estado, c_idrol );
+END
+$$;
+
+call smaseguriad.AddUsuario('46597','0650098858','Erlinda Verenice','Flores','toapanta','erlinda.flores@espoch.edu.ec',true,2)
+
+/* VER  USUARIOS `*//
+
+
+CREATE OR REPLACE FUNCTION smaseguridad.GetUsers()
+RETURNS TABLE (
+   	c_perid bigint,
+	c_cedulaUsuario varchar(10),
+	c_nombreUsuario varchar,
+	c_primerApellido varchar,
+	c_segundoApellido varchar,
+	c_correo varchar,
+	c_estado boolean,
+	c_idrol integer,
+	c_srnombre varchar
+	
+)
+AS $$
+BEGIN
+    
+    RETURN QUERY 
+	SELECT u.perid, u."cedulaUsuario", u."nombresUsuario", u."primerApellido",  u."segundoApellido", u.correo, u.estado, u.idrol, r.strnombre 
+	FROM smaseguridad.rol AS r
+	JOIN smaseguridad.usuario AS u
+	ON r.intid = u.idrol;
+	
+END;
+$$ LANGUAGE plpgsql;
+
+/*llamado funcion */
+select * from smaseguridad.GetUsers()
+
+
+/* Mod USER */ 
+
+CREATE OR REPLACE PROCEDURE smaseguridad.modUser
+(
+	
+		c_cedulaUsuario Varchar,
+		c_estado BOOLEAN,
+		c_idrol integer 
+		
+)
+LANGUAGE plpgsql AS
+$$
+BEGIN 
+	UPDATE smaseguridad.usuario
+	SET  estado=c_estado, idrol=c_idrol
+	WHERE "cedulaUsuario"=c_cedulaUsuario;
+	
+	
+END 
+$$;
+
+call smaseguridad.modUser('0650098858',true,4)
 
