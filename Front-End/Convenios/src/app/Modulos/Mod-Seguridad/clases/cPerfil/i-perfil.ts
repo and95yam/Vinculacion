@@ -1,8 +1,8 @@
-export interface IPerfil {
-    lngusr_id:number;
-    introl_id:string;
+export interface  IPerfil {
+    lngusr_id:any;
+    introl_id:any;
     blnactivo:boolean;
-    lngasignadopor:number;
+    lngasignadopor:any;
     strnombretema:string;
     blndefault:boolean;
 }
@@ -22,10 +22,9 @@ export interface GPerfil {
 }
 
 export interface MPerfil{
-    lngusr_id:number;
-    introl_id:number;
-    blnactivo:boolean; 
-    lngmodificadopor:number;
-    strnombretema:string;
-    blndefault:boolean;
+   
+    estado:boolean; 
+    
 }
+
+

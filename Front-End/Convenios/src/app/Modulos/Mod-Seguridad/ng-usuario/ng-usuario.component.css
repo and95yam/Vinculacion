@@ -1,0 +1,18 @@
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Alinear a la derecha */
+    gap: 10px; /* Separación entre el label y el checkbox */
+    margin-bottom: 10px; /* Espacio debajo del contenedor */
+    font-size: 16px; /* Tamaño de fuente */
+}
+
+label {
+    /* Estilos adicionales para el label si es necesario */
+}
+
+input[type="checkbox"] {
+    width: 24px; /* Ancho del checkbox */
+    height: 24px; /* Altura del checkbox */
+    /* Estilos adicionales para el checkbox si es necesario */
+}

@@ -26,7 +26,7 @@ export class PgConveniosComponent {
     ];
   
     this.activeItem = this.items[0];
-    this.home = {icon: 'pi pi-home', routerLink: '/'};
+    this.home = {icon: 'pi pi-home', routerLink: '/PgInicio'};
   }
 
   cambiarSelector(e:any){

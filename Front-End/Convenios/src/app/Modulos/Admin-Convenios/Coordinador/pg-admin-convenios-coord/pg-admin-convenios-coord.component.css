@@ -2,3 +2,24 @@
   flex: 0 0 calc(33.333% - 16px); /* 33.333% dividido en 3 columnas con margen de 8px */
   margin: 8px; /* Ajusta el margen según sea necesario */
 }
+
+.datos-coordinador {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.custom-col {
+  margin-bottom: 10px;
+}
+
+.custom-col span {
+  display: block;
+  padding: 5px;
+}
+
+.custom-col span strong {
+  margin-right: 5px;
+}
+

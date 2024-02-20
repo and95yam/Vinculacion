@@ -192,3 +192,43 @@
     border-color: #ff0000; /* Puedes ajustar el color según tus preferencias */
   }
   
+
+  .informacion-general {
+    padding: 20px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 10px;
+}
+
+.grid-item {
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+
+.informacion-general {
+  padding: 20px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+  grid-template-rows: repeat(5, auto); /* Cinco filas */
+  grid-gap: 10px;
+}
+
+.grid-item {
+  padding: 5px;
+  border: 1px solid #ccc;
+  background-color: white;
+}
+
+.text-green {
+  color: green;
+}
+
+.text-red {
+  color: red;
+}

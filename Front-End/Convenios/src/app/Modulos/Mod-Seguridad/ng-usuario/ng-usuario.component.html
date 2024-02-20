@@ -59,7 +59,7 @@
                    </ng-template></td>
                 <td>
                    <button pRipple pButton icon="pi pi-eye" class="p-button-rounded p-button-info mr-2"
-                      pTooltip="Ver Perfiles" tooltipPosition="left"  ><!--(click)="editarUsuario(ser)"-->
+                      pTooltip="Ver Perfiles" tooltipPosition="left"  (click)="gestionPerfiles(ser)" ><!--(click)="editarUsuario(ser)"-->
                    </button>
                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger "  pTooltip="Desactivar usuario" (click)="desactivar(ser)"></button><!--(click)="eliminarUsuario(ser)" -->
                 </td>
@@ -142,6 +142,44 @@
             </ng-template>
    
    </p-dialog>
+
+
+   <p-dialog [(visible)]="perfilesDialog" [style]="{width: '21em'}" header={{titulo}} [modal]="true" styleClass="p-fluid">
+      
+      <div class="checkbox-container">
+         <label for="adminCheckbox">Administrador </label>
+         <input type="checkbox" [(ngModel)]="blnAdministrador"  (click)="perfilAdmin('Administrador')" >
+     </div>
+
+     <div class="checkbox-container">
+      <label for="adminCheckbox">Analista Vinculación</label>
+      <input type="checkbox" [(ngModel)]="blnAnalista" (click)="perfilAdmin('Analista')">
+      </div>
+
+      <div class="checkbox-container">
+         <label for="adminCheckbox">Coordinador</label>
+         <input type="checkbox" [(ngModel)]="blnCoordinador" (click)="perfilAdmin('Coordinador')">
+     </div>
+
+     <div class="checkbox-container">
+      <label for="adminCheckbox">Auditoria</label>
+      <input type="checkbox" [(ngModel)]="blnAuditoria" (click)="perfilAdmin('Auditoria')">
+  </div>
+
+     
+     
+     
+    
+      
+      
+      
+
+      <ng-template pTemplate="footer">
+         <button pButton pRipple label="Salir" icon="pi pi-times" class="p-button-text" (click)="reiniciarControl()"></button>
+         
+      </ng-template>
+
+</p-dialog>
 
 
    

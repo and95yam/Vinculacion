@@ -1,3 +1,4 @@
+//const { default: id } = require('date-fns/esm/locale/id/index.js');
 const rutasFunciones = require('../../../rutas/rutas-funciones')
 const con = require(rutasFunciones.conexion);
 
@@ -106,6 +107,53 @@ const buscPerfilyRol = async (req, res)=>{
     }
 }
 
+const buscPerfilyRol2 = async (req, res)=>{
+    try{
+         console.log('aqui estoy');
+         
+             const id = req.params.id; var sentencia ="select tp.lngusr_id as  id_usuario,tp.strnombretema as perfil,tr.strcodigo as codigo_rol, tr.strnombre as rol, tr.strdescripcion, tp.blnactivo, tp.lngfechaasignacion From smaseguridad.rol AS tr JOIN smaseguridad.perfil AS tp On tr.intid = tp.introl_id  where  tp.lngusr_id = '"+id+"' ";
+            console.log(sentencia);
+             const response = await con.query (sentencia);
+             console.log(response);
+             res.json(response.rows);
+             
+    }catch(error){
+        res.status(500).send({succes: false, message: error.message})
+    }
+}
+
+const gestionPerfil =async (req,res)=>{
+
+    try{
+
+
+        const perid= req.params.perid
+        const idrol= req.params.idrol
+        const{estado}=req.body
+
+        const response = await con.query('UPDATE smaseguridad.perfil SET blnactivo = $1, blndefault = $2  WHERE lngusr_id = $3 AND introl_id = $4',[estado,estado,perid,idrol])
+        
+        res.json({message:'modificado'})
+
+            
+   }catch(error){
+       res.status(500).send({succes: false, message: error.message})
+   }
+}
+
+const checkPerfiles = async(req,res)=>{
+    
+    try{
+
+        const perid= req.params.perid
+        const idrol= req.params.idrol
+        const control = await con.query('select count(*) blnactivo from smaseguridad.perfil where introl_id = $1 and lngusr_id=$2',[idrol,perid])
+        res.json(control.rows);
+
+    }catch(error){
+       res.status(500).send({succes: false, message: error.message})
+   }
+}
 
 module.exports ={
     addPerfil,
@@ -115,5 +163,8 @@ module.exports ={
     delPerfil,
     perfilyRol,
     buscPerfilyRol,
-    perfilPerId
+    perfilPerId,
+    gestionPerfil,
+    checkPerfiles,
+    buscPerfilyRol2
 }

@@ -18,3 +18,38 @@
     width: 100%;
   }
   
+  .menu-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    margin-right: auto; /* Ajusta el margen derecho para que el logo-container se alinee a la izquierda */
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Ajusta el margen izquierdo para que el user-info se alinee a la derecha */
+}
+
+h3 {
+    margin-right: 10px;
+}
+
+button {
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}

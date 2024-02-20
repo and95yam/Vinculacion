@@ -2,21 +2,43 @@
 <app-pg-linea></app-pg-linea>
 
    
-    <div style="padding: 1%;">
-        <h3>Información General</h3><br>
-
-        <label>{{tituloConvenio}} </label><br>
-        <label>{{txtNaturaleza}}</label><br>
-        <label>{{txtClasificacion}}</label><br>
-        <label>{{blnAcademico}}</label><br>
-        <label>{{blnInvestigacion}}</label><br>
-        <label>{{blnPracticas}}</label><br>
-        <label>{{blnVinculacion}}</label><br>
-        <label>{{dtFechaInicio}}</label><br>
-        <label>{{dtFechaFin}}</label><br>
-        <label>{{txtInstitucion}}</label><br>
+<div class="informacion-general">
+    <h3>Información General</h3>
+    <div class="grid-container">
+        <div class="grid-item"><strong>Título:</strong> {{tituloConvenio}}</div>
+        <div class="grid-item"><strong>Institución:</strong> {{txtInstitucion}}</div>
+        <div class="grid-item"><strong>Naturaleza:</strong> {{txtNaturaleza}}</div>
+        <div class="grid-item"><strong>Clasificación:</strong> {{txtClasificacion}}</div>
+        <div class="grid-item">
+            <strong>Académico:</strong>
+            <i class="pi pi-lg" [ngClass]="{'pi-check-circle': blnAcademico, 'pi-times-circle': !blnAcademico, 'text-green': blnAcademico, 'text-red': !blnAcademico}"></i>
+        </div>
+        <div class="grid-item">
+            <strong>Investigación:</strong>
+            <i class="pi pi-lg" [ngClass]="{'pi-check-circle': blnInvestigacion, 'pi-times-circle': !blnInvestigacion, 'text-green': blnInvestigacion, 'text-red': !blnInvestigacion}"></i>
+        </div>
+        <div class="grid-item">
+            <strong>Prácticas:</strong>
+            <i class="pi pi-lg" [ngClass]="{'pi-check-circle': blnPracticas, 'pi-times-circle': !blnPracticas, 'text-green': blnPracticas, 'text-red': !blnPracticas}"></i>
+        </div>
+        <div class="grid-item">
+            <strong>Vinculación:</strong>
+            <i class="pi pi-lg" [ngClass]="{'pi-check-circle': blnVinculacion, 'pi-times-circle': !blnVinculacion, 'text-green': blnVinculacion, 'text-red': !blnVinculacion}"></i>
+        </div>
+        
+       
+        <div class="grid-item"><strong>Fecha de Inicio:</strong> {{dtFechaInicio}}</div>
+        <div class="grid-item"><strong>Fecha de Fin:</strong> {{dtFechaFin}}</div>
+        
+        
+        
         
     </div>
+</div>
+
+
+
+    
         
          
 

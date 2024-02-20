@@ -3,33 +3,28 @@
 <app-pg-linea></app-pg-linea>
 
 
-    <div class="bread flex flex-row"><p-breadcrumb [model]="items" [home]="home" ></p-breadcrumb></div>
-    <div>
-      <h3>Datos Coordinador</h3>
-      <div class="custom-col">
-        <label for="name"><strong>CI:</strong></label>
-        <label for="name" >{{txtCiCoordinador}}</label>
-      </div>
-      <div class="custom-col">
-        <label for="name"><strong>Nombres:</strong></label>
-        <label for="name" >{{txtNombre}}</label>
-      </div>
-      <div class="custom-col">
-        <label for="name"><strong>Correo:</strong></label>
-        <label for="name" >{{txtCorreo}}</label>
-      </div>
+<div class="bread flex flex-row">
+  <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+</div>
+<div class="datos-coordinador">
+  <h3>Datos Coordinador</h3>
+  <div class="custom-col">
+      <span><strong>CI:</strong> {{txtCiCoordinador}}</span>
+  </div>
+  <div class="custom-col">
+      <span><strong>Nombres:</strong> {{txtNombre}}</span>
+  </div>
+  <div class="custom-col">
+      <span><strong>Correo:</strong> {{txtCorreo}}</span>
+  </div>
+  <div class="custom-col">
+      <span><strong>Teléfono:</strong> {{txtTelefono}}</span>
+  </div>
+  <div class="custom-col">
+      <span><strong>Dependencia:</strong> {{txtDependencia}}</span>
+  </div>
+</div>
 
-      <div class="custom-col">
-        <label for="name"><strong>Telefono:</strong></label>
-        <label for="name" >{{txtTelefono}}</label>
-      </div>
-
-      <div class="custom-col">
-        <label for="name"><strong>Dependencia:</strong></label>
-        <label for="name" >{{txtDependencia}}</label>
-      </div>
-
-    </div>
 
 
     <div class="titulo2">

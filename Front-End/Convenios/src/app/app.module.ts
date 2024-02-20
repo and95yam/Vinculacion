@@ -36,6 +36,7 @@ import {MessageModule} from 'primeng/message';
 
 
 
+
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import { AppComponent } from './app.component';
 import { PgInicioComponent } from './Modulos/pg-inicio/pg-inicio.component';
@@ -162,6 +163,7 @@ import { NgUsuarioComponent } from './Modulos/Mod-Seguridad/ng-usuario/ng-usuari
     AutoCompleteModule,
     KnobModule,
     ChartModule,
+    CheckboxModule
     
     
     

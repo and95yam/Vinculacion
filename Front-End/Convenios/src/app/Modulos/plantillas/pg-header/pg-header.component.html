@@ -1,5 +1,19 @@
-<p-menubar [model]="items">
-    <img src="./../../../../../assets/imagenes/logo.jpeg" height="30" class="p-mr-2">
-    <h2 style="cursor: pointer;">Dirección de Vinculación</h2>
+<p-menubar [model]="items" class="menu-bar">
+  <div class="logo-container">
+      <img src="./../../../../../assets/imagenes/logo.jpeg" height="30" class="p-mr-2">
+      <a routerLink="/PgInicio"> <h2 style="cursor: pointer;">Dirección de Vinculación</h2></a>
+  </div>
+  <div class="user-info" style="width: 415px;">
+    
+  </div>
+  <div class="user-info" style="width: 420px;">
+    
+  </div>
+  <div class="user-info" style="width: 500px;">
+    
+  </div>
+  <div class="user-info">
+      <h3>{{txtcompleto}}</h3>
+      <button (click)="logout()">Cerrar sesión</button>
+  </div>
 </p-menubar>
-  <!--<app-pg-linea [idRolSeccionado]="idRol"></app-pg-linea>-->
