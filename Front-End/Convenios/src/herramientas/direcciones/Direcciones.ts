@@ -53,5 +53,8 @@ export class DireccionesApi{
   LOGOUT_CORREO: string='https://login.microsoftonline.com/common/oauth2/logout?'
   VALIDATENODEJS:string= 'https://precas.espoch.edu.ec/ServicioWebComprobantes/ServiciosComprobantes/ValidateCas/'
 
- 
+ // ONE DRIVE
+
+ API_ONEDRIVE: string= 'https://apiarchivos.espoch.edu.ec/wsrepositorio/rutaRepositorio/'
+
 }

@@ -12,6 +12,7 @@ import { SInstitucionService } from '../../Clases/cInstitucion/s-institucion.ser
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 import { format } from 'date-fns';
 import { parse, addYears, isAfter } from 'date-fns';
+import { OneDriveService } from 'src/app/Modulos/plantillas/oneDrive/one-drive.service';
 
 @Component({
   selector: 'app-pg-admin-convenios',
@@ -27,6 +28,7 @@ export class PgAdminConveniosComponent {
   ejes: boolean[] = [true, false, true, false];
   labels: string[] = ['Académico', 'Investigación', 'Prácticas', 'Vinculación'];
 
+  archivoSubir!:File
   loading: boolean = true;
   submitted!: boolean;
   readonlyMode:boolean= false;
@@ -98,6 +100,7 @@ export class PgAdminConveniosComponent {
     private changeDetectorRef:ChangeDetectorRef,
     private sCoordinadorService:SCoordinadorService,
     private sInstitucionService:SInstitucionService,
+    private oneDrive:OneDriveService,
     //private datepipe:DatePipe
   ){}
 
@@ -529,7 +532,36 @@ export class PgAdminConveniosComponent {
       this.txtFechaFin= new Date()
     }
 
+    // SUbir Archivo 
 
+     async uploadFile(){
+
+      if(!this.archivoSubir){
+        console.log('no hay archivo')
+        return
+      }
+
+      const jwt = await this.oneDrive.getjwt();
+
+      if(!jwt|| jwt === null){
+        console.log('no se obtuvo el token')
+        return
+      }
+      const{token}=jwt;
+
+      const requestData:any ={ 
+        TokenData:token,
+        file: this.archivoSubir,
+        fileName: 'nombre'
+      }
+
+      const result = await this.oneDrive.upload(requestData)
+      console.log('resultado', result)
+    }
+
+    seleccionarArchivo(archivo:any){
+      this.archivoSubir=archivo.currentFiles[0]
+    }
 
 }
 

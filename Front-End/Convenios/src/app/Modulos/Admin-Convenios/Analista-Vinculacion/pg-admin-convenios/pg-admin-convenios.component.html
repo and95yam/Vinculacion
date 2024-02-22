@@ -374,7 +374,8 @@
 
       </div>
       <div class="custom-col">
-        <p-fileUpload  [ngClass]="{'error': submitted && !txtArchivo}" *ngIf="!read" mode="basic" chooseLabel="Subir Informe" name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*"></p-fileUpload>
+        <input type="file" [(ngModel)]="archivoSubir">
+        <p-fileUpload  [(ngModel)]="archivoSubir"  *ngIf="!read" mode="basic" chooseLabel="Subir Informe"   accept="application/pdf"  (onSelect)="seleccionarArchivo($event)"></p-fileUpload>
 
       </div>
 
@@ -386,7 +387,7 @@
   <ng-template pTemplate="footer">
 
     <button pButton pRipple label="Cerrar" icon="pi pi-times" class="p-button-text"  (click)="modalVerConvenio=false"></button>
-    <button  *ngIf="!read" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="GuardarConvenio()"  ></button>
+    <button  *ngIf="!read" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="uploadFile()"   ></button>
 
 
   </ng-template>
