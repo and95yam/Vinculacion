@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "jspdf": "^2.5.1",
+    "jspdf": "^1.5.3",
     "ngx-quill": "^23.0.0-beta.1"
   }
 }

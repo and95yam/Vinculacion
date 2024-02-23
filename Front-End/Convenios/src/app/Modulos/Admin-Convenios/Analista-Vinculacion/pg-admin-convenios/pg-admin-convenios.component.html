@@ -103,6 +103,8 @@
                 <div style="display: flex;">
                   <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded mr-2" pTooltip="Editar" (click)=" modificarConvenio(item)"></button>
                   <button pButton pRipple icon="pi pi-eye" class="p-button-rounded mr-2 p-button-success" pTooltip="Información" (click)="verConvenio(item)"  ></button>
+                  <button type="button" pButton pRipple icon="pi pi-file-pdf"  class="p-button-danger p-button mr-2" pTooltip="PDF" tooltipPosition="bottom" (click)=" generarPDFid(item)" ></button><!--(click)=" generarPDF()"-->
+
                 </div>
               </td>
 
@@ -374,7 +376,7 @@
 
       </div>
       <div class="custom-col">
-        <input type="file" [(ngModel)]="archivoSubir">
+        
         <p-fileUpload  [(ngModel)]="archivoSubir"  *ngIf="!read" mode="basic" chooseLabel="Subir Informe"   accept="application/pdf"  (onSelect)="seleccionarArchivo($event)"></p-fileUpload>
 
       </div>
@@ -387,7 +389,7 @@
   <ng-template pTemplate="footer">
 
     <button pButton pRipple label="Cerrar" icon="pi pi-times" class="p-button-text"  (click)="modalVerConvenio=false"></button>
-    <button  *ngIf="!read" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="uploadFile()"   ></button>
+    <button  *ngIf="!read" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="uploadFile()"  (click)="GuardarConvenio()" ></button>
 
 
   </ng-template>

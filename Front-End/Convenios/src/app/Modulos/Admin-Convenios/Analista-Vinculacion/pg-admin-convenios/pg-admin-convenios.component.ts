@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { MensajesConvenios } from 'src/herramientas/Mensajes/MensajesConvenios';
 import { NgModel } from '@angular/forms';
-import { IConvenio} from '../../Clases/cConvenio/i-convenio';
+import { IConvenio,IConvenio3} from '../../Clases/cConvenio/i-convenio';
 import { addConvenio } from '../../Clases/cConvenio/i-convenio';
 import { ICoordinador } from '../../Clases/cCoordinador/i-coordinador';
 import { IInstitucion } from '../../Clases/cInstitucion/i-institucion';
@@ -13,6 +13,11 @@ import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 import { format } from 'date-fns';
 import { parse, addYears, isAfter } from 'date-fns';
 import { OneDriveService } from 'src/app/Modulos/plantillas/oneDrive/one-drive.service';
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+(pdfMake as any).vfs=pdfFonts.pdfMake.vfs;
+
+
 
 @Component({
   selector: 'app-pg-admin-convenios',
@@ -562,6 +567,105 @@ export class PgAdminConveniosComponent {
     seleccionarArchivo(archivo:any){
       this.archivoSubir=archivo.currentFiles[0]
     }
+
+  //HACER PDF 
+
+  generarPDFid(dato: IConvenio) {
+    // Definir el contenido del PDF
+    const documentDefinition: any = {
+      pageOrientation: 'portrait', // Cambiar a orientación vertical
+      header: {
+        //image: 'path_to_header_image', // Ruta de la imagen para la cabecera
+        //width: 100, // Ancho de la imagen
+        //alignment: 'center' // Alineación de la imagen
+      },
+      footer: {
+        //image: 'path_to_footer_image', // Ruta de la imagen para el pie de página
+        //width: 100, // Ancho de la imagen
+        //alignment: 'center' // Alineación de la imagen
+      },
+      background: [
+        {
+          //image: 'assets/imagenes/espoch.jpg',
+          // Ruta de la imagen de marca de agua
+          //width: 400, // Ancho de la imagen de marca de agua
+          //opacity: 0.5 // Opacidad de la imagen de marca de agua*/
+        }
+      ], 
+      content: [
+        { text: 'Información General', style: 'header' },
+        [{text:'Estado Convenio:'},{text: dato.vigente ? 'Vigente' : 'No Vigente'}],
+        {text:'Avance convenio:',bold:true},{text: this.txtAvance},
+        { text: '\n' },
+        {
+          layout: 'noBorders',
+          table: {
+            widths: ['20%', '80%'],
+            body: [
+              [{ text: 'Resolución N:', bold: true }, { text: dato.stridconvenio }],
+              [{ text: 'Título Convenio:', bold: true }, { text: dato.strtituloconvenio }],
+              [{ text: 'Objetivo:', bold: true }, { text: dato.strobjetivoconvenio }],
+              [{ text: 'Coordinador:', bold: true }, { text: dato.strnombrescoordinador }],
+              [{ text: 'Email:', bold: true }, { text: dato.strcorreocoordinador }],
+              [{ text: 'Teléfono:', bold: true }, { text: dato.strtelefonocoordinador }],
+              [{ text: 'Naturaleza:', bold: true }, { text: dato.strnaturalezaconvenio }],
+              [{ text: 'Clasificación:', bold: true }, { text: dato.strclasificacionconvenio }],
+              [{
+                text: 'Ejes:',
+                bold: true
+              },
+              {
+                table: {
+                  body: [
+                    [
+                      { text: dato.blnacademico ? 'Académico' : '', border: [false, false, true, true] },
+                      { text: dato.blninvestigacion ? 'Investigación' : '', border: [false, false, true, true] },
+                      { text: dato.blnpracticas ? 'Prácticas' : '', border: [false, false, true, true] },
+                      { text: dato.blnvinculacion ? 'Vinculación' : '', border: [false, false, false, true] }
+                    ]
+                  ]
+                }
+              }
+              ],
+  
+              [{ text: 'Instituciones:', bold: true }, 
+              {text:''}],
+              [{ text: 'ESPOCH:', bold: true }, { text: dato.strinstitucion }],
+              [{ text: 'Fecha Inicio:', bold: true }, { text: dato.dtfechainicioconvenio }],
+              [{ text: 'Fecha Fin:', bold: true }, { text: dato.dtfechafinconvenio }],
+              [{ text: 'Vigencia:', bold: true }, { text: dato.strvigencia }],
+              [{text: 'Razon Informes:',bold:true},{text: this.txtRazon= this.calcularRazon(dato.intrazonconvenio)}]
+             
+            ]
+          }
+        },
+        { text: '\n' },
+        
+        { text: '\n' },
+        {
+          canvas: [
+            {
+              type: 'line',
+              x1: 0, y1: 5,
+              x2: 595 - 2 * 40, y2: 5,
+              lineWidth: 1
+            }
+          ]
+        }
+      ],
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          alignment: 'center',
+          fillColor: '#3498db',
+          color: 'white'
+        }
+      }
+    };
+  
+    pdfMake.createPdf(documentDefinition).download('informacion_convenio.pdf');
+  }
 
 }
 

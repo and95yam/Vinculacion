@@ -27,7 +27,7 @@ export class PgDatosCoordinadorComponent {
 
    mensaje:MensajesConvenios=new MensajesConvenios;//instancia de clase mensajes
    cedula:Cedula= new Cedula;//Instancia de clase cedula
-   pdf:CoordinadorPdf= new CoordinadorPdf;// instancia para generar pdf
+  // pdf:CoordinadorPdf= new CoordinadorPdf;// instancia para generar pdf
    isGuardarButtonDisabled: boolean = true;//desactivar boton guardar
    dependencias!:cGetDependencia[];//para cargar las dependencias
    intIdDependenciaS!:number;// objeto que tiene todas las dependencias

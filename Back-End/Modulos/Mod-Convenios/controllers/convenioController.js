@@ -1,7 +1,7 @@
 const rutasFunciones = require('../../../rutas/rutas-funciones')
 const con = require(rutasFunciones.conexion);
 
-const {format} = require('date-fns');
+const {format, setMonth} = require('date-fns');
 const {calcularFechaSiguiente} = require('../../../funciones/calculoPeriodoPlanificación.js');
 
 const addConvenio = async(req,res)=>{// INGRESA EL CONVENIO COMPLETO MAS LA PLANIFICACION 
@@ -32,7 +32,7 @@ const addConvenio = async(req,res)=>{// INGRESA EL CONVENIO COMPLETO MAS LA PLAN
 
         
         while(fechaActual!==null){
-            const strperiodo =calcularFechaSiguiente(fechaActual, ((intrazonconvenio-1)*30), dtfechafinconvenio);
+            const strperiodo =calcularFechaSiguiente(fechaActual, ((intrazonconvenio)*30), dtfechafinconvenio);
             console.log('entrada bucle');
             console.log(strperiodo)
             
@@ -50,7 +50,9 @@ const addConvenio = async(req,res)=>{// INGRESA EL CONVENIO COMPLETO MAS LA PLAN
                 const responsePlanificacion = await con.query('CALL smaconvenios.addplanificacion($1,$2)',[periodo,stridconvenio]);
 
                 fechaActual=strperiodo;
+
                 console.log(periodo);
+               
 
                
             }else{

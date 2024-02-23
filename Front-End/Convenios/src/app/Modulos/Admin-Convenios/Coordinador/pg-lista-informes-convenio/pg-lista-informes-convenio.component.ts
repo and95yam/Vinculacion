@@ -9,7 +9,7 @@ import { SPlanificacionService } from '../../Clases/cPlanificacion/s-planificaci
 import { IPlanificacion } from '../../Clases/cPlanificacion/i-planificacion';
 import { IActividad,GActividad,EActividad } from '../../Clases/cActividad/i-actividad';//interface actividad
 import { GMiembro} from '../../Clases/cMiembro/i-miembro';//Interface miembro
-import { AddInforme, IInformeConvenio} from '../../Clases/cInforme/i-informe';//interface datos informe
+import { AddInforme, IInforme, IInformeConvenio} from '../../Clases/cInforme/i-informe';//interface datos informe
 import { IConvenio, IConvenioInforme } from '../../Clases/cConvenio/i-convenio';//interface datos convenio
 import { SDependenciaService } from '../../Clases/cDependencia/sDependencia.service';//servicio que llama a dependencia
 import { cGetDependencia } from '../../Clases/cDependencia/cDependencia';//interface dependencia
@@ -689,6 +689,10 @@ export class PgListaInformesConvenioComponent {
               )
           }
       }
+  }
+
+  eliminarInforme(id:IInforme){
+    
   }
 
 }
