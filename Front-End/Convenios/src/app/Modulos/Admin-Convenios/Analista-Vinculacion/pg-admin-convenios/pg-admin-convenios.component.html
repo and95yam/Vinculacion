@@ -5,7 +5,7 @@
        </ng-template>
       <ng-template pTemplate="right">
         <button type="button" pButton pRipple icon="pi pi-file-excel"  class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom" ></button><!--(click)="generarXlsx()"-->
-            <button type="button" pButton pRipple icon="pi pi-file-pdf"  class="p-button-danger p-button mr-2" pTooltip="PDF" tooltipPosition="bottom"  ></button><!--(click)=" generarPDF()"-->
+            <button type="button" pButton pRipple icon="pi pi-file-pdf"  class="p-button-danger p-button mr-2" pTooltip="PDF" tooltipPosition="bottom"(click)=" generarPDF()"  ></button><!--(click)=" generarPDF()"-->
           <button pButton pRipple label="Nuevo" icon="pi pi-pencil" class="p-button mr-2" pTooltip="Crear nuevo convenio" (click)="nuevo()" ></button><!--(click)="nuevo()"-->
 
           <span class="p-input-icon-right">
@@ -389,7 +389,7 @@
   <ng-template pTemplate="footer">
 
     <button pButton pRipple label="Cerrar" icon="pi pi-times" class="p-button-text"  (click)="modalVerConvenio=false"></button>
-    <button  *ngIf="!read" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="uploadFile()"  (click)="GuardarConvenio()" ></button>
+    <button  *ngIf="!read" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text"   (click)="GuardarConvenio()" ></button><<!--(click)="uploadFile()"-->
 
 
   </ng-template>

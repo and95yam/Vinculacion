@@ -667,6 +667,49 @@ export class PgAdminConveniosComponent {
     pdfMake.createPdf(documentDefinition).download('informacion_convenio.pdf');
   }
 
+  generarPDF() {// proximamente clase
+    // Definir el contenido del PDF
+    const data =[];
+    data.push(['Resolución', 'Nombre', 'Coordinador', 'Dependencia', 'Naturaleza','Clasificación','Institucion']);
+
+    for ( const dato of  this.tablaConvenios){
+      data.push([
+        dato.stridconvenio,
+        dato.strtituloconvenio,
+        dato.strnombrescoordinador,
+        dato.strnombredependencia,
+        dato.strnaturalezaconvenio,
+        dato.strclasificacionconvenio,
+        dato.strinstitucion,
+
+      ]);
+    }
+
+    const documentDefinition: any = {
+      content: [
+        { text: 'Reporte de Coordinadores', style: 'header' },
+        { text: '\n' },
+        {
+          table: {
+            headerRows: 1,
+            widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
+            body: data, // Usar la matriz de datos aquí
+          }
+        }
+      ],
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          alignment: 'center',
+          fillColor: '#3498db',
+          color: 'white'
+        }
+      }
+    };
+
+    pdfMake.createPdf(documentDefinition).download('reporte_convenios.pdf');
+  }
 }
 
 
