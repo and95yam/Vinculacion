@@ -22,7 +22,7 @@
         <ng-template pTemplate="header">
             <tr>
   
-                <th pSortableColumn="c_stridinforme" style="width:8% ; font-size: 10px;">ID INFORME <p-sortIcon field="code"></p-sortIcon></th>
+                <th pSortableColumn="c_stridinforme" style="width:8% ; font-size: 10px;">ID INFORME<p-sortIcon field="code"></p-sortIcon></th>
                 <th pSortableColumn="c_strperiodo" style="width:8% ; font-size: 10px;">PERIODO <p-sortIcon field="name"></p-sortIcon></th>
                 <th pSortableColumn="c_strresultados" style=" font-size: 10px; width:15%;">RESULTADOS <p-sortIcon field="name"></p-sortIcon></th>
                 <th pSortableColumn="c_strobservaciones"style="width:15% ; font-size: 10px;"> OBSERVACIONES<p-sortIcon field="name"></p-sortIcon></th>
@@ -52,13 +52,8 @@
                 </td>
     
                   <td style="width: 0.8%;">
-                    <a   class="button hover rounded" >
-                      <div class="icono-svg">
-                        <ng-container >
-                            <img  src="../../../../../assets//imagenes/Download.png" class="icono">
-                        </ng-container>
-                      </div>
-                    </a>
+                    <button pButton type="button"  icon="pi pi-download" label="" class="p-button-secondary" (click)="downloadFile(item)"></button> 
+
                   </td>
     
     
@@ -392,7 +387,7 @@
   
       <div class="custom-col" *ngIf="!controlIngresoCampos">
         <label for="name">Anexos:</label>
-        <p-fileUpload   mode="basic" chooseLabel="Subir Anexo" name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" ></p-fileUpload>
+        <p-fileUpload  [(ngModel)]="archivoSubir" mode="basic" chooseLabel="Subir Anexo"   accept="application/pdf" (onSelect)="seleccionarArchivo($event)"></p-fileUpload>
   
       </div>
       <div class="custom-col" *ngIf="controlIngresoCampos">
@@ -411,7 +406,7 @@
     <ng-template pTemplate="footer">
   
       <button pButton pRipple label="Cerrar" icon="pi pi-times" class="p-button-text" (click)="nuevoModal=false" ></button> 
-      <button   pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="guardarInforme()"  ></button>
+      <button   pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="uploadFile()" (click)="guardarInforme()"  ></button>
   
   
     </ng-template>
@@ -518,3 +513,55 @@
     </ng-template>
   
   </p-dialog>
+
+
+  <p-dialog  [(visible)]="modalVerArchivo" header="{{titulo}}" [modal]="true" styleClass="p-fluid"  [style]="{width: '800px'}" [contentStyle]="{ 'height': '800px' }" >
+    <p>Inicial</p>
+   <div class="row" *ngIf="safePdfUrl">
+     <p>Hola</p>
+     <div class="text-center col-md-12 col-sm-12 col-xs-12">
+ 
+     </div>
+ 
+     <iframe id="pdf" [src]="safePdfUrl" allow="autoplay; encrypted-media" target="Certificado" type="application/pdf" width="100%"
+              height="400px" allowfullscreen>
+     </iframe>
+   </div>
+   
+   <!-- <ng-template #VerDocumento let-c="close" let-d="dismiss">
+   <div class="modal-header widget-header">
+     <h4>VER DOCUMENTO</h4>
+   </div>
+   <div class="modal-body">
+     <div class="col-md-12 col-sm-12 col-xs-12">
+       <div class="knowledge">
+         <h3>
+           <a><i class="fa fa-folder"></i>Datos <span class="pull-right"> </span></a>
+         </h3>
+         <ul class="list-unstyled">
+           
+         </ul>
+       </div>
+       <hr />
+     </div>
+     <div class="row" *ngIf="safePdfUrl">
+       <p>Hola</p>
+       <div class="text-center col-md-12 col-sm-12 col-xs-12">
+ 
+       </div>
+ 
+       <iframe id="pdf" [src]="safePdfUrl" allow="autoplay; encrypted-media" target="Certificado" type="application/pdf" width="100%"
+                height="400px" allowfullscreen>
+       </iframe>
+     </div>
+     <div class="text-center col-md-12 col-sm-12 col-xs-12">
+       <br />
+       <button class="btn btn-default" (click)="modalVerArchivo=false" title="Cancelar">
+         <span class="glyphicon glyphicon-remove"> </span> Cerrar
+       </button>
+     </div>
+   </div>
+ </ng-template> -->
+ 
+ </p-dialog>
+ 

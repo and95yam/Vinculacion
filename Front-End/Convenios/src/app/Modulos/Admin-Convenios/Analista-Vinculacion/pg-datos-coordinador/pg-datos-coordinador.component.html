@@ -67,18 +67,27 @@
 <p-dialog [(visible)]="nuevoModal" header="{{titulo}}" [modal]="true" styleClass="p-fluid"  [style]="{width: '450px'}" [contentStyle]="{ 'height': '500px' }" >
   <ng-template pTemplate="content">
 
-    <div class="p-field">
-      <label for="name">CI:</label>
-      <input type="text" pInputText id="strcicoordinador" [(ngModel)]="txtCiCoordinador" required autofocus maxlength="10"
+
+    <div class="grid p-fluid">
+      <div class="col-10 md:col-2">
+         <label for="name">Cédula:</label>
+     </div>
+      <div class="col-10 md:col-8">
+        <input type="text" pInputText id="strcicoordinador" [(ngModel)]="txtCiCoordinador" required autofocus maxlength="10"
         (ngModelChange)="validarCedula()" #txtCiCoordinadorModel="ngModel" [readonly]="readonlyMode"/>
       <small class="p-invalid" *ngIf="submitted && !txtCiCoordinador">Cédula Necesaria</small>
-    </div><br>
+         <small class="p-invalid" *ngIf="submitted && !txtCiCoordinador">cédula es requerida.</small>
+     </div>
+     <div class="col-2 md:col-2 flex flex-wrap-reverse">
+      <button pButton type="button" icon="pi pi-search" iconPos="bottom" class="p-button-text p-button-text" (click)="buscarDatos()" ></button> <!--"-->
+    </div>    
+  </div>
 
 
 
     <div class="p-field">
       <label for="name">Nombres:</label>
-      <input [ngClass]="{'error': submitted && !txtNombres}" type="text" pInputText id="strnombrescoordinador" [(ngModel)]="txtNombres" required   maxlength="256"/>
+      <input [ngClass]="{'error': submitted && !txtNombres}" type="text" pInputText id="strnombrescoordinador" [(ngModel)]="txtNombres" required   maxlength="256" readonly/>
       <small class="p-invalid" *ngIf="submitted && !txtNombres">Nombres Necesarios</small>
     </div><br>
 

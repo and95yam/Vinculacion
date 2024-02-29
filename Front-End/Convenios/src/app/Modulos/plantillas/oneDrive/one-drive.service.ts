@@ -35,7 +35,7 @@ export class OneDriveService {
     return jwtData;
  }
 
- upload = async (data: FileUploadData): Promise<Response> => {
+ upload = async (data: FileUploadData,rutaArchivo:string): Promise<Response> => {
     let response: Response = { success: false };
 
     if (!data || !data.TokenData ||  !data.file) {
@@ -48,7 +48,7 @@ export class OneDriveService {
     formArchivo.append('idAplicacion', `1`);
     formArchivo.append('idCredencial', `1`);
     formArchivo.append('activo', `true`);
-    formArchivo.append('ruta', `CONVENIO/pruebaConvenio.pdf`);
+    formArchivo.append('ruta', rutaArchivo);
 
     const archivo:any= data.file;
 
@@ -61,6 +61,7 @@ export class OneDriveService {
 try {
   const result = await this.http.post<any>(`${this.API_ONEDRIVE.API_ONEDRIVE}uploadFile`, formArchivo, { headers }).toPromise();
   if (!result.success) {
+    console.log(result)
      response.msg = result.error;
      return response;
   }
@@ -74,7 +75,7 @@ try {
     return response;
  }
 
- download = async (strFile: string): Promise<Response> => {
+ download = async (strFile: string, nombreArchivo:string): Promise<Response> => {
     let response: any = { success: false };
     if (!strFile) {
        response.msg = 'Datos no válidos para descarga de archivo.';
@@ -86,15 +87,18 @@ try {
        response.msg = jwtData.error;
        return response;
     };
-
+    console.log('archivo',nombreArchivo)
     const req: any = {
        ruta: `${strFile}`,
-       archivo: `${strFile}`,
+       //archivo: `${strFile}`,
+       archivo: nombreArchivo,
        idAplicacion: 1,
        idCredencial: 1,
        jwtsecret: 'Pru3ba5Arch1v05',
        activo:'true'
     };
+
+    console.log(jwtData.token)
 
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + `${jwtData.token}`)
        .set('idaplicacion', `1`)
@@ -102,16 +106,23 @@ try {
        .set('activo', `true`);
 
     const result = await this.http.post<any>(`${this.API_ONEDRIVE.API_ONEDRIVE}getFile`, req, { headers }).toPromise();
+
+
     if (!result.success) {
        response.msg = result.error;
        return response;
     }
+
+    console.log(result.download);
+    
+
     const file: any = await this.wsArchivosUtil.toDataURL(result.download);
     const safePdfUrl = this.wsSanitize.bypassSecurityTrustResourceUrl(file);//este se muestra
     response.data = safePdfUrl;
     response.url = file;
     response.success = true;
-    return response
+    console.log(safePdfUrl)
+    return response ;
  }
 
 

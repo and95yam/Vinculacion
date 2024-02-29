@@ -1,4 +1,4 @@
-const { addDays, format, isBefore, isEqual, parseISO } = require('date-fns');
+/*const { addDays, format, isBefore, isEqual, parseISO } = require('date-fns');
 const { es } = require('date-fns/locale');
 
 function calcularFechaSiguiente(fechaInicio, dias, fechaFin) {
@@ -31,3 +31,40 @@ function calcularFechaSiguiente(fechaInicio, dias, fechaFin) {
 module.exports = {
     calcularFechaSiguiente: calcularFechaSiguiente
 }
+*/
+
+const moment = require('moment');
+
+function dividirFechas(fechaInicio, fechaFin, numeroMeses) {
+  const inicio = moment(fechaInicio);
+  const fin = moment(fechaFin);
+
+  const duracionTotalMeses = fin.diff(inicio, 'months', true) + 1; // Sumamos 1 para incluir también el primer mes
+  const duracionSegmentoMeses = numeroMeses;
+
+  const fechasDivididas = [];
+  let fechaActual = inicio.clone();
+
+  while (fechaActual.isBefore(fin)) {
+      let siguienteFecha = fechaActual.clone().add(duracionSegmentoMeses, 'months').subtract(1, 'days');
+      if (siguienteFecha.isAfter(fin)) {
+          fechasDivididas.push({ inicio: fechaActual.format('YYYY-MM-DD'), fin: fin.format('YYYY-MM-DD') });
+          break;
+      } else {
+          fechasDivididas.push({ inicio: fechaActual.format('YYYY-MM-DD'), fin: siguienteFecha.format('YYYY-MM-DD') });
+          fechaActual = siguienteFecha.add(1, 'days');
+
+          // Si cambiamos de año, ajustamos la siguiente fecha para que sea el último día del mes correcto
+          if (fechaActual.year() !== siguienteFecha.year()) {
+              siguienteFecha = fechaActual.clone().endOf('month');
+          }
+      }
+  }
+
+  return fechasDivididas;
+}
+
+module.exports = {
+  dividirFechas:dividirFechas
+}
+

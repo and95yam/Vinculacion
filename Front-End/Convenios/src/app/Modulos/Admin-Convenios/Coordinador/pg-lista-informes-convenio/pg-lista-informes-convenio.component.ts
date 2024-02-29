@@ -10,13 +10,15 @@ import { IPlanificacion } from '../../Clases/cPlanificacion/i-planificacion';
 import { IActividad,GActividad,EActividad } from '../../Clases/cActividad/i-actividad';//interface actividad
 import { GMiembro} from '../../Clases/cMiembro/i-miembro';//Interface miembro
 import { AddInforme, IInforme, IInformeConvenio} from '../../Clases/cInforme/i-informe';//interface datos informe
-import { IConvenio, IConvenioInforme } from '../../Clases/cConvenio/i-convenio';//interface datos convenio
+import { IConvenio, IConvenio2, IConvenioInforme } from '../../Clases/cConvenio/i-convenio';//interface datos convenio
 import { SDependenciaService } from '../../Clases/cDependencia/sDependencia.service';//servicio que llama a dependencia
 import { cGetDependencia } from '../../Clases/cDependencia/cDependencia';//interface dependencia
 import { MessageService } from 'primeng/api';
 import { MensajesConvenios } from 'src/herramientas/Mensajes/MensajesConvenios';
 import { pl } from 'date-fns/locale';
 import { Cedula } from '../../Clases/cedula';
+import { OneDriveService } from 'src/app/Modulos/plantillas/oneDrive/one-drive.service';
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-pg-lista-informes-convenio',
@@ -121,6 +123,15 @@ export class PgListaInformesConvenioComponent {
   verFecha:boolean=true;
   verFecha2:boolean=true;
 
+
+  //Variables ONE DRIVE 
+
+  safePdfUrl:SafeResourceUrl | undefined;
+  archivoSubir!:File
+  txtArchivo:string="";
+  modalVerArchivo:boolean=false
+
+
   constructor(
     private messageService:MessageService, 
     private route: ActivatedRoute,
@@ -131,6 +142,7 @@ export class PgListaInformesConvenioComponent {
     private planificacionService:SPlanificacionService,
     private dependenciaService:SDependenciaService,
     private changeDetectorRef:ChangeDetectorRef,
+    private oneDrive:OneDriveService,
    
   ){}
 
@@ -271,12 +283,17 @@ export class PgListaInformesConvenioComponent {
 
 
   async guardarInforme(){
-    this.nombre="Informe";
+
+      var aux = this.txtFechaInicio.toString().split(/[" " :-]/);
+      this.txtArchivo = '/CONVENIOS/' +aux[2]+'/'+ this.txtInstitucion.replace(" " ,'')+ '/'+ this.txtIdInforme.replace(" " ,'') +'.pdf';//Se define ruta del archivo
+      console.log('archivo',this.txtArchivo)
+
+   this.nombre="Informe";
    
     if(this.titulo="Agregar Informe"){
 
       //console.log('entra a funcion')
-      if(!this.txtBeneficiarioDirecto||!this.txtBeneficioDirecto||!this.txtResultados/*||!this.txtObservaciones||!this.txtAnexo*/){
+      if(!this.txtBeneficiarioDirecto||!this.txtBeneficioDirecto||!this.txtResultados){
         
         if(this.equipoAgregado==false && this.actividadAgregada==false){
         if(this.equipoAgregado==false){
@@ -305,7 +322,7 @@ export class PgListaInformesConvenioComponent {
         strBeneficioIndirecto:this.txtBeneficioIndirecto, 
         strResultados:this.txtResultados,
         strObservaciones:this.txtObservaciones,
-        strAnexo:this.txtAnexo
+        strAnexo:this.txtArchivo
 
       };
 
@@ -335,7 +352,7 @@ export class PgListaInformesConvenioComponent {
 
       
     }
-
+      
   }
   /*************************************** MIEMBRO ********************************/
   listarMiembros(){
@@ -647,11 +664,12 @@ export class PgListaInformesConvenioComponent {
   }
 
   
+  
   listarPlanificacion() {
     this.planificacionService.getPlanificaciones(this.txtIdConvenio).subscribe(
       plan => {
         this.datosPlanificacion = plan;
-        this.opcionesPeriodo = this.datosPlanificacion.map(planificacion => planificacion.c_strperiodo);
+        this.opcionesPeriodo = this.datosPlanificacion.map(planificacion => planificacion.strperiodo);
         
       }
     );
@@ -692,7 +710,60 @@ export class PgListaInformesConvenioComponent {
   }
 
   eliminarInforme(id:IInforme){
+    this.modalBorrar=true
+    if(id.c_strestadoinforme==="Validado"){
+      this.titulo="No se puede eliminar un informe validado"
+    }
+    this.titulo="Eliminar informe :"+id.c_stridinforme
+  }
+
+  //SUBIR ANEXO INFORME ONE DRIVE 
+
+  async uploadFile(){
+      
+    if(!this.archivoSubir){
+      console.log('no hay archivo')
+      return
+    }
+
+    const jwt = await this.oneDrive.getjwt();
+
+    if(!jwt|| jwt === null){
+      console.log('no se obtuvo el token')
+      return
+    }
+    const{token}=jwt;
+
+    const requestData:any ={ 
+      TokenData:token,
+      file: this.archivoSubir,
+      fileName: 'nombre'
+    }
+
+    const result = await this.oneDrive.upload(requestData,this.txtArchivo)
+    console.log('resultado', result)
+  }
+
+  seleccionarArchivo(archivo:any){
+    this.archivoSubir=archivo.currentFiles[0]
+  }
+
+  async downloadFile(id:IInformeConvenio){
+    this.modalVerArchivo=true
+    console.log(id.c_stranexo)
+    const nombreArchivo =id.c_stranexo.split('/');
     
+    
+    
+    const respuesta = await this.oneDrive.download(id.c_stranexo,nombreArchivo[4])
+    if(!respuesta || !respuesta.success) {
+      return;
+    }
+    console.log("final",respuesta);
+    
+    this.safePdfUrl = respuesta.data;
+      
+     
   }
 
 }

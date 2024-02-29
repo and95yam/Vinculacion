@@ -5,6 +5,8 @@ import { SConvenioService } from '../../Clases/cConvenio/s-convenio.service';
 import { SPlanificacionService } from '../../Clases/cPlanificacion/s-planificacion.service';
 import { IConvenio2 } from '../../Clases/cConvenio/i-convenio';
 import { IPlanificacion } from '../../Clases/cPlanificacion/i-planificacion';
+import { OneDriveService } from 'src/app/Modulos/plantillas/oneDrive/one-drive.service';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 (pdfMake as any).vfs=pdfFonts.pdfMake.vfs;
@@ -53,11 +55,19 @@ export class PgListaConveniosCoordComponent {
   txtSetRazon!:number
   idConvenio!:string;
 
+  //variables ondedrive
+  archivoSubir!:File
+  txtArchivo:string=""
+  modalVerArchivo!:boolean
+  safePdfUrl:SafeResourceUrl | undefined;
+
 
   constructor(
     private convenioService:SConvenioService,
     private planificacionService:SPlanificacionService,
     private router: Router,
+    private oneDrive : OneDriveService,
+
 
   ){}
 
@@ -189,6 +199,25 @@ export class PgListaConveniosCoordComponent {
     console.log(id.c_stridconvenio);
   }
 
+
+// ONE DRIVE//
+
+
+
+async downloadFile(id:IConvenio2){
+  const nombreArchivo =id.c_strarchivoconvenio.split('/');
+  this.modalVerArchivo=true;
+  console.log(id.c_strarchivoconvenio)
+  const respuesta = await this.oneDrive.download(id.c_strarchivoconvenio,nombreArchivo[4])
+  if(!respuesta || !respuesta.success) {
+    return;
+  }
+  console.log("final",respuesta);
+  
+  this.safePdfUrl = respuesta.data;
+    
+   
+}
 
   //REPORTES PDF 
 

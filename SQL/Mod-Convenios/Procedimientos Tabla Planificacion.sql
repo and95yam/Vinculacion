@@ -6,13 +6,14 @@ select * from smaconvenios.planificacion
 CREATE PROCEDURE smaconvenios.AddPlanificacion
 (
    c_strperiodo VARCHAR(64),          
-   c_stridconvenio VARCHAR(16)
+   c_stridconvenio VARCHAR(16),
+   c_strdescripcion VARCHAR(256)
 )
 LANGUAGE plpgsql AS 
 $$
 BEGIN 
-    INSERT INTO smaconvenios.planificacion (strperiodo,stridconvenio)VALUES
-	( c_strperiodo, c_stridconvenio);
+    INSERT INTO smaconvenios.planificacion (strperiodo,stridconvenio,strdescripcion)VALUES
+	( c_strperiodo, c_stridconvenio, c_strdescripcion);
 END 
 $$;
 

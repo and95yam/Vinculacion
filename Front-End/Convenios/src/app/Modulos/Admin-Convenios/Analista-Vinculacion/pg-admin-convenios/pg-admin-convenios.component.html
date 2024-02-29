@@ -90,13 +90,9 @@
 
 
               <td style="width: 0.8%;">
-                <a   class="button hover rounded" >
-                  <div class="icono-svg">
-                    <ng-container >
-                        <img  src="../../../../../assets//imagenes/Download.png" class="icono">
-                    </ng-container>
-                  </div>
-                </a>
+
+                <button pButton type="button" (click)="downloadFile(item)" icon="pi pi-download" label="" class="p-button-secondary"></button>
+                
               </td>
 
               <td style="width: 0.8%;">
@@ -389,7 +385,7 @@
   <ng-template pTemplate="footer">
 
     <button pButton pRipple label="Cerrar" icon="pi pi-times" class="p-button-text"  (click)="modalVerConvenio=false"></button>
-    <button  *ngIf="!read" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text"   (click)="GuardarConvenio()" ></button><<!--(click)="uploadFile()"-->
+    <button  *ngIf="!read" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="uploadFile()" (click)="GuardarConvenio()"  ></button><<!---->
 
 
   </ng-template>
@@ -397,5 +393,54 @@
 
 </p-dialog>
 
+<p-dialog  [(visible)]="modalVerArchivo" header="{{titulo}}" [modal]="true" styleClass="p-fluid"  [style]="{width: '800px'}" [contentStyle]="{ 'height': '800px' }" >
+   <p>Inicial</p>
+  <div class="row" *ngIf="safePdfUrl">
+    <p>Hola</p>
+    <div class="text-center col-md-12 col-sm-12 col-xs-12">
+
+    </div>
+
+    <iframe id="pdf" [src]="safePdfUrl" allow="autoplay; encrypted-media" target="Certificado" type="application/pdf" width="100%"
+             height="400px" allowfullscreen>
+    </iframe>
+  </div>
+  
+  <!-- <ng-template #VerDocumento let-c="close" let-d="dismiss">
+  <div class="modal-header widget-header">
+    <h4>VER DOCUMENTO</h4>
+  </div>
+  <div class="modal-body">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="knowledge">
+        <h3>
+          <a><i class="fa fa-folder"></i>Datos <span class="pull-right"> </span></a>
+        </h3>
+        <ul class="list-unstyled">
+          
+        </ul>
+      </div>
+      <hr />
+    </div>
+    <div class="row" *ngIf="safePdfUrl">
+      <p>Hola</p>
+      <div class="text-center col-md-12 col-sm-12 col-xs-12">
+
+      </div>
+
+      <iframe id="pdf" [src]="safePdfUrl" allow="autoplay; encrypted-media" target="Certificado" type="application/pdf" width="100%"
+               height="400px" allowfullscreen>
+      </iframe>
+    </div>
+    <div class="text-center col-md-12 col-sm-12 col-xs-12">
+      <br />
+      <button class="btn btn-default" (click)="modalVerArchivo=false" title="Cancelar">
+        <span class="glyphicon glyphicon-remove"> </span> Cerrar
+      </button>
+    </div>
+  </div>
+</ng-template> -->
+
+</p-dialog>
 
 

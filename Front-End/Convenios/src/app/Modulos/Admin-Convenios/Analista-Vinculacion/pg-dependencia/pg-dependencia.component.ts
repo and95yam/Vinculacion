@@ -32,6 +32,7 @@ export class PgDependenciaComponent {
   txtTipoDependencia: string ="";
   titulo: string ="";
   nombre:string="";
+  verCodigo: boolean= false; 
 
 
 
@@ -65,6 +66,7 @@ export class PgDependenciaComponent {
 
   Nuevo(){
     this.nuevoModal=true;
+    
     this.txtNombreDependencia="";
     this.txtTipoDependencia="";
     this.txtCodigoDependencia=0;
@@ -75,6 +77,7 @@ export class PgDependenciaComponent {
 
   EditarDependencia(id:CDependencia){
     this.nuevoModal=true;
+    
     this.titulo="Editar Dependencia"
     this.txtCodigoDependencia=id.intiddependencia;
     this.txtNombreDependencia=id.strnombredependencia;

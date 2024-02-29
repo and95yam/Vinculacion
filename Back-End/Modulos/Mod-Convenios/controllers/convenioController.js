@@ -1,8 +1,12 @@
+const {format, setMonth,parseISO} = require('date-fns');
+const {dividirFechas} = require('../../../funciones/calculoPeriodoPlanificación.js');
+const { es } = require('date-fns/locale');
+
+
 const rutasFunciones = require('../../../rutas/rutas-funciones')
 const con = require(rutasFunciones.conexion);
 
-const {format, setMonth} = require('date-fns');
-const {calcularFechaSiguiente} = require('../../../funciones/calculoPeriodoPlanificación.js');
+
 
 const addConvenio = async(req,res)=>{// INGRESA EL CONVENIO COMPLETO MAS LA PLANIFICACION 
 
@@ -26,42 +30,31 @@ const addConvenio = async(req,res)=>{// INGRESA EL CONVENIO COMPLETO MAS LA PLAN
 
         //Ingreso Tabla Ejes 
         const responseEjes = await con.query('CALL smaconvenios.addejes($1,$2,$3,$4,$5)',[stridconvenio,blnacademico,blninvestigacion,blnpracticas,blnvinculacion]);
-
-        let  fechaActual = dtfechainicioconvenio;
-        let objfecha1 = new Date(dtfechainicioconvenio);// cadena 1 para obtener periodo de planificacion 
-
         
-        while(fechaActual!==null){
-            const strperiodo =calcularFechaSiguiente(fechaActual, ((intrazonconvenio)*30), dtfechafinconvenio);
-            console.log('entrada bucle');
-            console.log(strperiodo)
-            
-            
-            
-            if(strperiodo!==null){
-                console.log('entrada 2');
-                const objfecha= new Date(strperiodo);
-                const datoperiodo = format(objfecha,'yyyy-MM');
-                fecha1 = new Date(fechaActual);// se actualiza la cadena  
-                let fecha2 = format(fecha1,'yyyy-MM');// se formatea la cadena 1
-                const periodo = fecha2+'_'+datoperiodo;// se concatena    
-                console.log('periodo: '+periodo)
-                console.log('id convenio: '+stridconvenio)
-                const responsePlanificacion = await con.query('CALL smaconvenios.addplanificacion($1,$2)',[periodo,stridconvenio]);
-
-                fechaActual=strperiodo;
-
-                console.log(periodo);
-               
-
-               
-            }else{
-                console.log('saliendo');
-                break;
-            }
-            
-            
-        }
+        /*fechainicio= new Date(dtfechainicioconvenio)
+        fechaFin= new Date(dtfechafinconvenio)
+        console.log(dtfechainicioconvenio)
+        console.log(dtfechafinconvenio)
+        console.log('---------------')
+        console.log(fechainicio)
+        console.log(fechaFin)*/
+        
+        const fechasDivididas = dividirFechas(dtfechainicioconvenio, dtfechafinconvenio, intrazonconvenio);
+        console.log('Fechas divididas :');
+        console.log(fechasDivididas)
+        fechasDivididas.forEach(async (segmento, index) => {
+            let inicio = parseISO(segmento.inicio)
+            let fin = parseISO(segmento.fin)
+            let periodo=(segmento.inicio+'_'+segmento.fin)
+            let descripcion=(format(inicio, "MMMM-d-yyyy", { locale: es })+' hasta '+format(fin,"MMMM-d-yyyy",{ locale: es }));
+            //let descripcion=(segmento.inicio+' hasta '+segmento.fin)
+            //console.log('descripcion',descripcion)
+            console.log('periodo',periodo)
+             const responsePlanificacion = await con.query('CALL smaconvenios.addplanificacion($1,$2,$3)',[periodo,stridconvenio,descripcion]);
+                
+        });
+        
+        
 
         res.json({
             message: 'convenio ingresado',

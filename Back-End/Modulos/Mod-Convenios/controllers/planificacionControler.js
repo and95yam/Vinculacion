@@ -5,7 +5,7 @@ const getPlanificacion = async(req,res)=>{
     
     try{
         const id = req.params.id;
-        const response = await con.query('select * from smaconvenios.buscarplanificacionconvenio($1)',[id]);
+        const response = await con.query('select * from smaconvenios.planificacion where stridconvenio= $1 order by strperiodo',[id]);
         res.status(200).json(response.rows)
 
     }catch(error){

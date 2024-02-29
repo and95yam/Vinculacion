@@ -15,6 +15,7 @@ import { parse, addYears, isAfter } from 'date-fns';
 import { OneDriveService } from 'src/app/Modulos/plantillas/oneDrive/one-drive.service';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import { SafeResourceUrl } from '@angular/platform-browser';
 (pdfMake as any).vfs=pdfFonts.pdfMake.vfs;
 
 
@@ -45,6 +46,8 @@ export class PgAdminConveniosComponent {
   //convenioFull!:IConvenioFull[];
   nuevoModal:boolean=false;
   modalVerConvenio:boolean=false;
+  modalVerArchivo:boolean=false;
+
   titulo: string ="";
   nombre: string="";
   tiempo!:Date;
@@ -85,12 +88,13 @@ export class PgAdminConveniosComponent {
   txtSetRazon!:number
   txtIdInstitucion!:number;
 
-  txtArchivo:string="aqui va el link";
+  txtArchivo:string="";
   txtVigente!:boolean;
   txtAvance!:string;
   txtAvanceNum:number=0;
   txtFechaInicioFormat:string="";
   txtfechaFinFormat:string ="";
+  safePdfUrl:SafeResourceUrl | undefined;
 
 
   opcionesNaturaleza = ['Nacional','Internacional'];
@@ -184,7 +188,8 @@ export class PgAdminConveniosComponent {
       this.txtVigente = id.vigente;
       this.txtAvance = id.fltavanceconvenio.toString()+'%';
 
-
+      
+      //this.txtArchivo=this.txtFechaInicio.toISOString()
       //this.txtarchivo= id.strarchivoconvenio
       //console.log(this.txtCedula)
       //this.txtFechaInicioFormat = format(this.txtFechaInicio, 'dd-MM-yyyy');
@@ -255,8 +260,10 @@ export class PgAdminConveniosComponent {
       this.nombre = "Convenio";
       const resp = this.checkAccion(this.titulo);
 
-
-
+      var aux = this.txtFechaInicio.toString().split(/[" " :]/);
+      this.txtArchivo = '/CONVENIOS/' +aux[3]+'/'+ this.txtInstitucion.replace(" " ,'')+ '/'+ this.txtTituloConvenio.replace(" " ,'') +'.pdf';
+      console.log('fecha',this.txtFechaInicio)
+      console.log('aux',aux);
 
       if (resp === true) {
 
@@ -298,6 +305,7 @@ export class PgAdminConveniosComponent {
 
          };
 
+         console.log( nuevoConvenio)
 
         this.convenioService.createConvenio(nuevoConvenio).subscribe(
           (response: any) => {
@@ -332,7 +340,7 @@ export class PgAdminConveniosComponent {
 
           }*/
 
-          const editConvenio={
+         const editConvenio={
 
             strcicoordinador:this.txtCedula,
             strtituloconvenio:this.txtTituloConvenio,
@@ -442,7 +450,7 @@ export class PgAdminConveniosComponent {
       const fechaActual = new Date();
       const fecha = new Date(this.tiempo);
      
-      console.log(this.tiempo)
+      
       fecha.setFullYear(fecha.getFullYear() + this.vigencia);
       console.log(fecha)
       console.log(fechaActual)
@@ -469,7 +477,7 @@ export class PgAdminConveniosComponent {
           break;
 
         case 'Cuatrimestral':
-          this.txtSetRazon = 4;
+          this.txtSetRazon =4;
           break;
 
         case 'Semestral':
@@ -481,7 +489,7 @@ export class PgAdminConveniosComponent {
           break;
 
         default:
-          this.txtSetRazon = 1;
+          this.txtSetRazon = 6;
       }
 
 
@@ -560,13 +568,30 @@ export class PgAdminConveniosComponent {
         fileName: 'nombre'
       }
 
-      const result = await this.oneDrive.upload(requestData)
+      const result = await this.oneDrive.upload(requestData,this.txtArchivo)
       console.log('resultado', result)
     }
 
     seleccionarArchivo(archivo:any){
       this.archivoSubir=archivo.currentFiles[0]
     }
+
+    async downloadFile(id:IConvenio){
+      const nombreArchivo =id.strarchivoconvenio.split('/');
+      this.modalVerArchivo=true;
+      console.log(id.strarchivoconvenio)
+      const respuesta = await this.oneDrive.download(id.strarchivoconvenio,nombreArchivo[4])
+      if(!respuesta || !respuesta.success) {
+        return;
+      }
+      console.log("final",respuesta);
+      
+      this.safePdfUrl = respuesta.data;
+        
+       
+    }
+
+
 
   //HACER PDF 
 

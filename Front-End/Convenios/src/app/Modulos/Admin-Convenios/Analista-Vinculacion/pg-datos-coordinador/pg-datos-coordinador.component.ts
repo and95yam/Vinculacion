@@ -3,6 +3,8 @@ import {MessageService} from 'primeng/api';
 import {MensajesConvenios} from '../../../../../herramientas/Mensajes/MensajesConvenios';
 import { ICoordinador } from '../../Clases/cCoordinador/i-coordinador';
 import { SCoordinadorService } from '../../Clases/cCoordinador/s-coordinador.service';
+import { SCentralService } from 'src/app/Modulos/Mod-Seguridad/clases/cCentral/s-central.service';
+import { ICentral } from 'src/app/Modulos/Mod-Seguridad/clases/cCentral/i-central';
 import { Cedula } from '../../Clases/cedula';
 import { NgModel } from '@angular/forms';
 import { SDependenciaService } from '../../Clases/cDependencia/sDependencia.service';
@@ -37,6 +39,8 @@ export class PgDatosCoordinadorComponent {
     submitted!: boolean;
     readonlyMode: boolean = false;
     coordinador!: ICoordinador[];
+    usuario!: ICentral[];
+    
     nuevoModal:boolean=false;
     titulo:string ="";
     nombre: string="";
@@ -52,6 +56,7 @@ export class PgDatosCoordinadorComponent {
     private dependenciaService: SDependenciaService,//para seleccionar dependencia
     private  messageService:MessageService,
     private changeDetectorRef:ChangeDetectorRef,
+    private servicioCentral:SCentralService,
 
   ){}
 
@@ -61,7 +66,20 @@ export class PgDatosCoordinadorComponent {
 
   }
 
-
+  buscarDatos(){
+    this.servicioCentral.getDatos(this.txtCiCoordinador).subscribe(
+      listado=>{
+        this.usuario=listado
+        this.txtNombres=listado.listado[0].per_nombres+' '+listado.listado[0].per_primerApellido+' '+listado.listado[0].per_segundoApellido
+        this.txtCorreo=listado.listado[0].per_email
+        
+        if(this.txtCorreo=== null){
+          this.txtCorreo="";
+        }
+       
+      }
+    )
+  }
 
 
   listarCoordinadores(){
@@ -233,6 +251,8 @@ export class PgDatosCoordinadorComponent {
       return false;
     }
   }
+
+  
 
   generarPDF() {// proximamente clase
     // Definir el contenido del PDF
