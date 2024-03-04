@@ -283,7 +283,7 @@ BEGIN
 	ON inf.stridconvenio = conv.stridconvenio
 	JOIN smaconvenios.estadoinforme AS estinf
 	ON estinf.stridinforme = inf.stridinforme 
-	where EXTRACT(MONTH FROM dtfechacreacion)=EXTRACT(MONTH FROM CURRENT_DATE ) AND estinf.strestadoinforme='Entregado';
+	 estinf.strestadoinforme='Entregado';
 END; 
 $$ LANGUAGE plpgsql;
 

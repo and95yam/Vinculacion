@@ -27,5 +27,6 @@ export class MensajesConvenios {
     ErrorLink: string='El url ingresado ya ha sido ingresado antes. ingrese uno diferente';
     ActividadNoIngresada: string='Ingrese al menos una actividad realizada'
     EquipoNoIngresada: string='Ingrese al menos un miembro de equipo';
+    EditarValidado: string="No se puede modificar un informe validado";
 
 }

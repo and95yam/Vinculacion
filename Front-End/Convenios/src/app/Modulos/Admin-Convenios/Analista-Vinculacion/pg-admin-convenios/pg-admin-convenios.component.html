@@ -5,7 +5,7 @@
        </ng-template>
       <ng-template pTemplate="right">
         <button type="button" pButton pRipple icon="pi pi-file-excel"  class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom" ></button><!--(click)="generarXlsx()"-->
-            <button type="button" pButton pRipple icon="pi pi-file-pdf"  class="p-button-danger p-button mr-2" pTooltip="PDF" tooltipPosition="bottom"(click)=" generarPDF()"  ></button><!--(click)=" generarPDF()"-->
+            <button type="button" pButton pRipple icon="pi pi-file-pdf"   pTooltip="PDF" tooltipPosition="bottom"(click)=" generarPDF()"  ></button><!--(click)=" generarPDF()"-->
           <button pButton pRipple label="Nuevo" icon="pi pi-pencil" class="p-button mr-2" pTooltip="Crear nuevo convenio" (click)="nuevo()" ></button><!--(click)="nuevo()"-->
 
           <span class="p-input-icon-right">
@@ -80,7 +80,7 @@
 
             <td class="text-center">{{ item.dtfechainicioconvenio }}</td>
             <td class="text-center">{{ item.strvigencia }}</td>
-            <td class="text-center">{{ item.fltavanceconvenio !== null ? item.fltavanceconvenio : 0 }}</td>
+            <td style="width: 3%;"class="text-center">{{ item.fltavanceconvenio !== null ? item.fltavanceconvenio : 0 }}%</td>
 
 
 
@@ -99,7 +99,7 @@
                 <div style="display: flex;">
                   <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded mr-2" pTooltip="Editar" (click)=" modificarConvenio(item)"></button>
                   <button pButton pRipple icon="pi pi-eye" class="p-button-rounded mr-2 p-button-success" pTooltip="Información" (click)="verConvenio(item)"  ></button>
-                  <button type="button" pButton pRipple icon="pi pi-file-pdf"  class="p-button-danger p-button mr-2" pTooltip="PDF" tooltipPosition="bottom" (click)=" generarPDFid(item)" ></button><!--(click)=" generarPDF()"-->
+                  <button type="button" pButton pRipple icon="pi pi-file-pdf"   pTooltip="PDF" tooltipPosition="bottom" (click)=" generarPDFid(item)" ></button><!--(click)=" generarPDF()"-->
 
                 </div>
               </td>
@@ -147,7 +147,7 @@
           <div class="p-field">
             <label for="name"></label><br>
 
-            <button type="button" pButton pRipple icon="pi pi-file-pdf"  class="p-button-danger p-button mr-2" pTooltip="PDF" tooltipPosition="bottom"  ></button>
+            <button type="button" pButton pRipple icon="pi pi-file-pdf"  pTooltip="PDF" tooltipPosition="bottom"  ></button>
 
           </div>
 

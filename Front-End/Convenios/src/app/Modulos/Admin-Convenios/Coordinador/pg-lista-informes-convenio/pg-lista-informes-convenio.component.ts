@@ -131,6 +131,9 @@ export class PgListaInformesConvenioComponent {
   txtArchivo:string="";
   modalVerArchivo:boolean=false
 
+  //para eliminar informe
+  idInforme!:string
+  botonVisible!:boolean
 
   constructor(
     private messageService:MessageService, 
@@ -235,6 +238,10 @@ export class PgListaInformesConvenioComponent {
 
   editarInforme(id:IInformeConvenio){
     this.nuevoModal=true; 
+    if(id.c_strestadoinforme==="Validado"){
+      this.messageService.add({ severity:'error',summary: this.mensaje.EditarValidado})
+      this.nuevoModal=false
+    }else{
     this.verAccion=true;
     this.titulo="Editar Informe"
     this.controlVerCampos=false;
@@ -257,6 +264,10 @@ export class PgListaInformesConvenioComponent {
     this.txtBeneficioIndirecto= id.c_strbeneficioindirecto
     this.txtResultados= id.c_strresultados
     this.txtObservaciones=id.c_strobservaciones
+
+    }
+    
+    
     
    
   }
@@ -515,6 +526,7 @@ export class PgListaInformesConvenioComponent {
   }
 
   editarActividad(id:GActividad){
+
     this.nombre='actividad'
     this.modalActividad=true;
     this.verFecha=false;
@@ -705,16 +717,27 @@ export class PgListaInformesConvenioComponent {
                   }
                 }
               )
+          }else{
+            if(this.titulo==='Eliminar Informe'){
+              //pendiente construir servicio
+            }
           }
       }
   }
 
   eliminarInforme(id:IInforme){
     this.modalBorrar=true
+    this.titulo="Eliminar Informe"
+    this.txtConfirmacion='¿Realmente desea eliminar este informe?'
+    this.botonVisible=true
+    console.log('entra')
     if(id.c_strestadoinforme==="Validado"){
-      this.titulo="No se puede eliminar un informe validado"
+      this.txtConfirmacion="No se puede eliminar un informe validado"
+      this.botonVisible=false
+      console.log('no deja ')
     }
-    this.titulo="Eliminar informe :"+id.c_stridinforme
+    this.idInforme=id.c_stridinforme
+    
   }
 
   //SUBIR ANEXO INFORME ONE DRIVE 

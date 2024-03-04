@@ -11,7 +11,7 @@ import { DireccionesApi } from 'src/herramientas/direcciones/Direcciones';
 export class SInstitucionService {
 
   link:DireccionesApi = new DireccionesApi;
-  url:string = this.link.insititucion;
+  url:string = this.link.institucion;
 
   constructor( private http:HttpClient) { }
 

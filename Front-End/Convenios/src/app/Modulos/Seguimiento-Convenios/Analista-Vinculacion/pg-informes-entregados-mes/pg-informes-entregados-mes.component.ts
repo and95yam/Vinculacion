@@ -11,6 +11,8 @@ import { SActividadService } from 'src/app/Modulos/Admin-Convenios/Clases/cActiv
 import { SEvaluacionService } from 'src/app/Modulos/Admin-Convenios/Clases/cEvaluacion/s-evaluacion.service';
 import { MessageService } from 'primeng/api';
 import { MensajesConvenios } from 'src/herramientas/Mensajes/MensajesConvenios';
+import { SafeResourceUrl } from '@angular/platform-browser';
+import { OneDriveService } from 'src/app/Modulos/plantillas/oneDrive/one-drive.service';
 
 @Component({
   selector: 'app-pg-informes-entregados-mes',
@@ -59,7 +61,14 @@ export class PgInformesEntregadosMesComponent {
   txtAnexo:string="linkAnexo.com"
   txtEstadoInforme:string="";
 
-  opcionesEvaluacion = ['Pendiente','Entregado','Validado'];
+  //variables One Drive
+  archivoSubir!:File
+  txtArchivo:string=""
+  modalVerArchivo!:boolean
+  safePdfUrl:SafeResourceUrl | undefined;
+
+  opcionesEvaluacion = ['Pendiente','Validado'];
+
 
 
   constructor(
@@ -68,7 +77,8 @@ export class PgInformesEntregadosMesComponent {
     private actividadService:SActividadService,
     private convenioService:SConvenioService,
     private evaluacionService:SEvaluacionService,
-    private messageService:MessageService
+    private messageService:MessageService,
+    private oneDrive:OneDriveService
   ){}
 
   ngOnInit(){
@@ -182,4 +192,20 @@ export class PgInformesEntregadosMesComponent {
         }
       )
   }
+
+  async downloadFile(id:IInformeConvenio){
+   
+    const nombreArchivo =id.c_stranexo.split('/');
+    this.modalVerArchivo=true;
+    console.log(id.c_stranexo)
+    const respuesta = await this.oneDrive.download(id.c_stranexo,nombreArchivo[4])
+    if(!respuesta || !respuesta.success) {
+      return;
+    }
+    console.log("final",respuesta);
+    
+    this.safePdfUrl = respuesta.data;
+      
+  }
+
 }

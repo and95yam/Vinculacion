@@ -49,6 +49,8 @@
     
                 <td style="width: 1%;" class="text-center">
                   <i class="pi" [ngClass]="{'text-green-500 pi-check-circle': item.c_blnfirmado === true, 'text-red-500 pi-times-circle': item.c_blnfirmado === false }" ></i>
+                  <button *ngIf="item.c_blnfirmado==false" pButton type="button" icon="pi pi-check" label="Firmar" class="p-button-warning" pTooltip="Firmar"></button>
+
                 </td>
     
                   <td style="width: 0.8%;">
@@ -90,7 +92,7 @@
             <div class="p-field">
               <label for="name"></label><br>
   
-              <button type="button" pButton pRipple icon="pi pi-file-pdf"  class="p-button-danger p-button mr-2" pTooltip="PDF" tooltipPosition="bottom"  ></button>
+              <button type="button" pButton pRipple icon="pi pi-file-pdf"   pTooltip="PDF" tooltipPosition="bottom"  ></button>
   
             </div>
   
@@ -508,7 +510,7 @@
       
     <ng-template pTemplate="footer" >
       <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="modalBorrar=false" ></button>
-      <button pButton pRipple label="Borrar" style="color: red;" icon="pi pi-trash" class="p-button-text" (click)="borrar()"  ></button>
+      <button *ngIf="botonVisible" pButton pRipple label="Borrar" style="color: red;" icon="pi pi-trash" class="p-button-text" (click)="borrar()"   ></button>
   
     </ng-template>
   

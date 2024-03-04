@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IConvenio3 } from 'src/app/Modulos/Admin-Convenios/Clases/cConvenio/i-convenio';
 import { SConvenioService } from 'src/app/Modulos/Admin-Convenios/Clases/cConvenio/s-convenio.service';
+import { OneDriveService } from 'src/app/Modulos/plantillas/oneDrive/one-drive.service';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 (pdfMake as any).vfs=pdfFonts.pdfMake.vfs;
@@ -39,8 +41,15 @@ export class PgConveniosInformesComponent {
   txtSetRazon!:number
   txtIdInstitucion!:number;
 
+  //Variables One Drive 
+
+  safePdfUrl:SafeResourceUrl | undefined;
+  modalVerArchivo:boolean=false;
+
+
   constructor(
     private convenioService:SConvenioService,
+    private oneDrive:OneDriveService
   ){}
 
   ngOnInit(){
@@ -87,6 +96,24 @@ export class PgConveniosInformesComponent {
   const url = `${nuevaPagina}?idConvenio=${idConvenio}`;
   window.open(url, '_blank');
   console.log(id.c_stridconvenio);
+}
+
+//ONE DRIVE 
+
+async downloadFile(id:IConvenio3){
+  this.modalVerArchivo=true;
+  const nombreArchivo =id.c_strarchivoconvenio.split('/');
+  
+  console.log(id.c_strarchivoconvenio)
+  const respuesta = await this.oneDrive.download(id.c_strarchivoconvenio,nombreArchivo[4])
+  if(!respuesta || !respuesta.success) {
+    return;
+  }
+  console.log("final",respuesta);
+  
+  this.safePdfUrl = respuesta.data;
+    
+   
 }
 
 //Reporte Informes 

@@ -7,6 +7,8 @@ import { GActividad } from 'src/app/Modulos/Admin-Convenios/Clases/cActividad/i-
 import { IConvenio2 } from 'src/app/Modulos/Admin-Convenios/Clases/cConvenio/i-convenio';
 import { SMiembroService } from 'src/app/Modulos/Admin-Convenios/Clases/cMiembro/s-miembro.service';
 import { SActividadService } from 'src/app/Modulos/Admin-Convenios/Clases/cActividad/s-actividad.service';
+import { SafeResourceUrl } from '@angular/platform-browser';
+import { OneDriveService } from 'src/app/Modulos/plantillas/oneDrive/one-drive.service';
 
 @Component({
   selector: 'app-pg-informes-validados',
@@ -54,6 +56,12 @@ export class PgInformesValidadosComponent {
   txtAnexo:string="linkAnexo.com"
   txtEstadoInforme:string="";
 
+   //variables One Drive
+   archivoSubir!:File
+   txtArchivo:string=""
+   modalVerArchivo!:boolean
+   safePdfUrl:SafeResourceUrl | undefined;
+
   opcionesEvaluacion = ['Pendiente','Entregado','Validado'];
 
 
@@ -61,7 +69,8 @@ export class PgInformesValidadosComponent {
     private informeService:SInformeService,
     private miembroService:SMiembroService,
     private actividadService:SActividadService,
-    private convenioService:SConvenioService
+    private convenioService:SConvenioService,
+    private oneDrive:OneDriveService
     
     
   ){}
@@ -141,7 +150,20 @@ export class PgInformesValidadosComponent {
     this.listarActividades();
   }
 
-  
+  async downloadFile(id:IInformeConvenio){
+   
+    const nombreArchivo =id.c_stranexo.split('/');
+    this.modalVerArchivo=true;
+    console.log(id.c_stranexo)
+    const respuesta = await this.oneDrive.download(id.c_stranexo,nombreArchivo[4])
+    if(!respuesta || !respuesta.success) {
+      return;
+    }
+    console.log("final",respuesta);
+    
+    this.safePdfUrl = respuesta.data;
+      
+  }
 
   
 }

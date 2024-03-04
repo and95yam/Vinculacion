@@ -67,7 +67,7 @@
 
             <td class="text-center">{{ item.c_dtfechainicioconvenio }}</td>
             <td class="text-center">{{ item.c_strvigencia }}</td>
-            <td class="text-center">{{ item.c_fltavanceconvenio !== null ? item.c_fltavanceconvenio : 0 }}</td>
+            <td class="text-center">{{ item.c_fltavanceconvenio !== null ? item.c_fltavanceconvenio : 0 }}%</td>
 
 
 
@@ -91,7 +91,7 @@
 
 
                 <button pButton pRipple icon="pi pi-book" class="p-button-rounded " pTooltip="Planificación" (click)="listarPlanificacion(item)"></button>
-                <button type="button" pButton pRipple icon="pi pi-file-pdf"  class="p-button-danger p-button mr-2" pTooltip="PDF" tooltipPosition="bottom"  (click)="generarPDFid(item)"></button><!--(click)=" generarPDF()"-->
+                <button type="button" pButton pRipple icon="pi pi-file-pdf"   pTooltip="PDF" tooltipPosition="bottom"  (click)="generarPDFid(item)"></button><!--(click)=" generarPDF()"-->
 
 
                 </div>
@@ -137,7 +137,7 @@
           <div class="p-field">
             <label for="name"></label><br>
 
-            <button type="button" pButton pRipple icon="pi pi-file-pdf"  class="p-button-danger p-button mr-2" pTooltip="PDF" tooltipPosition="bottom"  ></button>
+            <button type="button" pButton pRipple icon="pi pi-file-pdf"   pTooltip="PDF" tooltipPosition="bottom"  ></button>
 
 
           </div>
